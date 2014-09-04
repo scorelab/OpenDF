@@ -117,7 +117,9 @@ color: #303030;
 .sidebar .active>a>.fa.arrow:before {
     content: "\f107";
 }
-
+.nav>li>a {
+color: #2B2727;
+}
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
     border-bottom: 0!important;

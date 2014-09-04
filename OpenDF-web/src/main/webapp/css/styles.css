@@ -34,6 +34,7 @@ body {
 .navbar-default .navbar-brand {
 color: #303030;
 }
+
 .navbar-default .title{
     color: #B1B1B1;
 }
@@ -91,14 +92,21 @@ color: #303030;
     right: 0;
     left: auto;
 }
-
+.navbar-right {
+    background-color: #F8F8F8;
+    border-left: 1px solid #ECECEC;
+}
 .sidebar .sidebar-nav.navbar-collapse {
     padding-right: 0;
     padding-left: 0;
 }
 
-.sidebar .sidebar-search {
+.sidebar .sidebar-user {
     padding: 15px;
+}
+.sidebar .sidebar-user img{
+    height: 60px;
+    border-radius: 50%;
 }
 
 .sidebar ul li {
@@ -373,4 +381,8 @@ table.dataTable thead .sorting:after {
 
 .panel-yellow a:hover {
     color: #df8a13;
+}
+
+.progress {
+    height: 7px;
 }

@@ -6,6 +6,7 @@
 
 body {
     background-color: #f8f8f8;
+    font-family: 'Open Sans';
 }
 
 #wrapper {
@@ -26,7 +27,13 @@ body {
         border-left: 1px solid #e7e7e7;
     }
 }
-
+.navbar.navbar-default.navbar-static-top {
+    background-color: #FFFFFF;
+    border-color: #F3EEEE;
+}
+.navbar-default .navbar-brand {
+color: #303030;
+}
 .navbar-top-links li {
     display: inline-block;
 }
@@ -38,6 +45,7 @@ body {
 .navbar-top-links li a {
     padding: 15px;
     min-height: 50px;
+    color: #303030;
 }
 
 .navbar-top-links .dropdown-menu li {
@@ -289,23 +297,41 @@ table.dataTable thead .sorting:after {
 .huge {
     font-size: 40px;
 }
-
+.panel{
+    border-radius: 1px;
+}
+.panel-heading{
+    border-radius: 1px;
+}
+.panel-heading .panel-footer{
+    background-color: inherit;
+    border-top: inherit; 
+    color: #fff;
+}
+.panel-blue {
+    border-color: #3797C7;
+}
+.panel-blue .panel-heading {
+    border-color: #3797C7;
+    color: #fff;
+    background-color: #3797C7;
+}
 .panel-green {
-    border-color: #5cb85c;
+    border-color: #0AA699;
 }
 
 .panel-green .panel-heading {
-    border-color: #5cb85c;
+    border-color: #0AA699;
     color: #fff;
-    background-color: #5cb85c;
+    background-color: #0AA699;
 }
 
 .panel-green a {
-    color: #5cb85c;
+    color: #ffffff;
 }
 
 .panel-green a:hover {
-    color: #3d8b3d;
+    color: #ffffff;
 }
 
 .panel-red {

@@ -34,6 +34,9 @@ body {
 .navbar-default .navbar-brand {
 color: #303030;
 }
+.navbar-default .title{
+    color: #B1B1B1;
+}
 .navbar-top-links li {
     display: inline-block;
 }

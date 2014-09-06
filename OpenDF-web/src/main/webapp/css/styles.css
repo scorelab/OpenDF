@@ -386,3 +386,17 @@ table.dataTable thead .sorting:after {
 .progress {
     height: 7px;
 }
+.notification-counter{
+    position: absolute;
+    top: 8px;
+    right: 23px;
+    display: block;
+    border-radius: 50%;
+    background-color: #F35958;
+    color: #FFF;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 10px;
+}

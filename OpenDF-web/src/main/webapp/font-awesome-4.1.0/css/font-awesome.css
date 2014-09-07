@@ -570,9 +570,6 @@
 .fa-cogs:before {
   content: "\f085";
 }
-.fa-comments:before {
-  content: "\f086";
-}
 .fa-thumbs-o-up:before {
   content: "\f087";
 }
@@ -1498,7 +1495,6 @@
 }
 .fa-life-bouy:before,
 .fa-life-saver:before,
-.fa-support:before,
 .fa-life-ring:before {
   content: "\f1cd";
 }

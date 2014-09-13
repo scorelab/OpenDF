@@ -192,7 +192,9 @@ color: #2B2727;
 .btn-danger.btn-outline:hover {
     color: #fff;
 }
-
+.clickable{
+    cursor: pointer;
+}
 .chat {
     margin: 0;
     padding: 0;

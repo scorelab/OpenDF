@@ -6,14 +6,14 @@ Digital forensics tools are used to investigate the cyber crimes happening nowad
 Refer [Wiki](https://github.com/scorelab/OpenDF/wiki) 
 
 ### Using technologies
-*Java EE
-*EJB
-*JMS
-*JPA
-*JAX-RS
-*JAX-B
-*JNI
-*MySQL
-*Bootstrap
-*AngularJS
+ 1. Java EE
+ 2. EJB
+ 3. JMS
+ 4. JPA
+ 5. JAX-RS
+ 6. JAX-B
+ 7. JNI
+ 8. MySQL
+ 9. Bootstrap
+ 10. AngularJS
 

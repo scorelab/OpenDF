@@ -18,6 +18,14 @@ body {
     min-height: 568px;
     background-color: #fff;
 }
+#context-wrapper {
+    padding: 0px;
+    min-height: 568px;
+    background-color: #fff;
+}
+#content-wrapper{
+    padding: 30px;
+}
 
 @media(min-width:768px) {
     #page-wrapper {
@@ -25,6 +33,15 @@ body {
         margin: 0 0 0 250px;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
+    }
+    #context-wrapper {
+        position: inherit;
+        margin: 0 0 0 250px;
+        padding: 0px;
+        border-left: 1px solid #e7e7e7;
+    }
+    #content-wrapper{
+        padding: 30px;
     }
 }
 .navbar.navbar-default.navbar-static-top {

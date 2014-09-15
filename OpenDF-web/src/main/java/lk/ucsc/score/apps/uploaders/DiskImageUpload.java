@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import lk.ucsc.score.apps.messages.WorkMessage;
 
 /**
  *
@@ -44,12 +45,7 @@ public class DiskImageUpload extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DiskImageUpload</title>");
-            out.println("</head>");
-            out.println("<body>");
+
 
 
             final Part filePart = request.getPart("file");
@@ -69,23 +65,14 @@ public class DiskImageUpload extends HttpServlet {
                 while ((read = filecontent.read(bytes)) != -1) {
                     outStream.write(bytes, 0, read);
                 }
-                out.println("<h1>Servlet DiskImageUpload at " + request.getContextPath() + "</h1>");
-                out.println("<p>New file " + fileName + " created at " + path);
+                out.println("{ fileName: '" + fileName + "' , path:'" + path+"'}");
 
-                out.println("</body>");
-                out.println("</html>");
+                System.out.println("sending mesg");
+                new WorkMessage().send(path);
+                System.out.println("Mssg sent");
 
             } catch (FileNotFoundException fne) {
-                out.println("<h1>Servlet DiskImageUpload at " + request.getContextPath() + "</h1>");
-                out.println("You either did not specify a file to upload or are "
-                        + "trying to upload a file to a protected or nonexistent "
-                        + "location.");
-                out.println("<br/> ERROR: " + fne.getMessage());
-                
-               
-
-                out.println("</body>");
-                out.println("</html>");
+                out.println("{ error: '" + fne.getMessage() + "'}");
 
 
             } finally {

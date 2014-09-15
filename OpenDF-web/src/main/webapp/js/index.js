@@ -13,10 +13,8 @@ OpenDFApp.config(['$routeProvider',
     }]);
 
 OpenDFApp.controller('projectsController', ['$scope', 'ProjectsFactory', '$location' , function ($scope,  ProjectsFactory, $location) {
-        $scope.projects = [{name: "Study in Pink"}, {name: "The Great Game"}, {name: "A Scandal In Belgravia"}, {name: "The Empty Hearse"}];
-//    ProjectsFactory.get({}, function (projectsFactory) {
-//        //$scope.projects = projectsFactory.projects;
-//        
+        $scope.projects = [{name: "Study in Pink ", createdDate: "102245"}, {name: "Study in Pink 2", createdDate: "102245"},  {name: "The Great Game"}, {name: "A Scandal In Belgravia"}, {name: "The Empty Hearse"}];
+      
         $scope.addNew = function(){
             window.location = 'dashboard.html';
         }

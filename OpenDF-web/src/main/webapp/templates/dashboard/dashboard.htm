@@ -3,14 +3,14 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-3 col-md-6">
-            <div class="panel panel-blue">
+            <div class="panel panel-blue" ng-controller="diskImagesController">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
                             <i class="fa fa-file-text fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">26</div>
+                            <div class="huge">{{diskImages.length}}</div>
                             <div>Disk Images!</div>
                         </div>
                     </div>

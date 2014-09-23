@@ -3,4 +3,5 @@
 /bin/
 target/
 _test
+OpenDF-ear/nb-configuration.xml
 .vagrant

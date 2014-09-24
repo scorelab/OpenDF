@@ -112,16 +112,16 @@
                             <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-tasks">
-                            <li ng-repeat="process in processes">
+                            <li ng-repeat="(key, value) in processes">
                                 <a href="#">
                                     <div>
                                         <p>
-                                            <strong >{{process.name}}</strong>
-                                            <span class="pull-right text-muted">{{process.percentage}}% Complete</span>
+                                            <strong >{{value.key}} {{value.name}}</strong>
+                                            <span class="pull-right text-muted">{{value.percentage}}% Complete</span>
                                         </p>
                                         <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{process.percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{process.percentage}}%">
-                                                <span class="sr-only">{{process.percentage}}% Complete (success)</span>
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{value.percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{value.percentage}}%">
+                                                <span class="sr-only">{{value.percentage}}% Complete (success)</span>
                                             </div>
                                         </div>
                                     </div>

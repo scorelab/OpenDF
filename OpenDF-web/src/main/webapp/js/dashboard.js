@@ -44,7 +44,7 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
         $scope.file = {};
         $scope.addNew = function(){
             BackboneService.diskImages.push($scope.diskImage);
-            BackboneService.prosecces.push({ name: "File uploaded", percentage: "100"});
+            var process = BackboneService.addProcess({ name: "File uploading1", percentage: "0"});
             $location.path('/disk-images');
             $upload.upload({
                 url: '/OpenDF-web/DiskImageUpload', //upload.php script, node.js route, or servlet url
@@ -54,9 +54,10 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
                 data: {myObj: $scope.diskImage },
                 file: $scope.file
               }).progress(function(evt) {
-                console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                console.log('Process'+processID + 'percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                BackboneService.prosecces[process] = { name: "File uploading", percentage:parseInt(100.0 * evt.loaded / evt.total)};
               }).success(function(data, status, headers, config) {
-                // file is uploaded successfully
+                BackboneService.prosecces[process] = { name: "File uploaded", percentage:100};
                 console.log(data);
                 
               });
@@ -67,9 +68,18 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
 var services = angular.module('OpenDFApp.services', ['ngResource']);
 services.factory('BackboneService', function ($rootScope) {
     var kernel = {};
-    kernel.prosecces = [{ name: "Image processing", percentage:70}];
+    K = kernel;
+    kernel.prosecces = {};
+    kernel.prosecces['p5678987654'] = { name: "Image processing", percentage:70};
     kernel.diskImages = [{name: "Megatron Server", type: "NTFS", size: "1TB"}, {name: "Mac Book Air", type: "ext4", size: "500GB"}];
+    K = kernel;
     console.log(kernel.diskImages);
+    kernel.addProcess = function(obj){
+        var processID = 'p'+$.now();
+        kernel.prosecces[1] = obj;
+        
+        return processID;
+    }
     return kernel;
 });
 services.factory('DiskImagesFactory', function ($resource) {

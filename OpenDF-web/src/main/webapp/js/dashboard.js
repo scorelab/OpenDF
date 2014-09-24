@@ -65,6 +65,17 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
 
 }]);
 
+OpenDFApp.controller('notificationsController', ['$scope', 'notificationsFactory ', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
+        $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
+        $scope.addNew = function(){
+            BackboneService.diskImages.push($scope.diskImage);
+            BackboneService.prosecces.push({ name: "File uploading", percentage:10});
+            BackboneService
+            $location.path('/disk-images');
+        }
+
+}]);
+
 var services = angular.module('OpenDFApp.services', ['ngResource']);
 services.factory('BackboneService', function ($rootScope) {
     var kernel = {};
@@ -85,3 +96,4 @@ services.factory('BackboneService', function ($rootScope) {
 services.factory('DiskImagesFactory', function ($resource) {
     return $resource('api/projects/:id/diskImages', {}, {})
 });
+

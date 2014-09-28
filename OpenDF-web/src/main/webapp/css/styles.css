@@ -247,7 +247,7 @@ color: #2B2727;
 }
 
 .login-panel {
-    margin-top: 25%;
+    margin-top: 30%;
 }
 
 .flot-chart {
@@ -330,7 +330,7 @@ table.dataTable thead .sorting:after {
     font-size: 40px;
 }
 .panel{
-    border-radius: 1px;
+    border-radius: 20px;
 }
 .panel-heading{
     border-radius: 1px;
@@ -418,4 +418,18 @@ table.dataTable thead .sorting:after {
     text-align: center;
     vertical-align: middle;
     font-size: 10px;
+}
+.profile-img {
+width: 96px;
+height: 96px;
+margin: 5px auto 10px;
+display: block;
+border-radius: 50%;
+position: center;
+}
+.login-title {
+color: #555;
+font-size: 48px;
+font-weight: 400;
+display: block;
 }

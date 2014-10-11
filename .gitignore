@@ -5,3 +5,5 @@ target/
 _test
 OpenDF-ear/nb-configuration.xml
 .vagrant
+/sleuthkit-develop/sleuthkit-develop/bindings/java/test/
+/sleuthkit-develop/bindings/java/test/

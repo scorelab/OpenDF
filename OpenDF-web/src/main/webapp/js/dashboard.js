@@ -28,6 +28,12 @@ OpenDFApp.controller('dashboardController', ['$scope', '$location' , function ($
 }]);
 OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneService', function ($scope, $location, BackboneService) {
         $scope.processes = BackboneService.prosecces;
+        P = $scope.processes;
+        $scope.isEmpty = function () {
+            return angular.equals({},$scope.processes); 
+        };
+        
+        $scope.activeProsecces = BackboneService.activeProsecces;
 }]);
 
 OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
@@ -43,8 +49,9 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
         $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
         $scope.file = {};
         $scope.addNew = function(){
+            $scope.diskImage.state = "Uploading";
             BackboneService.diskImages.push($scope.diskImage);
-            var process = BackboneService.addProcess({ name: "File uploading1", percentage: "0"});
+            var process = BackboneService.addProcess({ name: "File uploading1", percentage: 0});
             $location.path('/disk-images');
             $upload.upload({
                 url: '/OpenDF-web/DiskImageUpload', //upload.php script, node.js route, or servlet url
@@ -54,12 +61,19 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
                 data: {myObj: $scope.diskImage },
                 file: $scope.file
               }).progress(function(evt) {
-                console.log('Process'+processID + 'percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-                BackboneService.prosecces[process] = { name: "File uploading", percentage:parseInt(100.0 * evt.loaded / evt.total)};
+                var p = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('percent: ' + p);
+                if(p==100){
+                    BackboneService.prosecces[process] = { name: "File uploaded, Assembling ", percentage:parseInt(100.0 * evt.loaded / evt.total)};
+                    $scope.diskImage.state = "Assembling";
+                }
+                else{
+                    BackboneService.prosecces[process] = { name: "File uploading", percentage:parseInt(100.0 * evt.loaded / evt.total)};
+                }
               }).success(function(data, status, headers, config) {
                 BackboneService.prosecces[process] = { name: "File uploaded", percentage:100};
-                console.log(data);
-                
+                $scope.diskImage.state = "Uploaded";
+                //console.log(data);
               });
         }
 
@@ -70,7 +84,6 @@ OpenDFApp.controller('notificationsController', ['$scope', 'notificationsFactory
         $scope.addNew = function(){
             BackboneService.diskImages.push($scope.diskImage);
             BackboneService.prosecces.push({ name: "File uploading", percentage:10});
-            BackboneService
             $location.path('/disk-images');
         }
 
@@ -81,14 +94,13 @@ services.factory('BackboneService', function ($rootScope) {
     var kernel = {};
     K = kernel;
     kernel.prosecces = {};
-    kernel.prosecces['p5678987654'] = { name: "Image processing", percentage:70};
-    kernel.diskImages = [{name: "Megatron Server", type: "NTFS", size: "1TB"}, {name: "Mac Book Air", type: "ext4", size: "500GB"}];
+    kernel.diskImages = [{name: "Megatron Server", type: "NTFS", size: "1TB", state: "Analized"}, {name: "Mac Book Air", type: "ext4", size: "500GB", state: "Uploaded"}];
     K = kernel;
     console.log(kernel.diskImages);
     kernel.addProcess = function(obj){
         var processID = 'p'+$.now();
-        kernel.prosecces[1] = obj;
-        
+        kernel.prosecces[processID] = obj;
+        kernel.activeProsecces = kernel.activeProsecces + 1;
         return processID;
     }
     return kernel;

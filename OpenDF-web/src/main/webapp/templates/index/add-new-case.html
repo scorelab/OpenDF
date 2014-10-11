@@ -378,7 +378,7 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
+            <div class="row" ng-controller="projectController">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -390,64 +390,18 @@
                                     <form role="form">
                                         <div class="form-group">
                                             <label>Case Name</label>
-                                            <input class="form-control" placeholder="Enter case name" style="cursor: auto; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;">
-                                            <p class="help-block">Example block-level help text here.</p>
+                                            <input class="form-control" ng-model="project.name" placeholder="Enter case name"  style="cursor: auto; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;">
+                                            
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <input class="form-control" placeholder="Enter text">
+                                            <textarea class="form-control" ng-model="project.description" placeholder="Enter text"></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Created Date</label>
-                                            <input class="form-control" placeholder="Enter Date">
-                                            <p class="help-block">Example block-level help text here.</p>
+                                            <input class="form-control" ng-model="project.createdDate" type="date">
                                         </div>
-										<div class="form-group">
-                                            <label>Disk Image Name</label>
-                                            <input class="form-control" placeholder="Enter name">
-                                        </div>
-                                        <div class="form-group">
-                                            
-                                            <input type="file">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>Case Administrator</label>
-                                            <select class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-										 <div class="form-group">
-                                            <label>No of Investigators</label>
-                                            <select class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>6</option>
-												<option>7</option>
-												<option>8</option>
-											    <option>9</option>
-												<option>10</option>
-											   
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Investigators</label>
-                                            <select multiple="" class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-										
-                                        <button type="submit" class="btn btn-default">Submit</button>
+                                        <button type="submit" class="btn btn-default" ng-click="addNew()">Submit</button>
                                         <button type="reset" class="btn btn-default">Reset</button>
                                     </form>
                                 </div>

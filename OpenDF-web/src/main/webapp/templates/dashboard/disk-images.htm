@@ -27,11 +27,17 @@
         <div class="panel panel-default clickable"  >
             <div class="panel-heading" >
                 <i class="fa fa-bar-chart-o fa-fw" ></i> {{diskImage.name}}
+                <div class="btn-group pull-right" ng-show="diskImage.state == 'Uploaded'" >
+                    <button type="button" class="btn btn-default btn-xs" >
+                        <i class="fa fa-chevron-right"></i> Analyze 
+                    </button>
+                </div>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">             
-                type: {{diskImage.type}}<br/>
-                size: {{diskImage.size}}
+                <span >type: {{diskImage.type}}</span><br/>
+                <span >size: {{diskImage.size}}</span><br/>
+                <span >state: {{diskImage.state}}</span>
             </div>
             <!-- /.panel-body -->
         </div>

@@ -109,3 +109,8 @@ services.factory('DiskImagesFactory', function ($resource) {
     return $resource('api/projects/:id/diskImages', {}, {})
 });
 
+OpenDFApp.run(function($rootScope) {
+        $rootScope.$today = function(){ return new Date(); }
+    });
+
+

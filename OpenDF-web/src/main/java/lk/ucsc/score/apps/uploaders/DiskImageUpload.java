@@ -69,7 +69,7 @@ public class DiskImageUpload extends HttpServlet {
 
                 System.out.println("sending mesg");
                 new WorkMessage().send(path);
-                System.out.println("Mssg sent");
+                System.out.println("Mssg sent ");
 
             } catch (FileNotFoundException fne) {
                 out.println("{\"error\": \"" + fne.getMessage() + "\"}");

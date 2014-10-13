@@ -42,7 +42,7 @@ public class DiskImageUpload extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
 
@@ -65,14 +65,14 @@ public class DiskImageUpload extends HttpServlet {
                 while ((read = filecontent.read(bytes)) != -1) {
                     outStream.write(bytes, 0, read);
                 }
-                out.println("{ fileName: '" + fileName + "' , path:'" + path+"'}");
+                out.println("{ \"fileName\": \""+fileName+"\"}");
 
                 System.out.println("sending mesg");
                 new WorkMessage().send(path);
-                System.out.println("Mssg sent");
+                System.out.println("Mssg sent ");
 
             } catch (FileNotFoundException fne) {
-                out.println("{ error: '" + fne.getMessage() + "'}");
+                out.println("{\"error\": \"" + fne.getMessage() + "\"}");
 
 
             } finally {

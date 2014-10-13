@@ -11,7 +11,7 @@ import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-
+import javax.jms.TextMessage;
 /**
  *
  * @author Acer
@@ -29,7 +29,10 @@ public class WorkerBean implements MessageListener {
     public void onMessage(Message message) {
         try {
             System.out.println("Received Message ");
+            TextMessage tm = (TextMessage)message;
             System.out.println(message.getJMSMessageID());
+            System.out.println(tm.getText());
+            
             Thread.sleep(10000);
             System.out.println("Received Message Done ");
         } catch (JMSException ex) {

@@ -33,21 +33,18 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            <form role="form">
+                            <form role="form" ng-submit="addNew()" action="">
                                 <div class="form-group">
                                     <label>Project Name</label>
-                                    <input class="form-control" ng-model="project.name" placeholder="Enter case name"  style="cursor: auto; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;">
+                                    <input class="form-control" ng-model="project.name" placeholder="Enter case name"  required >
 
                                 </div>
                                 <div class="form-group">
                                     <label>Description</label>
-                                    <textarea class="form-control" ng-model="project.description" placeholder="Enter text"></textarea>
+                                    <textarea class="form-control" ng-model="project.description" placeholder="Enter text" required></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label>Created Date</label>
-                                    <input class="form-control" ng-model="project.createdDate" type="date">
-                                </div>
-                                <button type="submit" class="btn btn-default" ng-click="addNew()">Submit</button>
+             
+                                <button type="submit" class="btn btn-default" >Submit</button>
                                 <button type="reset" class="btn btn-default">Reset</button>
                             </form>
                         </div>

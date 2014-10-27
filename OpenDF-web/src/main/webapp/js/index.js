@@ -32,7 +32,7 @@ OpenDFApp.controller('projectsController', ['$scope', 'ProjectsFactory', '$locat
 OpenDFApp.controller('projectController', ['$scope', 'ProjectsFactory', function ($scope, ProjectsFactory) {
         $scope.project = {name: "", depscription: "", createdDate:""};
         $scope.addNew = function(){
-            
+            alert();
         }
 
 }]);

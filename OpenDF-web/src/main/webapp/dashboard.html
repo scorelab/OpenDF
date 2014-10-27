@@ -153,7 +153,16 @@
                             <span class="notification-counter">3</span> 
                             <i class="fa fa-caret-down"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-alerts">
+                        <ul class="dropdown-menu dropdown-alerts" ng-controller="NotificationController">
+                            <li>
+                                <a href="#" ng-repeat="notification in notifications">
+                                    <div>
+                                        <i class="fa fa-comment fa-fw"></i> {{notification[index].quantity}} {{notification[index].type}}
+                                        <span class="pull-right text-muted small">{{notification[index].time}} minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
                             
                         </ul>
                         <!-- /.dropdown-alerts -->

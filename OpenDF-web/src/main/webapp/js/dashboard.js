@@ -104,7 +104,6 @@ OpenDFApp.controller('notificationsController', ['$scope', 'notificationsFactory
             $location.path('/disk-images');
         }
 
-}]);
 
 OpenDFApp.controller('noteController', ['$scope', 'notesFactory', 'BackboneService' , function ($scope,  notesFactory, BackboneService) {
         $scope.note = {name: "", description: "", createdDate:""};
@@ -121,8 +120,11 @@ OpenDFApp.controller('notesController', ['$scope', 'notesFactory','BackboneServi
 }]);
 
 var services = angular.module('OpenDFApp.services', ['ngResource']);
+
 services.factory('BackboneService', function ($rootScope) {
     var kernel = {};
+    K = kernel;
+    kernel.notifications = [{createdDate:"",last_visted:"",agent:""}]
     kernel.prosecces = {};
     kernel.notes = [];
     kernel.activeProsecces = 0;
@@ -143,9 +145,26 @@ services.factory('DiskImagesFactory', function ($resource) {
     return $resource('api/projects/:id/diskImages', {}, {})
 });
 
+
 services.factory('notesFactory', function ($resource) {
     return $resource('api/notes/:id', {}, {})
 });
+
+services.factory('NotificationFactory', function ($scope) {
+    var notifications = [   {new_comments:[{type:'New Comments',quantity:'200',time:'100'}]},
+                            {new_follwers:[{type:'New Followers',quantity:'2',time:'15'}]},
+                            {sent_messages:[{type:'Messages Sent',quantity:'3',time:'10'}]},
+                            {new_task:[{type:'New Task',quantity:'3',time:'10'}]},
+                            {sever_rebooted:[{type:'Server Rebooted',quantity:'3',time:'10'}]}
+                        ];
+                        
+    return notifications;
+});
+
+OpenDFApp.controller('NotificationController', ['$scope', 'NotificationFactory ' , function ($scope,  NotificationFactory) {
+        $scope.notifications = NotificationFactory();
+        
+}]);
 
 OpenDFApp.run(function($rootScope) {
         $rootScope.sectionTitle = OpenDFApp.value("sectionTitle");
@@ -153,5 +172,6 @@ OpenDFApp.run(function($rootScope) {
         $rootScope.$today = function(){ return new Date(); }
         
     });
+
 
 

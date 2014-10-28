@@ -108,7 +108,8 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
 
 }]);
 
-OpenDFApp.controller('notificationsController', ['$scope', 'NotificationsFactory ', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
+
+OpenDFApp.controller('notificationsController', ['$scope', 'NotificationsFactory', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
         $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
         $scope.addNew = function(){
             BackboneService.diskImages.push($scope.diskImage);

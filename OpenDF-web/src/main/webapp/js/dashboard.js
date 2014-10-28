@@ -1,5 +1,7 @@
 var OpenDFApp = angular.module('OpenDFApp', ['ngRoute' ,'OpenDFApp.services', 'angularFileUpload']);
 
+OpenDFApp.value("sectionTitle" , "Dashboard");
+
 OpenDFApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
@@ -11,6 +13,10 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/file-system.htm',
             controller: ''
         }).
+        when('/bookmarks', {
+            templateUrl: 'templates/dashboard/bookmarks.htm',
+            controller: ''
+        }).
         when('/disk-images', {
             templateUrl: 'templates/dashboard/disk-images.htm',
             controller: 'diskImagesController'
@@ -19,21 +25,37 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/disk-images-add-new.htm',
             controller: 'diskImagesController'
         }).
+        when('/:id/:title', {
+            templateUrl: 'templates/dashboard/dashboard.htm',
+            controller: 'dashboardController'
+        }).
         otherwise({
             redirectTo: '/'
         });
     }]);
-OpenDFApp.controller('dashboardController', ['$scope', '$location' , function ($scope, $location) {
-        
+OpenDFApp.controller('dashboardController', ['$scope', '$location', '$routeParams' , function ($scope, $location, $routeParams) {
+        OpenDFApp.value("sectionTitle" , "Dashboard!");
+        sectionTitle = "Dashboard!";
 }]);
 OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneService', function ($scope, $location, BackboneService) {
         $scope.processes = BackboneService.prosecces;
+        $scope.activeProsecces = BackboneService.activeProsecces;
+        P = $scope.processes;
+        $scope.isEmpty = function () {
+            return angular.equals({},$scope.processes); 
+        };
+        
+        $scope.activeProsecces = BackboneService.activeProsecces;
 }]);
 
 OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
         $scope.diskImages =  BackboneService.diskImages;
         $scope.addNew = function(){
            //BackboneService.prosecces.push({ name: "File uploading", percentage:10});
+        }
+        $scope.startAnalyzing = function(diskImageID){
+           BackboneService.diskImages[diskImageID].state = "Analyzing";
+           var process = BackboneService.addProcess({ name: "Analyzing "+BackboneService.diskImages[diskImageID].name, percentage: 0});
         }
 
 }]);
@@ -43,8 +65,9 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
         $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
         $scope.file = {};
         $scope.addNew = function(){
+            $scope.diskImage.state = "Uploading";
             BackboneService.diskImages.push($scope.diskImage);
-            var process = BackboneService.addProcess({ name: "File uploading1", percentage: "0"});
+            var process = BackboneService.addProcess({ name: "File uploading1", percentage: 0});
             $location.path('/disk-images');
             $upload.upload({
                 url: '/OpenDF-web/DiskImageUpload', //upload.php script, node.js route, or servlet url
@@ -54,46 +77,102 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
                 data: {myObj: $scope.diskImage },
                 file: $scope.file
               }).progress(function(evt) {
-                console.log('Process'+processID + 'percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-                BackboneService.prosecces[process] = { name: "File uploading", percentage:parseInt(100.0 * evt.loaded / evt.total)};
+                var p = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('percent: ' + p);
+                if(p==100){
+                    BackboneService.prosecces[process] = { name: "File uploaded, Assembling ", percentage:parseInt(100.0 * evt.loaded / evt.total)};
+                    $scope.diskImage.state = "Assembling";
+                }
+                else{
+                    BackboneService.prosecces[process] = { name: "File uploading", percentage:parseInt(100.0 * evt.loaded / evt.total)};
+                }
               }).success(function(data, status, headers, config) {
                 BackboneService.prosecces[process] = { name: "File uploaded", percentage:100};
-                console.log(data);
-                
+                BackboneService.stopProcess(process);
+                $scope.diskImage.state = "Uploaded";
+                //console.log(data);
               });
         }
 
 }]);
+
 
 OpenDFApp.controller('notificationsController', ['$scope', 'notificationsFactory ', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
         $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
         $scope.addNew = function(){
             BackboneService.diskImages.push($scope.diskImage);
             BackboneService.prosecces.push({ name: "File uploading", percentage:10});
-            BackboneService
             $location.path('/disk-images');
         }
 
+
+OpenDFApp.controller('noteController', ['$scope', 'notesFactory', 'BackboneService' , function ($scope,  notesFactory, BackboneService) {
+        $scope.note = {name: "", description: "", createdDate:""};
+        $scope.note.name = "";
+        $scope.note.description = "";
+        $scope.note.createdDate =  new Date();
+        $scope.send = function(){
+            BackboneService.notes.push($scope.note);
+        }
+}]);
+OpenDFApp.controller('notesController', ['$scope', 'notesFactory','BackboneService' , function ($scope,  notesFactory, BackboneService) {
+        $scope.notes = BackboneService.notes;
+        console.log($scope.notes);
 }]);
 
 var services = angular.module('OpenDFApp.services', ['ngResource']);
+
 services.factory('BackboneService', function ($rootScope) {
     var kernel = {};
     K = kernel;
+    kernel.notifications = [{createdDate:"",last_visted:"",agent:""}]
     kernel.prosecces = {};
-    kernel.prosecces['p5678987654'] = { name: "Image processing", percentage:70};
-    kernel.diskImages = [{name: "Megatron Server", type: "NTFS", size: "1TB"}, {name: "Mac Book Air", type: "ext4", size: "500GB"}];
-    K = kernel;
-    console.log(kernel.diskImages);
+    kernel.notes = [];
+    kernel.activeProsecces = 0;
+    kernel.diskImages = [{name: "Megatron Server", type: "NTFS", size: "1TB", state: "Analized"}, {name: "Mac Book Air", type: "ext4", size: "500GB", state: "Uploaded"}];
     kernel.addProcess = function(obj){
         var processID = 'p'+$.now();
-        kernel.prosecces[1] = obj;
-        
+        kernel.prosecces[processID] = obj;
+        kernel.activeProsecces = kernel.activeProsecces + 1;
         return processID;
+    }
+    kernel.stopProcess = function(obj, processID){
+        delete kernel.prosecces[processID];
+        kernel.activeProsecces = kernel.activeProsecces - 1;
     }
     return kernel;
 });
 services.factory('DiskImagesFactory', function ($resource) {
     return $resource('api/projects/:id/diskImages', {}, {})
 });
+
+
+services.factory('notesFactory', function ($resource) {
+    return $resource('api/notes/:id', {}, {})
+});
+
+services.factory('NotificationFactory', function ($scope) {
+    var notifications = [   {new_comments:[{type:'New Comments',quantity:'200',time:'100'}]},
+                            {new_follwers:[{type:'New Followers',quantity:'2',time:'15'}]},
+                            {sent_messages:[{type:'Messages Sent',quantity:'3',time:'10'}]},
+                            {new_task:[{type:'New Task',quantity:'3',time:'10'}]},
+                            {sever_rebooted:[{type:'Server Rebooted',quantity:'3',time:'10'}]}
+                        ];
+                        
+    return notifications;
+});
+
+OpenDFApp.controller('NotificationController', ['$scope', 'NotificationFactory ' , function ($scope,  NotificationFactory) {
+        $scope.notifications = NotificationFactory();
+        
+}]);
+
+OpenDFApp.run(function($rootScope) {
+        $rootScope.sectionTitle = OpenDFApp.value("sectionTitle");
+        T = OpenDFApp.value("sectionTitle");
+        $rootScope.$today = function(){ return new Date(); }
+        
+    });
+
+
 

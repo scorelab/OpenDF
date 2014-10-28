@@ -330,7 +330,7 @@ table.dataTable thead .sorting:after {
     font-size: 40px;
 }
 .panel{
-    border-radius: 20px;
+    border-radius: 1px;
 }
 .panel-heading{
     border-radius: 1px;

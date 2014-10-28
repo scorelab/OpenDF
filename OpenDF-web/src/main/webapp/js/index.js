@@ -7,6 +7,10 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/index/projects.htm',
             controller: 'projectsController'
         }).
+        when('/projects/add-new', {
+            templateUrl: 'templates/index/add-new-case.htm',
+            controller: 'projectsController'
+        }).        
         otherwise({
             redirectTo: '/'
         });
@@ -25,6 +29,11 @@ OpenDFApp.controller('projectsController', ['$scope', 'ProjectsFactory', '$locat
 //    });
 }]);
 
+OpenDFApp.controller('projectController', ['$scope', 'ProjectsFactory', function ($scope, ProjectsFactory) {
+        $scope.project = {name: "", depscription: "", createdDate:""}
+        $scope.addNew = function(){
+        };
+}]);
 
 var services = angular.module('OpenDFApp.services', ['ngResource']);
 

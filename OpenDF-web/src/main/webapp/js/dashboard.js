@@ -108,14 +108,14 @@ OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$lo
 
 }]);
 
-OpenDFApp.controller('notificationsController', ['$scope', 'notificationsFactory ', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
+OpenDFApp.controller('notificationsController', ['$scope', 'NotificationsFactory ', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
         $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
         $scope.addNew = function(){
             BackboneService.diskImages.push($scope.diskImage);
             BackboneService.prosecces.push({ name: "File uploading", percentage:10});
             $location.path('/disk-images');
         }
-
+}]);
 
 OpenDFApp.controller('noteController', ['$scope', 'notesFactory', 'BackboneService' , function ($scope,  notesFactory, BackboneService) {
         $scope.note = {name: "", description: "", createdDate:""};
@@ -126,6 +126,7 @@ OpenDFApp.controller('noteController', ['$scope', 'notesFactory', 'BackboneServi
             BackboneService.notes.push($scope.note);
         }
 }]);
+
 OpenDFApp.controller('notesController', ['$scope', 'notesFactory','BackboneService' , function ($scope,  notesFactory, BackboneService) {
         $scope.notes = BackboneService.notes;
         console.log($scope.notes);
@@ -153,6 +154,7 @@ services.factory('BackboneService', function ($rootScope) {
     }
     return kernel;
 });
+
 services.factory('DiskImagesFactory', function ($resource) {
     return $resource('api/projects/:id/diskImages', {}, {})
 });
@@ -169,7 +171,18 @@ services.factory('notesFactory', function ($resource) {
     return $resource('api/notes/:id', {}, {})
 });
 
-services.factory('NotificationFactory', function ($scope) {
+services.factory('NotificationsFactory', function ($resource) {
+    var notifications = [];
+                        
+    return notifications;
+});
+
+
+OpenDFApp.controller('NotificationController', ['$scope', 'NotificationFactory' , function ($scope,  NotificationFactory) {
+        //$scope.notifications = NotificationFactory;
+}]);
+
+services.factory('NotificationFactory', function ($resource) {
     var notifications = [   {new_comments:[{type:'New Comments',quantity:'200',time:'100'}]},
                             {new_follwers:[{type:'New Followers',quantity:'2',time:'15'}]},
                             {sent_messages:[{type:'Messages Sent',quantity:'3',time:'10'}]},
@@ -180,17 +193,11 @@ services.factory('NotificationFactory', function ($scope) {
     return notifications;
 });
 
-OpenDFApp.controller('NotificationController', ['$scope', 'NotificationFactory ' , function ($scope,  NotificationFactory) {
-        $scope.notifications = NotificationFactory();
-        
-}]);
-
 OpenDFApp.run(function($rootScope) {
         $rootScope.sectionTitle = OpenDFApp.value("sectionTitle");
         T = OpenDFApp.value("sectionTitle");
         $rootScope.$today = function(){ return new Date(); }
-        
-    });
+});
 
 
 

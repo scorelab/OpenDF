@@ -30,10 +30,15 @@ OpenDFApp.controller('projectsController', ['$scope', 'ProjectsFactory', '$locat
 }]);
 
 OpenDFApp.controller('projectController', ['$scope', 'ProjectsFactory', function ($scope, ProjectsFactory) {
-        $scope.project = {name: "", depscription: "", createdDate:""};
+        $scope.project = {name: "", depscription: "", createdDate:""}
         $scope.addNew = function(){
-            
-        }
+            $scope.projects.push(
+                    {
+                       name: $scope.project.name, 
+                       description: $scope.project.depscription,
+                       createdDate: $scope.project.createdDate
+                    });
+        };
 
 }]);
 

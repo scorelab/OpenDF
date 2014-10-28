@@ -28,7 +28,7 @@
             <div class="panel-heading" >
                 <i class="fa fa-bar-chart-o fa-fw" ></i> {{diskImage.name}}
                 <div class="btn-group pull-right" ng-show="diskImage.state == 'Uploaded'" >
-                    <button type="button" class="btn btn-default btn-xs" >
+                    <button type="button" class="btn btn-default btn-xs" ng-click="startAnalyzing($index)">
                         <i class="fa fa-chevron-right"></i> Analyze 
                     </button>
                 </div>

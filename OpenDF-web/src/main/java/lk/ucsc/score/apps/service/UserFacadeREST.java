@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -77,6 +78,18 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
+        return String.valueOf(super.count());
+    }
+    
+    @POST
+    @Path("count")
+    @Produces("text/plain")
+    public String login(@FormParam("username") String username, @FormParam("password") String password) {
+        User user = (User)em.createNamedQuery("User.findByUsername").setParameter("username", username).getSingleResult();
+        //TODO: Hash the password before comparing
+        if(user.getPassword().equals(password)){
+            //TODO: Send the user token
+        }
         return String.valueOf(super.count());
     }
 

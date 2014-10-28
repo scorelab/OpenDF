@@ -32,7 +32,7 @@
 
 </head>
 
-<body>
+<body ng-app"">
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -40,19 +40,20 @@
                     <div class="panel-body">
 						<div class="panel-heading">
 							<img class="profile-img" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT80r7crGcHV3eNA0QBU92K5Vw3GR-qVfym-RY_Gj288kML8p4YBA" alt="">
-							<h1 class="text-center login-title">O p e n D F</h1>
+							<h1 class="text-center login-title">OpenDF</h1>
 						</div>
                         
-						<form role="form">
+                        <form role="form" action="userlogin" method="POST">
+                            <p class="error" style="color:red;text-align: center"> <% if(request.getParameter("msg")!=null) out.print(request.getParameter("msg")+"!"); %> </p>
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Username" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="Username" name="username" type="text" ng-minlength="8" pattern=".{5,}"   title="5 characters minimum" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value=""  pattern=".{8,}" title="8 characters minimum" required>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+                                <button type="submit" class="btn btn-lg btn-success btn-block">Login</a>
                             </fieldset>
                         </form>
                     </div>
@@ -63,15 +64,13 @@
 
     <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
 
 </body>
 

@@ -17,6 +17,14 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/bookmarks.htm',
             controller: ''
         }).
+        when('/reports', {
+            templateUrl: 'templates/dashboard/reports.htm',
+            controller: 'reportsController'
+        }).
+        when('/report/:id', {
+            templateUrl: 'templates/dashboard/report.htm',
+            controller: 'reportsController'
+        }).
         when('/disk-images', {
             templateUrl: 'templates/dashboard/disk-images.htm',
             controller: 'diskImagesController'
@@ -143,6 +151,13 @@ services.factory('BackboneService', function ($rootScope) {
 });
 services.factory('DiskImagesFactory', function ($resource) {
     return $resource('api/projects/:id/diskImages', {}, {})
+});
+
+OpenDFApp.controller('reportsController', ['$scope', '$location', '$routeParams' , function ($scope, $location, $routeParams) {
+        $scope.reports = [{title: "Current Progress Report", date: new Date() ,description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"},{title: "Current Progress Report", date: new Date(1411436124013) ,description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"}, {title: "Current Progress Report", date: new Date(1411234124013), description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"}];
+}]);
+services.factory('reportsFactory', function ($resource) {
+    return $resource('api/projects/:id/reports', {}, {})
 });
 
 

@@ -33,8 +33,8 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/disk-images-add-new.htm',
             controller: 'diskImagesController'
         }).
-        when('/settings/project', {
-            templateUrl: 'templates/dashboard/settings/project.htm',
+        when('/settings/modules', {
+            templateUrl: 'templates/dashboard/settings/modules.htm',
             controller: ''
         }).
         when('/:id/:title', {

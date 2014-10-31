@@ -10,7 +10,11 @@ OpenDFApp.config(['$routeProvider',
         when('/projects/add-new', {
             templateUrl: 'templates/index/add-new-case.htm',
             controller: 'projectsController'
-        }).        
+        }).
+        when('/settings/account', {
+            templateUrl: 'templates/index/settings/account.htm',
+            controller: ''
+        }). 
         otherwise({
             redirectTo: '/'
         });

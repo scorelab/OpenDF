@@ -45,8 +45,7 @@ public class UserLogin extends HttpServlet {
         try {
             
             EntityManager em = emf.createEntityManager();
-                    List resultList = em
-                                             .createNamedQuery("User.findByUsername")
+                    List resultList = em.createNamedQuery("User.findByUsername")
                                              .setParameter("username", request.getParameter("username"))
                                              .getResultList();
                     

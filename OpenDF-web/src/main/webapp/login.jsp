@@ -44,7 +44,12 @@
 						</div>
                         
                         <form role="form" action="userlogin" method="POST">
-                            <p class="error" style="color:red;text-align: center"> <% if(request.getParameter("msg")!=null) out.print(request.getParameter("msg")+"!"); %> </p>
+                            <% if(request.getParameter("msg")!=null) { %>
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <strong>Error : </strong> <%=request.getParameter("msg")+"!" %> 
+                            </div>
+                            <% } %>
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Username" name="username" type="text" ng-minlength="8" pattern=".{5,}"   title="5 characters minimum" required>

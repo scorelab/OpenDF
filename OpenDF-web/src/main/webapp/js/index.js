@@ -10,7 +10,11 @@ OpenDFApp.config(['$routeProvider',
         when('/projects/add-new', {
             templateUrl: 'templates/index/add-new-case.htm',
             controller: 'projectsController'
-        }).        
+        }).
+        when('/settings/account', {
+            templateUrl: 'templates/index/settings/account.htm',
+            controller: ''
+        }). 
         otherwise({
             redirectTo: '/'
         });
@@ -30,11 +34,9 @@ OpenDFApp.controller('projectsController', ['$scope', 'ProjectsFactory', '$locat
 }]);
 
 OpenDFApp.controller('projectController', ['$scope', 'ProjectsFactory', function ($scope, ProjectsFactory) {
-        $scope.project = {name: "", depscription: "", createdDate:""};
+        $scope.project = {name: "", depscription: "", createdDate:""}
         $scope.addNew = function(){
-            alert();
-        }
-
+        };
 }]);
 
 var services = angular.module('OpenDFApp.services', ['ngResource']);

@@ -1,320 +1,267 @@
--- phpMyAdmin SQL Dump
--- version 3.5.2.2
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: Nov 02, 2014 at 07:00 PM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+CREATE SCHEMA IF NOT EXISTS `OpenDF` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `OpenDF` ;
+
+-- -----------------------------------------------------
+-- Table `OpenDF`.`User`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`User` (
+  `idUser` INT NOT NULL AUTO_INCREMENT ,
+  `username` VARCHAR(100) NULL ,
+  `password` VARCHAR(100) NULL ,
+  `email` VARCHAR(200) NULL ,
+  `name` VARCHAR(300) NULL ,
+  `avatar` VARCHAR(500) NULL ,
+  PRIMARY KEY (`idUser`) )
+ENGINE = InnoDB;
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+-- -----------------------------------------------------
+-- Table `OpenDF`.`Project`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`Project` (
+  `idProject` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(60) NULL ,
+  `description` VARCHAR(300) NULL ,
+  `status` INT NULL ,
+  `created_date` TIMESTAMP NULL ,
+  PRIMARY KEY (`idProject`) )
+ENGINE = InnoDB;
 
---
--- Database: `opendf`
---
 
--- --------------------------------------------------------
+-- -----------------------------------------------------
+-- Table `OpenDF`.`DiskImage`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`DiskImage` (
+  `idDiskImage` INT NOT NULL AUTO_INCREMENT ,
+  `Project_idProject` INT NOT NULL ,
+  `name` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idDiskImage`) ,
+  INDEX `fk_DiskImage_Case1_idx` (`Project_idProject` ASC) ,
+  CONSTRAINT `fk_DiskImage_Case1`
+    FOREIGN KEY (`Project_idProject` )
+    REFERENCES `OpenDF`.`Project` (`idProject` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
---
--- Table structure for table `badfile`
---
 
-CREATE TABLE IF NOT EXISTS `badfile` (
-  `idBadFile` int(11) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `signature` varchar(1024) DEFAULT NULL,
-  PRIMARY KEY (`idBadFile`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- -----------------------------------------------------
+-- Table `OpenDF`.`Task`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`Task` (
+  `idTask` INT NOT NULL AUTO_INCREMENT ,
+  `Project_idProject` INT NOT NULL ,
+  `DiskImage_idDiskImage` INT NOT NULL ,
+  PRIMARY KEY (`idTask`) ,
+  INDEX `fk_Task_Case_idx` (`Project_idProject` ASC) ,
+  INDEX `fk_Task_DiskImage1_idx` (`DiskImage_idDiskImage` ASC) ,
+  CONSTRAINT `fk_Task_Case`
+    FOREIGN KEY (`Project_idProject` )
+    REFERENCES `OpenDF`.`Project` (`idProject` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Task_DiskImage1`
+    FOREIGN KEY (`DiskImage_idDiskImage` )
+    REFERENCES `OpenDF`.`DiskImage` (`idDiskImage` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `browser`
---
+-- -----------------------------------------------------
+-- Table `OpenDF`.`User_has_Project`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`User_has_Project` (
+  `User_idUser` INT NOT NULL ,
+  `Project_idProject` INT NOT NULL ,
+  PRIMARY KEY (`User_idUser`, `Project_idProject`) ,
+  INDEX `fk_User_has_Case_Case1_idx` (`Project_idProject` ASC) ,
+  INDEX `fk_User_has_Case_User1_idx` (`User_idUser` ASC) ,
+  CONSTRAINT `fk_User_has_Case_User1`
+    FOREIGN KEY (`User_idUser` )
+    REFERENCES `OpenDF`.`User` (`idUser` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_User_has_Case_Case1`
+    FOREIGN KEY (`Project_idProject` )
+    REFERENCES `OpenDF`.`Project` (`idProject` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `browser` (
-  `idBrowser` int(11) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idBrowser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+-- -----------------------------------------------------
+-- Table `OpenDF`.`Directory`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`Directory` (
+  `idDirectory` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NULL ,
+  `path` VARCHAR(500) NULL ,
+  `DiskImage_idDiskImage` INT NOT NULL ,
+  `parentDirectory` INT NOT NULL ,
+  PRIMARY KEY (`idDirectory`) ,
+  INDEX `fk_Directory_DiskImage1_idx` (`DiskImage_idDiskImage` ASC) ,
+  INDEX `fk_Directory_Directory1_idx` (`parentDirectory` ASC) ,
+  CONSTRAINT `fk_Directory_DiskImage1`
+    FOREIGN KEY (`DiskImage_idDiskImage` )
+    REFERENCES `OpenDF`.`DiskImage` (`idDiskImage` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Directory_Directory1`
+    FOREIGN KEY (`parentDirectory` )
+    REFERENCES `OpenDF`.`Directory` (`idDirectory` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
---
--- Table structure for table `browserhistory`
---
 
-CREATE TABLE IF NOT EXISTS `browserhistory` (
-  `idBrowserHistory` int(11) NOT NULL,
-  `URL` varchar(450) DEFAULT NULL,
-  `Browser_idBrowser` int(11) NOT NULL,
-  PRIMARY KEY (`idBrowserHistory`),
-  KEY `fk_BrowserHistory_Browser1_idx` (`Browser_idBrowser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- -----------------------------------------------------
+-- Table `OpenDF`.`File`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`File` (
+  `idFile` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NULL ,
+  `size` FLOAT NULL ,
+  `MIMEtype` VARCHAR(45) NULL ,
+  `createdDate` DATETIME NULL ,
+  `UpdatedDate` DATETIME NULL ,
+  `AccessDate` DATETIME NULL ,
+  `parentDirectory` INT NOT NULL ,
+  PRIMARY KEY (`idFile`) ,
+  INDEX `fk_File_Directory1_idx` (`parentDirectory` ASC) ,
+  CONSTRAINT `fk_File_Directory1`
+    FOREIGN KEY (`parentDirectory` )
+    REFERENCES `OpenDF`.`Directory` (`idDirectory` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `browsersavedpassword`
---
+-- -----------------------------------------------------
+-- Table `OpenDF`.`Browser`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`Browser` (
+  `idBrowser` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idBrowser`) )
+ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `browsersavedpassword` (
-  `idBrowserSavedPassword` int(11) NOT NULL,
-  `username` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  `Browser_idBrowser` int(11) NOT NULL,
-  `DiskImage_idDiskImage` int(11) NOT NULL,
-  PRIMARY KEY (`idBrowserSavedPassword`),
-  KEY `fk_BrowserData_Browser1_idx` (`Browser_idBrowser`),
-  KEY `fk_BrowserSavedPassword_DiskImage1_idx` (`DiskImage_idDiskImage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+-- -----------------------------------------------------
+-- Table `OpenDF`.`BrowserSavedPassword`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`BrowserSavedPassword` (
+  `idBrowserSavedPassword` INT NOT NULL AUTO_INCREMENT ,
+  `username` VARCHAR(45) NULL ,
+  `password` VARCHAR(45) NULL ,
+  `Browser_idBrowser` INT NOT NULL ,
+  `DiskImage_idDiskImage` INT NOT NULL ,
+  PRIMARY KEY (`idBrowserSavedPassword`) ,
+  INDEX `fk_BrowserData_Browser1_idx` (`Browser_idBrowser` ASC) ,
+  INDEX `fk_BrowserSavedPassword_DiskImage1_idx` (`DiskImage_idDiskImage` ASC) ,
+  CONSTRAINT `fk_BrowserData_Browser1`
+    FOREIGN KEY (`Browser_idBrowser` )
+    REFERENCES `OpenDF`.`Browser` (`idBrowser` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_BrowserSavedPassword_DiskImage1`
+    FOREIGN KEY (`DiskImage_idDiskImage` )
+    REFERENCES `OpenDF`.`DiskImage` (`idDiskImage` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
---
--- Table structure for table `directory`
---
 
-CREATE TABLE IF NOT EXISTS `directory` (
-  `idDirectory` int(11) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `path` varchar(500) DEFAULT NULL,
-  `DiskImage_idDiskImage` int(11) NOT NULL,
-  `parentDirectory` int(11) NOT NULL,
-  PRIMARY KEY (`idDirectory`),
-  KEY `fk_Directory_DiskImage1_idx` (`DiskImage_idDiskImage`),
-  KEY `fk_Directory_Directory1_idx` (`parentDirectory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- -----------------------------------------------------
+-- Table `OpenDF`.`BrowserHistory`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`BrowserHistory` (
+  `idBrowserHistory` INT NOT NULL AUTO_INCREMENT ,
+  `URL` VARCHAR(450) NULL ,
+  `Browser_idBrowser` INT NOT NULL ,
+  PRIMARY KEY (`idBrowserHistory`) ,
+  INDEX `fk_BrowserHistory_Browser1_idx` (`Browser_idBrowser` ASC) ,
+  CONSTRAINT `fk_BrowserHistory_Browser1`
+    FOREIGN KEY (`Browser_idBrowser` )
+    REFERENCES `OpenDF`.`Browser` (`idBrowser` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `diskimage`
---
+-- -----------------------------------------------------
+-- Table `OpenDF`.`KnowFace`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`KnowFace` (
+  `idKnowFace` INT NOT NULL ,
+  `path` VARCHAR(45) NULL ,
+  `name` VARCHAR(45) NULL ,
+  `description` VARCHAR(450) NULL ,
+  PRIMARY KEY (`idKnowFace`) )
+ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `diskimage` (
-  `idDiskImage` int(11) NOT NULL,
-  `Project_idProject` int(11) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idDiskImage`),
-  KEY `fk_DiskImage_Case1_idx` (`Project_idProject`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+-- -----------------------------------------------------
+-- Table `OpenDF`.`File_has_KnowFace`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`File_has_KnowFace` (
+  `File_idFile` INT NOT NULL ,
+  `KnowFace_idKnowFace` INT NOT NULL ,
+  PRIMARY KEY (`File_idFile`, `KnowFace_idKnowFace`) ,
+  INDEX `fk_File_has_KnowFace_KnowFace1_idx` (`KnowFace_idKnowFace` ASC) ,
+  INDEX `fk_File_has_KnowFace_File1_idx` (`File_idFile` ASC) ,
+  CONSTRAINT `fk_File_has_KnowFace_File1`
+    FOREIGN KEY (`File_idFile` )
+    REFERENCES `OpenDF`.`File` (`idFile` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_File_has_KnowFace_KnowFace1`
+    FOREIGN KEY (`KnowFace_idKnowFace` )
+    REFERENCES `OpenDF`.`KnowFace` (`idKnowFace` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
---
--- Table structure for table `file`
---
 
-CREATE TABLE IF NOT EXISTS `file` (
-  `idFile` int(11) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `size` float DEFAULT NULL,
-  `MIMEtype` varchar(45) DEFAULT NULL,
-  `createdDate` datetime DEFAULT NULL,
-  `UpdatedDate` datetime DEFAULT NULL,
-  `AccessDate` datetime DEFAULT NULL,
-  `parentDirectory` int(11) NOT NULL,
-  PRIMARY KEY (`idFile`),
-  KEY `fk_File_Directory1_idx` (`parentDirectory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- -----------------------------------------------------
+-- Table `OpenDF`.`BadFile`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`BadFile` (
+  `idBadFile` INT NOT NULL ,
+  `name` VARCHAR(45) NULL ,
+  `signature` VARCHAR(1024) NULL ,
+  PRIMARY KEY (`idBadFile`) )
+ENGINE = InnoDB;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `file_has_badfile`
---
+-- -----------------------------------------------------
+-- Table `OpenDF`.`File_has_BadFile`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `OpenDF`.`File_has_BadFile` (
+  `File_idFile` INT NOT NULL ,
+  `BadFile_idBadFile` INT NOT NULL ,
+  PRIMARY KEY (`File_idFile`, `BadFile_idBadFile`) ,
+  INDEX `fk_File_has_BadFile_BadFile1_idx` (`BadFile_idBadFile` ASC) ,
+  INDEX `fk_File_has_BadFile_File1_idx` (`File_idFile` ASC) ,
+  CONSTRAINT `fk_File_has_BadFile_File1`
+    FOREIGN KEY (`File_idFile` )
+    REFERENCES `OpenDF`.`File` (`idFile` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_File_has_BadFile_BadFile1`
+    FOREIGN KEY (`BadFile_idBadFile` )
+    REFERENCES `OpenDF`.`BadFile` (`idBadFile` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `file_has_badfile` (
-  `File_idFile` int(11) NOT NULL,
-  `BadFile_idBadFile` int(11) NOT NULL,
-  PRIMARY KEY (`File_idFile`,`BadFile_idBadFile`),
-  KEY `fk_File_has_BadFile_BadFile1_idx` (`BadFile_idBadFile`),
-  KEY `fk_File_has_BadFile_File1_idx` (`File_idFile`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+USE `OpenDF` ;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `file_has_knowface`
---
-
-CREATE TABLE IF NOT EXISTS `file_has_knowface` (
-  `File_idFile` int(11) NOT NULL,
-  `KnowFace_idKnowFace` int(11) NOT NULL,
-  PRIMARY KEY (`File_idFile`,`KnowFace_idKnowFace`),
-  KEY `fk_File_has_KnowFace_KnowFace1_idx` (`KnowFace_idKnowFace`),
-  KEY `fk_File_has_KnowFace_File1_idx` (`File_idFile`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `knowface`
---
-
-CREATE TABLE IF NOT EXISTS `knowface` (
-  `idKnowFace` int(11) NOT NULL,
-  `path` varchar(45) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `description` varchar(450) DEFAULT NULL,
-  PRIMARY KEY (`idKnowFace`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `project`
---
-
-CREATE TABLE IF NOT EXISTS `project` (
-  `idProject` int(11) NOT NULL,
-  `name` varchar(60) DEFAULT NULL,
-  `description` varchar(300) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `created_date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`idProject`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `project`
---
-
-INSERT INTO `project` (`idProject`, `name`, `description`, `status`, `created_date`) VALUES
-(1, ' A Scandal In Belgravia             ', 'Compromising photographs of royal family', NULL, NULL),
-(2, 'Study in Pink', 'A case about a pink color phone', 1, '2014-10-31 18:30:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `task`
---
-
-CREATE TABLE IF NOT EXISTS `task` (
-  `idTask` int(11) NOT NULL,
-  `Project_idProject` int(11) NOT NULL,
-  `DiskImage_idDiskImage` int(11) NOT NULL,
-  PRIMARY KEY (`idTask`),
-  KEY `fk_Task_Case_idx` (`Project_idProject`),
-  KEY `fk_Task_DiskImage1_idx` (`DiskImage_idDiskImage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE IF NOT EXISTS `user` (
-  `idUser` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) DEFAULT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `email` varchar(200) DEFAULT NULL,
-  `name` varchar(300) DEFAULT NULL,
-  `avatar` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`idUser`, `username`, `password`, `email`, `name`, `avatar`) VALUES
-(1, 'agentmilindu', '12345678', 'agentmilindu@gmail.com', 'Milindu Sanoj Kumarage', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_has_project`
---
-
-CREATE TABLE IF NOT EXISTS `user_has_project` (
-  `User_idUser` int(11) NOT NULL,
-  `Project_idProject` int(11) NOT NULL,
-  PRIMARY KEY (`User_idUser`,`Project_idProject`),
-  KEY `fk_User_has_Case_Case1_idx` (`Project_idProject`),
-  KEY `fk_User_has_Case_User1_idx` (`User_idUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `user_has_project`
---
-
-INSERT INTO `user_has_project` (`User_idUser`, `Project_idProject`) VALUES
-(1, 1),
-(1, 2);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `browserhistory`
---
-ALTER TABLE `browserhistory`
-  ADD CONSTRAINT `fk_BrowserHistory_Browser1` FOREIGN KEY (`Browser_idBrowser`) REFERENCES `browser` (`idBrowser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `browsersavedpassword`
---
-ALTER TABLE `browsersavedpassword`
-  ADD CONSTRAINT `fk_BrowserData_Browser1` FOREIGN KEY (`Browser_idBrowser`) REFERENCES `browser` (`idBrowser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_BrowserSavedPassword_DiskImage1` FOREIGN KEY (`DiskImage_idDiskImage`) REFERENCES `diskimage` (`idDiskImage`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `directory`
---
-ALTER TABLE `directory`
-  ADD CONSTRAINT `fk_Directory_Directory1` FOREIGN KEY (`parentDirectory`) REFERENCES `directory` (`idDirectory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Directory_DiskImage1` FOREIGN KEY (`DiskImage_idDiskImage`) REFERENCES `diskimage` (`idDiskImage`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `diskimage`
---
-ALTER TABLE `diskimage`
-  ADD CONSTRAINT `fk_DiskImage_Case1` FOREIGN KEY (`Project_idProject`) REFERENCES `project` (`idProject`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `file`
---
-ALTER TABLE `file`
-  ADD CONSTRAINT `fk_File_Directory1` FOREIGN KEY (`parentDirectory`) REFERENCES `directory` (`idDirectory`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `file_has_badfile`
---
-ALTER TABLE `file_has_badfile`
-  ADD CONSTRAINT `fk_File_has_BadFile_BadFile1` FOREIGN KEY (`BadFile_idBadFile`) REFERENCES `badfile` (`idBadFile`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_File_has_BadFile_File1` FOREIGN KEY (`File_idFile`) REFERENCES `file` (`idFile`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `file_has_knowface`
---
-ALTER TABLE `file_has_knowface`
-  ADD CONSTRAINT `fk_File_has_KnowFace_File1` FOREIGN KEY (`File_idFile`) REFERENCES `file` (`idFile`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_File_has_KnowFace_KnowFace1` FOREIGN KEY (`KnowFace_idKnowFace`) REFERENCES `knowface` (`idKnowFace`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `task`
---
-ALTER TABLE `task`
-  ADD CONSTRAINT `fk_Task_Case` FOREIGN KEY (`Project_idProject`) REFERENCES `project` (`idProject`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Task_DiskImage1` FOREIGN KEY (`DiskImage_idDiskImage`) REFERENCES `diskimage` (`idDiskImage`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `user_has_project`
---
-ALTER TABLE `user_has_project`
-  ADD CONSTRAINT `fk_User_has_Case_Case1` FOREIGN KEY (`Project_idProject`) REFERENCES `project` (`idProject`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_User_has_Case_User1` FOREIGN KEY (`User_idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

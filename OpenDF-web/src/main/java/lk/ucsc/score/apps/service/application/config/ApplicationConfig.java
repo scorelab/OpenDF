@@ -11,7 +11,7 @@ import javax.ws.rs.core.Application;
  *
  * @author Acer
  */
-@javax.ws.rs.ApplicationPath("webresources")
+@javax.ws.rs.ApplicationPath("api")
 public class ApplicationConfig extends Application {
 
     public Set<Class<?>> getClasses() {
@@ -23,7 +23,11 @@ public class ApplicationConfig extends Application {
      */
     private Set<Class<?>> getRestResourceClasses() {
         Set<Class<?>> resources = new java.util.HashSet<Class<?>>();
+        
         resources.add(lk.ucsc.score.apps.service.UserFacadeREST.class);
+        resources.add(lk.ucsc.score.apps.service.ProjectFacadeREST.class);
+        resources.add(lk.ucsc.score.apps.service.DiskimageFacadeREST.class);
+        
         return resources;
     }
     

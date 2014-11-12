@@ -6,7 +6,7 @@ OpenDFApp.value("sectionTitle" , "Dashboard");
 OpenDFApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-        when('/', {
+        when('/no/go', {
             templateUrl: 'templates/dashboard/dashboard.htm',
             controller: 'dashboardController'
         }).
@@ -26,7 +26,7 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/report.htm',
             controller: 'reportsController'
         }).
-        when('/disk-images', {
+        when('/:idProject/disk-images', {
             templateUrl: 'templates/dashboard/disk-images.htm',
             controller: 'diskImagesController'
         }).
@@ -38,7 +38,7 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/settings/modules.htm',
             controller: ''
         }).
-        when('/:id/:title', {
+        when('/:idProject', {
             templateUrl: 'templates/dashboard/dashboard.htm',
             controller: 'dashboardController'
         }).
@@ -46,9 +46,14 @@ OpenDFApp.config(['$routeProvider',
             redirectTo: '/'
         });
     }]);
-OpenDFApp.controller('dashboardController', ['$scope', '$location', '$routeParams' , function ($scope, $location, $routeParams) {
-        OpenDFApp.value("sectionTitle" , "Dashboard!");
-        sectionTitle = "Dashboard!";
+OpenDFApp.controller('dashboardController', ['$scope', '$location', '$routeParams','ProjectsFactory', 'BackboneService', '$rootScope' , function ($scope, $location, $routeParams, ProjectsFactory, BackboneService, $rootScope) {
+        XXX = $routeParams;
+        BackboneService.id = $routeParams.idProject;
+        $rootScope.idProject = $routeParams.idProject;
+        ProjectsFactory.get({ id: $routeParams.idProject }, function(data) {
+            $scope.project = data;
+            console.log($scope.project.idProject);
+        }); 
 }]);
 OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneService', function ($scope, $location, BackboneService) {
         $scope.processes = BackboneService.prosecces;
@@ -57,18 +62,21 @@ OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneSe
         $scope.isEmpty = function () {
             return angular.equals({},$scope.processes); 
         };
-        
         $scope.activeProsecces = BackboneService.activeProsecces;
 }]);
 
-OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
+OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$location', '$routeParams', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, $routeParams, BackboneService) {
         $scope.diskImages =  BackboneService.diskImages;
+        DiskImagesFactory.getDiskImages({ id: BackboneService.id || $routeParams.idProject }, function(diskImages){
+            $scope.diskImages = diskImages;
+        });
         $scope.addNew = function(){
            //BackboneService.prosecces.push({ name: "File uploading", percentage:10});
         }
         $scope.startAnalyzing = function(diskImageID){
            BackboneService.diskImages[diskImageID].state = "Analyzing";
            var process = BackboneService.addProcess({ name: "Analyzing "+BackboneService.diskImages[diskImageID].name, percentage: 0});
+           $http.get('/Work/SheduleWork?'+diskImageID);
         }
 
 }]);
@@ -138,7 +146,7 @@ var services = angular.module('OpenDFApp.services', ['ngResource']);
 
 services.factory('BackboneService', function ($rootScope) {
     var kernel = {};
-    K = kernel;
+    kernel.id = -1;
     kernel.notifications = [{createdDate:"",last_visted:"",agent:""}]
     kernel.prosecces = {};
     kernel.notes = [];
@@ -157,8 +165,18 @@ services.factory('BackboneService', function ($rootScope) {
     return kernel;
 });
 
+services.factory('ProjectsFactory', function ($resource) {
+    return $resource('api/project/:id', { id: '@_id' }, {});
+});
 services.factory('DiskImagesFactory', function ($resource) {
-    return $resource('api/projects/:id/diskImages', {}, {})
+    return $resource('api/diskImages/:id', {id: '@_id'}, {
+            getDiskImages: {
+                method: 'GET',
+                url : 'api/project/:id/diskImages',
+                params : { id: '@_id' },
+                isArray : true
+            }
+        })
 });
 
 OpenDFApp.controller('reportsController', ['$scope', '$location', '$routeParams' , function ($scope, $location, $routeParams) {

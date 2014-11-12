@@ -5,24 +5,29 @@
 package lk.ucsc.score.apps.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Acer
  */
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -31,7 +36,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar")})
+
 public class User implements Serializable {
+    @JoinTable(name = "user_has_project", joinColumns = {
+        @JoinColumn(name = "User_idUser", referencedColumnName = "idUser")}, inverseJoinColumns = {
+        @JoinColumn(name = "Project_idProject", referencedColumnName = "idProject")})
+    @ManyToMany
+    private Collection<Project> projectCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -119,7 +130,7 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the Project the id fields are not set
         if (!(object instanceof User)) {
             return false;
         }
@@ -133,6 +144,15 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "lk.ucsc.score.apps.models.User[ idUser=" + idUser + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Project> getProjectCollection() {
+        return projectCollection;
+    }
+
+    public void setProjectCollection(Collection<Project> ProjectCollection) {
+        this.projectCollection = ProjectCollection;
     }
     
 }

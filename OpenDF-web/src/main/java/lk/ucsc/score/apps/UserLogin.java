@@ -59,7 +59,8 @@ public class UserLogin extends HttpServlet {
             else if ((user = (User) resultList.get(0)).getPassword().equals(request.getParameter("password"))) {
                 System.out.println(user);
                 //TODO: Send the user token
-                response.sendRedirect("index.html");
+                request.getSession().setAttribute("user", user.getIdUser());
+                response.sendRedirect("index.jsp");
             } else {
                 response.sendRedirect("login.jsp?msg=Wrong Password");
             }

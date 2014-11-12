@@ -44,16 +44,46 @@ body {
         padding: 30px;
     }
 }
-.navbar.navbar-default.navbar-static-top {
+
+.OpenDF{
+    height: 50px;
+    float: left;
+    padding: 15px 15px;
+    line-height: 20px;
+    font-size: 18px;
+    color: #303030;
+}
+
+.main-menu {
     background-color: #FFFFFF;
     border-color: #F3EEEE;
 }
-.navbar-default .navbar-brand {
-color: #303030;
+.sub-menu {
+    background-color: #FFFFFF;
+    border-color: #F3EEEE;
+    position: relative;
+    border-bottom: 1px solid #F3EEEE;
 }
 
-.navbar-default .title{
+.sub-menu .title{
+    height: 50px;
+    float: left;
+    padding: 17px 15px;
+    line-height: 20px;
+    font-size: 18px;
     color: #B1B1B1;
+}
+
+
+form input[type=text],form input[type=password]{
+    display: block;
+    width: 100%;
+    height: 35px;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    outline: none;
 }
 .navbar-top-links li {
     display: inline-block;
@@ -212,80 +242,16 @@ color: #2B2727;
 .clickable{
     cursor: pointer;
 }
-.chat {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
 
-.chat li {
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px dotted #999;
-}
 
-.chat li.left .chat-body {
-    margin-left: 60px;
-}
-
-.chat li.right .chat-body {
-    margin-right: 60px;
-}
-
-.chat li .chat-body p {
-    margin: 0;
-}
-
-.panel .slidedown .glyphicon,
-.chat .glyphicon {
+.panel .slidedown .glyphicon{
     margin-right: 5px;
-}
-
-.chat-panel .panel-body {
-    height: 350px;
-    overflow-y: scroll;
 }
 
 .login-panel {
     margin-top: 30%;
 }
 
-.flot-chart {
-    display: block;
-    height: 400px;
-}
-
-.flot-chart-content {
-    width: 100%;
-    height: 100%;
-}
-
-table.dataTable thead .sorting,
-table.dataTable thead .sorting_asc,
-table.dataTable thead .sorting_desc,
-table.dataTable thead .sorting_asc_disabled,
-table.dataTable thead .sorting_desc_disabled {
-    background: 0 0;
-}
-
-table.dataTable thead .sorting_asc:after {
-    content: "\f0de";
-    float: right;
-    font-family: fontawesome;
-}
-
-table.dataTable thead .sorting_desc:after {
-    content: "\f0dd";
-    float: right;
-    font-family: fontawesome;
-}
-
-table.dataTable thead .sorting:after {
-    content: "\f0dc";
-    float: right;
-    font-family: fontawesome;
-    color: rgba(50,50,50,.5);
-}
 
 .btn-circle {
     width: 30px;
@@ -408,7 +374,7 @@ table.dataTable thead .sorting:after {
 .notification-counter{
     position: absolute;
     top: 8px;
-    right: 23px;
+    right: 2px;
     display: block;
     border-radius: 50%;
     background-color: #F35958;

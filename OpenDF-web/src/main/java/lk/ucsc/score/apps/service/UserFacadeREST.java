@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -18,13 +17,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import lk.ucsc.score.apps.models.User;
-
+import javax.ws.rs.FormParam;import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;import javax.ws.rs.core.Context;
 /**
  *
  * @author Acer
  */
 @Stateless
-@Path("lk.ucsc.score.apps.models.user")
+@Path("user")
 public class UserFacadeREST extends AbstractFacade<User> {
     @PersistenceContext(unitName = "lk.ucsc.score.apps_OpenDF-web_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -82,15 +82,34 @@ public class UserFacadeREST extends AbstractFacade<User> {
     }
     
     @POST
-    @Path("count")
-    @Produces("text/plain")
-    public String login(@FormParam("username") String username, @FormParam("password") String password) {
-        User user = (User)em.createNamedQuery("User.findByUsername").setParameter("username", username).getSingleResult();
-        //TODO: Hash the password before comparing
-        if(user.getPassword().equals(password)){
-            //TODO: Send the user token
-        }
-        return String.valueOf(super.count());
+    @Path("change/password")
+    @Produces({"application/xml", "application/json"})
+    public void changePassword(@FormParam("password") String password, @FormParam("repassword") String repassword, @Context HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
+        Object idUser =  session.getAttribute("user"); 
+        if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        if(!password.equals(repassword) ){ throw new ServiceException(500, "Passwords do not match"); }
+        if(password.length() <  8 ){ throw new ServiceException(500, "Password too short"); }
+        if(password.length() > 30 ){ throw new ServiceException(500, "Password too long"); }
+        User user =  em.find(User.class, (Integer)idUser);
+        user.setPassword(password);
+        em.persist(user);
+    }
+    
+    @POST
+    @Path("change/username")
+    @Produces({"application/xml", "application/json"})
+    public void changePassword(@FormParam("username") String username, @Context HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
+        Object idUser =  session.getAttribute("user"); 
+        if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        if(username.length() <  8 ){ throw new ServiceException(500, "username too short"); }
+        if(username.length() > 30 ){ throw new ServiceException(500, "username too long"); }
+        User user =  em.find(User.class, (Integer)idUser);
+        user.setUsername(username);
+        em.persist(user);
     }
 
     @Override

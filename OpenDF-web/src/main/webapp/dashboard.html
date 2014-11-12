@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="OpenDFApp">
 
     <head>
 
@@ -35,7 +35,7 @@
 
     </head>
 
-    <body ng-app="OpenDFApp" ng-init="">
+    <body  ng-init="" ng-controller="dashboardController">
 
         <div id="wrapper">
 
@@ -260,13 +260,16 @@
                                 <a href="#"><i class="fa fa-gear fa-fw"></i> Settings<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="#/disk-images">Disk Images</a>
+                                        <a href="#/{{project.idProject}}/disk-images">Disk Images</a>
                                     </li>
                                     <li>
                                         <a href="notifications.html">Notifications</a>
                                     </li>
                                     <li>
                                         <a href="#/settings/modules">Modules</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/settings/project">investigators</a>
                                     </li>
                                     <li>
                                         <a href="#/settings/project">Project</a>

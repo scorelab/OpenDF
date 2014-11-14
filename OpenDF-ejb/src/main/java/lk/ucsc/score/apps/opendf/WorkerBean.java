@@ -48,9 +48,9 @@ public class WorkerBean implements MessageListener {
             System.out.println(tm.getText()); 
             //System.out.println(System.getProperty("os.arch"));
             //System.out.println(System.getProperty("java.io.tmpdir"));
-            String imagePath = "/home/agentmilindu/Projects/OpenDF/sleuthkit/bindings/java/test/input/Cfreds001A001.dd";
+            String imagePath = "/uploads/Cfreds001A001.dd";
            try{
-               SleuthkitCase sk = SleuthkitCase.newCase(imagePath + ".db");
+              SleuthkitCase sk = SleuthkitCase.newCase(imagePath + ".db");
                 System.out.println("initialize the case with an image");
                 // initialize the case with an image
                 BufferedReader br = null;

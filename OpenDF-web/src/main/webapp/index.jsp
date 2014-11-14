@@ -72,23 +72,20 @@
 
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
-                        <ul class="nav" id="side-menu">
+                        <ul class="nav" id="side-menu" ng-controller="userController">
                             <li class="sidebar-user">
                                 <div class="row">
                                     <div class="col-lg-4" >
                                         <img src="https://www.gravatar.com/avatar/e264bf37d8b3e5b87d9cc991f2baac7d?s=128&amp;d=identicon&amp;r=PG" ></div>
-                                    <div class="col-lg-8" ><h4 ng-click="alert()" >Milindu Sanoj Kumarage</h4></div>                         
+                                    <div class="col-lg-8" ><h4 >{{user.name}}</h4></div>                         
                                 </div>
                                 <!-- /input-group -->
                             </li>
                             <li class="active">
                                 <a href="index.jsp"> Home</a>
                             </li>
-                            <li>
-                                <a href="tables.html"> Face Recognition</a>
-                            </li>
-                            <li>
-                                <a href="forms.html"> Bookmarks/ Notes</a>
+                            <li ng-show="user.level == 0 ">
+                                <a href="#/investigators">Investigators</a>
                             </li>
 
                             <li>

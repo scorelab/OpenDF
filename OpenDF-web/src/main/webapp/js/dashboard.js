@@ -6,23 +6,19 @@ OpenDFApp.value("sectionTitle" , "Dashboard");
 OpenDFApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-        when('/no/go', {
-            templateUrl: 'templates/dashboard/dashboard.htm',
-            controller: 'dashboardController'
-        }).
-        when('/file-system', {
+        when('/:idProject/file-system', {
             templateUrl: 'templates/dashboard/file-system.htm',
             controller: ''
         }).
-        when('/bookmarks', {
+        when('/:idProject/bookmarks', {
             templateUrl: 'templates/dashboard/bookmarks.htm',
             controller: ''
         }).
-        when('/reports', {
+        when('/:idProject/reports', {
             templateUrl: 'templates/dashboard/reports.htm',
             controller: 'reportsController'
         }).
-        when('/report/:id', {
+        when('/:idProject/report/:id', {
             templateUrl: 'templates/dashboard/report.htm',
             controller: 'reportsController'
         }).
@@ -30,12 +26,24 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/disk-images.htm',
             controller: 'diskImagesController'
         }).
-        when('/disk-images/add-new', {
+        when('/:idProject/disk-images/add-new', {
             templateUrl: 'templates/dashboard/disk-images-add-new.htm',
             controller: 'diskImagesController'
         }).
-        when('/settings/modules', {
+        when('/:idProject/settings/modules', {
             templateUrl: 'templates/dashboard/settings/modules.htm',
+            controller: ''
+        }).
+        when('/:idProject/settings/investigators', {
+            templateUrl: 'templates/dashboard/settings/investigators.htm',
+            controller: 'investigatorsController'
+        }).
+        when('/:idProject/settings/add-investigators', {
+            templateUrl: 'templates/dashboard/settings/add-investigators.htm',
+            controller: 'investigatorsController'
+        }).
+        when('/:idProject/settings/project', {
+            templateUrl: 'templates/dashboard/settings/project.htm',
             controller: ''
         }).
         when('/:idProject', {
@@ -47,7 +55,6 @@ OpenDFApp.config(['$routeProvider',
         });
     }]);
 OpenDFApp.controller('dashboardController', ['$scope', '$location', '$routeParams','ProjectsFactory', 'BackboneService', '$rootScope' , function ($scope, $location, $routeParams, ProjectsFactory, BackboneService, $rootScope) {
-        XXX = $routeParams;
         BackboneService.id = $routeParams.idProject;
         $rootScope.idProject = $routeParams.idProject;
         ProjectsFactory.get({ id: $routeParams.idProject }, function(data) {
@@ -65,7 +72,7 @@ OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneSe
         $scope.activeProsecces = BackboneService.activeProsecces;
 }]);
 
-OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$location', '$routeParams', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, $routeParams, BackboneService) {
+OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$location', '$routeParams', '$http', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, $routeParams, $http,BackboneService) {
         $scope.diskImages =  BackboneService.diskImages;
         DiskImagesFactory.getDiskImages({ id: BackboneService.id || $routeParams.idProject }, function(diskImages){
             $scope.diskImages = diskImages;
@@ -166,7 +173,9 @@ services.factory('BackboneService', function ($rootScope) {
 });
 
 services.factory('ProjectsFactory', function ($resource) {
-    return $resource('api/project/:id', { id: '@_id' }, {});
+    return $resource('api/project/:id', { id: '@_id' }, {
+        update: {method: 'PUT'}
+    });
 });
 services.factory('DiskImagesFactory', function ($resource) {
     return $resource('api/diskImages/:id', {id: '@_id'}, {
@@ -176,6 +185,37 @@ services.factory('DiskImagesFactory', function ($resource) {
                 params : { id: '@_id' },
                 isArray : true
             }
+        })
+});
+OpenDFApp.controller('investigatorsController', ['$scope', '$location', '$routeParams', '$http', 'InvestigatorsFactory', function ($scope, $location, $routeParams, $http, InvestigatorsFactory) {
+        console.log('investigatorsController');
+        InvestigatorsFactory.investigators({ id: $routeParams.idProject }, function(data) {
+            $scope.investigators = data;
+        }); 
+        $scope.otherInvestigators = function (){
+            return InvestigatorsFactory.otherInvestigators({ id: $routeParams.idProject }); 
+        }
+        $scope.addInvestigator = function(idUser){
+            $http.get('api/project/'+$routeParams.idProject+'/add-investigator?user='+idUser);
+        }
+        $scope.removeInvestigator = function(idUser){
+            $http.get('api/project/'+$routeParams.idProject+'/remove-investigator?user='+idUser);
+        }
+}]);
+services.factory('InvestigatorsFactory', function ($resource) {
+    return $resource('api/user/:id', {id: '@_id'}, {
+            investigators: {
+                method: 'GET',
+                url : 'api/project/:id/investigators',
+                params : { id: '@_id' },
+                isArray : true
+            },
+            otherInvestigators: {
+                method: 'GET',
+                url : 'api/project/:id/other-investigators',
+                params : { id: '@_id' },
+                isArray : true
+            },
         })
 });
 
@@ -212,6 +252,17 @@ services.factory('NotificationFactory', function ($resource) {
                         
     return notifications;
 });
+
+OpenDFApp.controller('projectController', ['$scope', 'ProjectsFactory' , '$routeParams', function ($scope, ProjectsFactory, $routeParams) {
+        ProjectsFactory.get({ id: $routeParams.idProject }, function(data) {
+            $scope.project = data;
+            $scope.update = function(){
+                ProjectsFactory.update($scope.project);
+                window.location = 'dashboard.jsp#'+$scope.project.idProject;
+            };
+        }); 
+        
+}]);
 
 OpenDFApp.run(function($rootScope) {
         $rootScope.sectionTitle = OpenDFApp.value("sectionTitle");

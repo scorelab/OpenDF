@@ -5,8 +5,8 @@
         </a>
     </div>
     <ul class="nav navbar-top-links ">
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#/{{idProject}}/settings/add-investigators">
+        <li >
+            <a href="">
                 + Add Investigator
             </a>
         </li>
@@ -17,10 +17,10 @@
 </nav>
 
 <div id="content-wrapper">
-    <div class="list-group">
-            <a href="" class="list-group-item" ng-controller="investigatorsController" ng-repeat="investigator in investigators" ng-click="" >
+    <div class="list-group" ng-init="otherInvestigators = otherInvestigators()">
+            <a href="" class="list-group-item" ng-controller="investigatorsController"  ng-repeat="investigator in otherInvestigators" ng-click="" >
                 <h4 class="list-group-item-heading"><i class="fa fa-bar-chart-o fa-fw" ></i> {{investigator.name}} </h4>
-                <p class="list-group-item-text">{{investigator.email}}</p><input type="button" value="Remove" ng-click="removeInvestigator(investigator.idUser)"/>
+                <p class="list-group-item-text">{{investigator.email}}</p><input type="button" value="Add" ng-click="addInvestigator(investigator.idUser)" />
             </a>      
             <!-- /.list-group-item -->
     </div>

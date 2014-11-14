@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar")})
+    @NamedQuery(name = "User.findNonInvestigatorsOfaProject", query = "SELECT u FROM User u WHERE u.idUser NOT IN ( SELECT u.idUser FROM User u join u.projectCollection Project WHERE Project.idProject = :idProject)")})
 
 public class User implements Serializable {
     @JoinTable(name = "user_has_project", joinColumns = {
@@ -55,7 +55,6 @@ public class User implements Serializable {
     @Size(max = 100)
     @Column(name = "password")
     private String password;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 200)
     @Column(name = "email")
     private String email;
@@ -65,6 +64,8 @@ public class User implements Serializable {
     @Size(max = 500)
     @Column(name = "avatar")
     private String avatar;
+    @Column(name = "level")
+    private Integer level;
 
     public User() {
     }
@@ -120,6 +121,14 @@ public class User implements Serializable {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+  
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
 
     @Override
     public int hashCode() {
@@ -130,7 +139,6 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the Project the id fields are not set
         if (!(object instanceof User)) {
             return false;
         }

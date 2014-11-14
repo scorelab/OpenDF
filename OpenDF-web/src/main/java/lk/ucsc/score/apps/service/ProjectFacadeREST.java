@@ -19,7 +19,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.PathParam;import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import lk.ucsc.score.apps.models.Project;
@@ -56,6 +56,44 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     getEntityManager().persist(entity);
 
     user.getProjectCollection().add(entity);
+    }
+
+    @GET
+    @Path("{id}/add-investigator")
+    @Consumes({"application/xml", "application/json"})
+    public void addInvestigator(@PathParam("id") Integer id, @QueryParam("user") Integer idUser , @Context HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
+        //Object idUser =  session.getAttribute("user"); 
+        //TODO Check if admin
+        //if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        User user =  em.find(User.class, idUser);
+        Project project =  em.find(Project.class, id);
+
+        project.getUserCollection().add(user); // useful to maintain coherence, but ignored by JPA
+        user.getProjectCollection().add(project);
+        getEntityManager().persist(project);
+        getEntityManager().persist(user);
+        
+    }
+
+    @GET
+    @Path("{id}/remove-investigator")
+    @Consumes({"application/xml", "application/json"})
+    public void removeInvestigator(@PathParam("id") Integer id, @QueryParam("user") Integer idUser , @Context HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
+        //Object idUser =  session.getAttribute("user"); 
+        //TODO Check if admin
+        //if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        User user =  em.find(User.class, idUser);
+        Project project =  em.find(Project.class, id);
+
+        project.getUserCollection().remove(user); // useful to maintain coherence, but ignored by JPA
+        user.getProjectCollection().remove(project);
+        getEntityManager().persist(project);
+        getEntityManager().persist(user);
+        
     }
 
     @PUT
@@ -96,6 +134,21 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     public Collection<Diskimage> getDiskimages(@PathParam("id") Integer id) {
         return super.find(id).getDiskimageCollection();
     }
+
+    @GET
+    @Path("{id}/investigators")
+    @Produces({"application/xml", "application/json"})
+    public Collection<User> getInvestigators(@PathParam("id") Integer id) {
+        return super.find(id).getUserCollection();
+    }
+
+    @GET
+    @Path("{id}/other-investigators")
+    @Produces({"application/xml", "application/json"})
+    public Collection<User> getOtherInvestigators(@PathParam("id") Integer id) {
+        return em.createNamedQuery("User.findNonInvestigatorsOfaProject").setParameter("idProject", id).getResultList();
+    }
+    
     @GET
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})

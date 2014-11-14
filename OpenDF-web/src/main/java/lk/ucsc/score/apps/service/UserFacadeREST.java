@@ -17,8 +17,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import lk.ucsc.score.apps.models.User;
-import javax.ws.rs.FormParam;import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServletRequest;import javax.ws.rs.core.Context;
+import javax.ws.rs.FormParam;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+import lk.ucsc.score.apps.uploaders.Validator;
 /**
  *
  * @author Acer
@@ -110,6 +113,33 @@ public class UserFacadeREST extends AbstractFacade<User> {
         User user =  em.find(User.class, (Integer)idUser);
         user.setUsername(username);
         em.persist(user);
+    }
+    
+    @POST
+    @Path("change/email")
+    @Produces({"application/xml", "application/json"})
+    public void changeEmail(@FormParam("email") String email, @Context HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
+        Object idUser =  session.getAttribute("user"); 
+        if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        if(!Validator.validateEmail(email)){ throw new ServiceException(500, "email not in correct form"); }
+        if(email.length() > 200 ){ throw new ServiceException(500, "email too long"); }
+        User user =  em.find(User.class, (Integer)idUser);
+        user.setEmail(email);
+        em.persist(user);
+    }
+
+    @GET
+    @Path("current")
+    @Produces({"application/xml", "application/json"})
+    public User current( @Context HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
+        Object idUser =  session.getAttribute("user"); 
+        if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        User user =  em.find(User.class, (Integer)idUser);
+        return user;
     }
 
     @Override

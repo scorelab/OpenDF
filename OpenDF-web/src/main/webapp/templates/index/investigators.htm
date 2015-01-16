@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav class="sub-menu" role="navigation" style="margin-bottom: 0">
     <div>
         <a class="navbar-brand" href="#/reports">
             <span class="title">:Investigators</span>
@@ -15,7 +15,7 @@
     <!-- /.navbar-top-links -->
     <!-- /.navbar-static-side -->
 </nav>
-<div id="content-wrapper">
+<div id="content-wrapper" class="row">
     <div class="list-group">
             <a href="#/report/{{report.title}}" class="list-group-item" ng-controller="investigatorsController" ng-repeat="investigator in investigators" ng-click="" >
                 <h4 class="list-group-item-heading"><i class="fa fa-bar-chart-o fa-fw" ></i> {{investigator.name}} </h4>

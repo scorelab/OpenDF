@@ -76,7 +76,7 @@
                             <li class="sidebar-user">
                                 <div class="row">
                                     <div class="col-lg-4" >
-                                        <img src="https://www.gravatar.com/avatar/e264bf37d8b3e5b87d9cc991f2baac7d?s=128&amp;d=identicon&amp;r=PG" ></div>
+                                        <img ng-src="{{user.avatar}}"  ></div>
                                     <div class="col-lg-8" ><h4 >{{user.name}}</h4></div>                         
                                 </div>
                                 <!-- /input-group -->

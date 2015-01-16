@@ -15,6 +15,7 @@
   <name>OpenDF-ear</name>
 
   <properties>
+      <netbeans.compile.on.save>all</netbeans.compile.on.save>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
   </properties>

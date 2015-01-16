@@ -58,7 +58,7 @@ public class SheduleWork extends HttpServlet {
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             out.println("Session created");
             TextMessage message = session.createTextMessage();
-            message.setText("My text message was send and received");
+            message.setText("start "+request.getParameter("id"));
             connection.start();
             out.println("conecting started");
             MessageProducer producer = session.createProducer(destination);

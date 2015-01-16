@@ -1,6 +1,6 @@
 <nav class="sub-menu" role="navigation" style="margin-bottom: 0">
     <div>
-        <a href="">
+        <a href="#/{{idProject}}/settings/investigators">
             <span class="title">:Investigators</span>
         </a>
     </div>
@@ -19,8 +19,9 @@
 <div id="content-wrapper">
     <div class="list-group" ng-init="otherInvestigators = otherInvestigators()">
             <a href="" class="list-group-item" ng-controller="investigatorsController"  ng-repeat="investigator in otherInvestigators" ng-click="" >
-                <h4 class="list-group-item-heading"><i class="fa fa-bar-chart-o fa-fw" ></i> {{investigator.name}} </h4>
-                <p class="list-group-item-text">{{investigator.email}}</p><input type="button" value="Add" ng-click="addInvestigator(investigator.idUser)" />
+                <input type="button" class="pull-right" value="Add" ng-click="addInvestigator(investigator.idUser)" />
+                <h4 class="list-group-item-heading"> {{investigator.name}} </h4>
+                <i class="list-group-item-text">{{investigator.email}}</i>
             </a>      
             <!-- /.list-group-item -->
     </div>

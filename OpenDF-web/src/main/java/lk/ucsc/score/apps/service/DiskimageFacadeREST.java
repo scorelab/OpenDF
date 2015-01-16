@@ -17,7 +17,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import lk.ucsc.score.apps.models.Diskimage;
-
+import lk.ucsc.score.apps.models.Project;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 /**
  *
  * @author Acer
@@ -36,9 +42,14 @@ public class DiskimageFacadeREST extends AbstractFacade<Diskimage> {
     @Override
     @Consumes({"application/xml", "application/json"})
     public void create(Diskimage entity) {
+        entity.setState(0);
         super.create(entity);
-    }
+        Project project =  em.find(Project.class, entity.getProjectidProject().getIdProject());
 
+        project.getDiskimageCollection().add(entity); // useful to maintain coherence, but ignored by JPA
+        em.persist(project);
+    }
+    
     @PUT
     @Override
     @Consumes({"application/xml", "application/json"})
@@ -57,6 +68,15 @@ public class DiskimageFacadeREST extends AbstractFacade<Diskimage> {
     @Produces({"application/xml", "application/json"})
     public Diskimage find(@PathParam("id") Integer id) {
         return super.find(id);
+    }
+
+    @GET
+    @Path("startAnalyzing/{id}")
+    @Produces({"application/xml", "application/json"})
+    public void startAnalyzing(@PathParam("id") Integer id) {
+        Diskimage entity = super.find(id);
+        entity.setState(2);
+        super.edit(entity);
     }
 
     @GET

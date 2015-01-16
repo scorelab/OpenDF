@@ -14,6 +14,18 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/bookmarks.htm',
             controller: ''
         }).
+        when('/:idProject/browse-by-hierarchy/:idFile', {
+            templateUrl: 'templates/dashboard/browse-by-hierarchy.htm',
+            controller: 'filesController'
+        })
+        .when('/:idProject/browse-by-type/', {
+            templateUrl: 'templates/dashboard/browse-by-type-select.htm',
+            controller: ''
+        })
+        .when('/:idProject/browse-by-type/:type', {
+            templateUrl: 'templates/dashboard/browse-by-type.htm',
+            controller: 'filesController'
+        }).
         when('/:idProject/reports', {
             templateUrl: 'templates/dashboard/reports.htm',
             controller: 'reportsController'
@@ -74,51 +86,79 @@ OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneSe
 
 OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$location', '$routeParams', '$http', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, $routeParams, $http,BackboneService) {
         $scope.diskImages =  BackboneService.diskImages;
+        $scope.uploadingDiskImages = BackboneService.uploadingDiskImages;
         DiskImagesFactory.getDiskImages({ id: BackboneService.id || $routeParams.idProject }, function(diskImages){
-            $scope.diskImages = diskImages;
+            BackboneService.diskImages = diskImages;
+            $scope.diskImages = BackboneService.diskImages;
         });
         $scope.addNew = function(){
            //BackboneService.prosecces.push({ name: "File uploading", percentage:10});
         }
-        $scope.startAnalyzing = function(diskImageID){
-           BackboneService.diskImages[diskImageID].state = "Analyzing";
-           var process = BackboneService.addProcess({ name: "Analyzing "+BackboneService.diskImages[diskImageID].name, percentage: 0});
-           $http.get('/Work/SheduleWork?'+diskImageID);
+        $scope.startAnalyzing = function(index){
+           console.log(index);
+           BackboneService.diskImages[index].idDiskImage.state = "Analyzing";
+           var process = BackboneService.addProcess({ name: "Analyzing "+BackboneService.diskImages[index].name, percentage: 0});
+           $http.get("api/diskimage/startAnalyzing/"+BackboneService.diskImages[index].idDiskImage);
+           $http.get('Work/SheduleWork?id='+BackboneService.diskImages[index].idDiskImage);
         }
 
 }]);
 
 
-OpenDFApp.controller('diskImageController', ['$scope', 'DiskImagesFactory', '$location', 'BackboneService' , '$upload', function ($scope,  DiskImagesFactory, $location, BackboneService , $upload) {
+OpenDFApp.controller('diskImageController', ['$scope', '$rootScope', 'DiskImagesFactory', '$location', 'BackboneService' , '$upload', function ($scope, $rootScope, DiskImagesFactory, $location, BackboneService , $upload) {
         $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
         $scope.file = {};
+        $scope.states = ['Uploading', 'Uploaded', 'Analyzed'];
         $scope.addNew = function(){
+            $scope.diskImage.projectidProject = { idProject : parseInt($rootScope.idProject) };
             $scope.diskImage.state = "Uploading";
-            BackboneService.diskImages.push($scope.diskImage);
+            var key = $.now();
+            BackboneService.uploadingDiskImages[key] = $scope.diskImage;
+            console.log(BackboneService.uploadingDiskImages);
             var process = BackboneService.addProcess({ name: "File uploading1", percentage: 0});
-            $location.path('/disk-images');
+            $location.path($rootScope.idProject+'/disk-images');
             $upload.upload({
-                url: '/OpenDF-web/DiskImageUpload', //upload.php script, node.js route, or servlet url
-//                //method: 'POST' or 'PUT',
+                url: 'DiskImageUpload', //upload.php script, node.js route, or servlet url
+                method: 'POST',
 //                //headers: {'header-key': 'header-value'},
 //                //withCredentials: true,
-                data: {myObj: $scope.diskImage },
+                data: { name: $scope.diskImage.name,
+                        description: $scope.diskImage.description,
+                        createdDate: $scope.diskImage.createdDate,
+                        idProject: $scope.diskImage.projectidProject.idProject } ,
                 file: $scope.file
               }).progress(function(evt) {
                 var p = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('percent: ' + p);
                 if(p==100){
                     BackboneService.prosecces[process] = { name: "File uploaded, Assembling ", percentage:parseInt(100.0 * evt.loaded / evt.total)};
-                    $scope.diskImage.state = "Assembling";
+                    $scope.diskImage.state = "Assembling...";
                 }
                 else{
                     BackboneService.prosecces[process] = { name: "File uploading", percentage:parseInt(100.0 * evt.loaded / evt.total)};
+                    $scope.diskImage.state = "Uploading ["+parseInt(100.0 * evt.loaded / evt.total)+"%]";
                 }
-              }).success(function(data, status, headers, config) {
+              }).success(function(response, status, headers, config) {
                 BackboneService.prosecces[process] = { name: "File uploaded", percentage:100};
                 BackboneService.stopProcess(process);
-                $scope.diskImage.state = "Uploaded";
-                //console.log(data);
+                
+                console.log(response);
+                if(!response['error']){
+                    $scope.diskImage.path = response['file'];
+                    DiskImagesFactory.save($scope.diskImage, function(){
+                        
+                        
+                        DiskImagesFactory.getDiskImages({ id: BackboneService.id || $routeParams.idProject }, function(diskImages){
+                            $scope.diskImage.state = "Uploaded";
+                            delete BackboneService.uploadingDiskImages[key];
+                            console.log(BackboneService.uploadingDiskImages);
+                            $scope.$apply(function(){
+                                BackboneService.diskImages = diskImages;
+                            });
+                            //$scope.$apply();
+                        });
+                    });
+                }
               });
         }
 
@@ -152,13 +192,14 @@ OpenDFApp.controller('notesController', ['$scope', 'notesFactory','BackboneServi
 var services = angular.module('OpenDFApp.services', ['ngResource']);
 
 services.factory('BackboneService', function ($rootScope) {
-    var kernel = {};
+    kernel = {};
     kernel.id = -1;
     kernel.notifications = [{createdDate:"",last_visted:"",agent:""}]
     kernel.prosecces = {};
     kernel.notes = [];
     kernel.activeProsecces = 0;
-    kernel.diskImages = [{name: "Megatron Server", type: "NTFS", size: "1TB", state: "Analized"}, {name: "Mac Book Air", type: "ext4", size: "500GB", state: "Uploaded"}];
+    kernel.diskImages = [];
+    kernel.uploadingDiskImages = {};
     kernel.addProcess = function(obj){
         var processID = 'p'+$.now();
         kernel.prosecces[processID] = obj;
@@ -178,11 +219,23 @@ services.factory('ProjectsFactory', function ($resource) {
     });
 });
 services.factory('DiskImagesFactory', function ($resource) {
-    return $resource('api/diskImages/:id', {id: '@_id'}, {
+    return $resource('api/diskimage/:id', {id: '@_id'}, {
             getDiskImages: {
                 method: 'GET',
                 url : 'api/project/:id/diskImages',
                 params : { id: '@_id' },
+                isArray : true
+            },
+            getFile: {
+                method: 'GET',
+                url : 'api/project/:id/file/:idFile',
+                params : { id: '@_id', file: '@_idFile' },
+                isArray : false
+            },
+            getFileByType: {
+                method: 'GET',
+                url : 'api/project/:id/files/type/:type',
+                params : { id: '@_id', file: '@_type' },
                 isArray : true
             }
         })
@@ -218,12 +271,30 @@ services.factory('InvestigatorsFactory', function ($resource) {
             },
         })
 });
-
+OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' , 'DiskImagesFactory', function ($scope, $location, $routeParams, DiskImagesFactory) {
+       
+        $scope.getFilesByHierarchy = function(){
+            DiskImagesFactory.getFile({ id: $routeParams.idProject,  idFile: $routeParams.idFile  }, function(data) {
+                        console.log(data);
+                        $scope.file = data; 
+            });
+        }   
+        $scope.getFilesByType = function(){
+            DiskImagesFactory.getFileByType({ id: $routeParams.idProject,  type: $routeParams.type  }, function(data) {
+                    console.log(data);
+                    $scope.files = data; 
+            });
+        }
+        
+}]);
+services.factory('filesFactory', function ($resource) {
+    return $resource('api/projects/:id/files/', {id: '@_id'}, {})
+});
 OpenDFApp.controller('reportsController', ['$scope', '$location', '$routeParams' , function ($scope, $location, $routeParams) {
         $scope.reports = [{title: "Current Progress Report", date: new Date() ,description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"},{title: "Current Progress Report", date: new Date(1411436124013) ,description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"}, {title: "Current Progress Report", date: new Date(1411234124013), description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"}];
 }]);
 services.factory('reportsFactory', function ($resource) {
-    return $resource('api/projects/:id/reports', {}, {})
+    return $resource('api/projects/:id/reports', {id: '@_id'}, {})
 });
 
 

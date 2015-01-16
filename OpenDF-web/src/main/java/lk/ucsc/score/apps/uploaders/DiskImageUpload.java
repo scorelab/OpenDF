@@ -19,7 +19,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import lk.ucsc.score.apps.messages.WorkMessage;
-
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceUnit;
+import lk.ucsc.score.apps.models.Project;
+import lk.ucsc.score.apps.models.Diskimage;
+import javax.persistence.TypedQuery;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 /**
  *
  * @author Acer
@@ -29,7 +46,11 @@ import lk.ucsc.score.apps.messages.WorkMessage;
 public class DiskImageUpload extends HttpServlet {
 
     final String path = "uploads";
-
+    //@PersistenceUnit(unitName="lk.ucsc.score.apps_OpenDF-web_war_1.0-SNAPSHOTPU")
+    //private EntityManagerFactory emf; 
+    DataSource db;
+    @PersistenceContext(unitName="lk.ucsc.score.apps_OpenDF-web_war_1.0-SNAPSHOTPU")
+    private EntityManager em;
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -45,11 +66,11 @@ public class DiskImageUpload extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-
+            
 
 
             final Part filePart = request.getPart("file");
-            final String fileName = getFileName(filePart);
+            final String fileName = new Date()+"_"+getFileName(filePart);
             OutputStream outStream = null;
             InputStream filecontent = null;
             final PrintWriter writer = response.getWriter();
@@ -65,15 +86,31 @@ public class DiskImageUpload extends HttpServlet {
                 while ((read = filecontent.read(bytes)) != -1) {
                     outStream.write(bytes, 0, read);
                 }
-                out.println("{ \"fileName\": \""+fileName+"\"}");
+                
 
+                String idProject = request.getParameter("idProject");
+                String name = request.getParameter("name");
+                String description = request.getParameter("description");
+                String createdDate = request.getParameter("createdDate");
+                //EntityManager em =  emf.createEntityManager();   
+                Project project = em.find(Project.class, Integer.parseInt(idProject));
+                System.out.println(project.getName());
+                //Diskimage diskimage = new Diskimage(200);
+                //diskimage.setName(name);
+                System.out.println("ed");
+                //diskimage.setProjectidProject(project);
+                //em.persist(diskimage);
+                //em.getEntityManagerFactory().getCache().evictAll();
+                
+                out.println("{ \"file\": \""+fileName+"\"}");
                 System.out.println("sending mesg");
-                new WorkMessage().send(path);
+                //new WorkMessage().send(path);
                 System.out.println("Mssg sent ");
 
             } catch (FileNotFoundException fne) {
+                System.out.println("error");
+                System.out.println(fne);
                 out.println("{\"error\": \"" + fne.getMessage() + "\"}");
-
 
             } finally {
                 if (out != null) {
@@ -86,6 +123,9 @@ public class DiskImageUpload extends HttpServlet {
                     writer.close();
                 }
             }
+        }catch (Exception fne) {System.out.println("error");
+                System.out.println(fne);
+                out.println("{\"error\": \"" + fne.getMessage() + "\"}");
         } finally {
             out.close();
         }
@@ -138,7 +178,13 @@ public class DiskImageUpload extends HttpServlet {
         File uploads = new File(path);
         if (!uploads.exists()) {
             uploads.mkdir();
-        }
+        }try{
+        InitialContext ic = new InitialContext();
+        db = (javax.sql.DataSource)ic.lookup("OpenDF");}catch (Exception e) {
+               System.out.println("Mssg sent ");
+
+
+            }
     }
 
     private String getFileName(Part filePart) {

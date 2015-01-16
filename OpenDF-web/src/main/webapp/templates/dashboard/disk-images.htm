@@ -1,12 +1,6 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="">
+<nav class="sub-menu" role="navigation" style="margin-bottom: 0">
+    <div >
+        <a  href="">
             <span class="title">:Disk Images</span>
         </a>
     </div>
@@ -27,7 +21,7 @@
         <div class="panel panel-default clickable"  >
             <div class="panel-heading" >
                 <i class="fa fa-bar-chart-o fa-fw" ></i> {{diskImage.name}}
-                <div class="btn-group pull-right" ng-show="diskImage.state == 'Uploaded'" >
+                <div class="btn-group pull-right" ng-show="diskImage.state == 0" >
                     <button type="button" class="btn btn-default btn-xs" ng-click="startAnalyzing($index)">
                         <i class="fa fa-chevron-right"></i> Analyze 
                     </button>
@@ -35,9 +29,20 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">             
-                <span >type: {{diskImage.type}}</span><br/>
-                <span >size: {{diskImage.size}}</span><br/>
-                <span >state: {{diskImage.state}}</span>
+                <span > {{diskImage.description}}</span><br/>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <div class="col-lg-4" ng-controller="diskImagesController" ng-repeat="diskImage in uploadingDiskImages" ng-click="addNew()" >
+        <div class="panel panel-default clickable"  >
+            <div class="panel-heading" >
+                <i class="fa fa-bar-chart-o fa-fw" ></i> {{diskImage.name}}
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">             
+                <span > {{diskImage.state}}</span><br/>
             </div>
             <!-- /.panel-body -->
         </div>

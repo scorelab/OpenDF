@@ -60,14 +60,15 @@ public class Sample {
 				System.out.println("There are " + image.getChildren().size() + " children.");
 				for (Content content : image.getChildren()) {
 					System.out.println('"' + content.getName() + '"' + " is a child of " + image.getName());
-					}
-				}
+					traverse(content);
+				}	
+			}
 						
 			// print out all .txt files found
 			List<AbstractFile> files = sk.findAllFilesWhere("name like '%.txt'");
 			for (AbstractFile file : files) {
 							System.out.println("Found text file: " + file.getName());
-						}
+			}
 			
 		} catch (TskCoreException e) {
 			System.out.println("Exception caught: " + e.getMessage());
@@ -75,6 +76,13 @@ public class Sample {
 			
 		}
 	}
+	public static  void traverse(Content content) throws TskCoreException{		
+	    for (Content c : content.getChildren()) {
+			System.out.println('"' + c.getName() + '"' + " is a child of " + content.getName());
+		    traverse(c);
+		}
+	}
+
 	
 	public static void usage(String error) {
 		System.out.println("Usage: ant -Dimage:{image string} run-sample");

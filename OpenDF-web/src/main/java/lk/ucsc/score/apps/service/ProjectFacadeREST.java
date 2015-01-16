@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,13 +20,16 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;import javax.ws.rs.QueryParam;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import lk.ucsc.score.apps.models.Project;
 import lk.ucsc.score.apps.models.Diskimage;
 import lk.ucsc.score.apps.models.User;
-
+import lk.ucsc.score.apps.models.File;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.ws.rs.DefaultValue;
 /**
  *
  * @author Acer
@@ -134,6 +138,31 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     public Collection<Diskimage> getDiskimages(@PathParam("id") Integer id) {
         return super.find(id).getDiskimageCollection();
     }
+
+    @GET
+    @Path("{id}/file/{idFile}")
+    @Produces({"application/xml", "application/json"})
+    public File getFile(@PathParam("id") Integer id,  @PathParam("idFile") @DefaultValue("-1") Integer idFile) {
+        File file;
+        if(idFile==-1){
+             file = new File();
+             file.setIsDir(1);
+        }else{
+             file = em.find(File.class, idFile);
+        }
+        
+        Collection<File> childrens = (Collection<File>)em.createNamedQuery("File.findByParentDirectoryN").setParameter(1, idFile).setParameter(2, id).getResultList();
+        file.setChildrenCollection(childrens);
+        return file;
+   }
+    @GET
+    @Path("{id}/files/type/{type}")
+    @Produces({"application/xml", "application/json"})
+    public Collection<File> getFile(@PathParam("id") Integer idProject,  @PathParam("type")  String type) {
+        
+        Collection<File> childrens = (Collection<File>)em.createNamedQuery("File.findByType").setParameter("type", "%."+type).setParameter("idProject", idProject).getResultList();
+        return childrens;
+   }
 
     @GET
     @Path("{id}/investigators")

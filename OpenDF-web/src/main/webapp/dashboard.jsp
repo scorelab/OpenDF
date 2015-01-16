@@ -142,13 +142,13 @@
                                 <a href="#/{{idProject}}/"></i> Dashboard</a>
                             </li>
                             <li>
-                                <a href="#/{{idProject}}/file-system"></i> File System<span class="fa arrow"></span></a>
+                                <a href="#/{{idProject}}/browse-by-hierarchy/-1"></i> File System<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="#/file-system">Browse by hierarchy </a>
+                                        <a href="#/{{idProject}}/browse-by-hierarchy/-1">Browse by hierarchy </a>
                                     </li>
                                     <li>
-                                        <a href="morris.html">Browse by file type</a>
+                                        <a href="#/{{idProject}}/browse-by-type/">Browse by file type</a>
                                     </li>
                                     <li>
                                         <a href="tables.html">Timeline</a>
@@ -209,7 +209,7 @@
                                         <a href="#/{{idProject}}/settings/modules">Modules</a>
                                     </li>
                                     <li>
-                                        <a href="#/{{idProject}}/settings/investigators">investigators</a>
+                                        <a href="#/{{idProject}}/settings/investigators">Investigators</a>
                                     </li>
                                     <li>
                                         <a href="#/{{idProject}}/settings/project">Project</a>

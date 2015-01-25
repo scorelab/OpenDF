@@ -441,7 +441,7 @@ OpenDFApp.run(function($rootScope, $routeParams, $window) {
             $window.open(URL);
         };
         $rootScope.viewer = function($file) {
-            $('#'+$file.idFile+'.image-viwer').html('<img src="ServeFile?idFile='+$file.idFile+'" style='max-width:100%'/>');
+            $('#'+$file.idFile+'.image-viwer').html('<img src="ServeFile?idFile='+$file.idFile+'" style="max-width:100%"/>');
             $('#'+$file.idFile+'.image-viwer').toggleClass('hidden');
         };
 });

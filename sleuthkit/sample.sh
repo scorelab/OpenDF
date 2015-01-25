@@ -1,0 +1,1 @@
+sudo java -cp sleuthkit/bindings/java/build:sleuthkit/bindings/java/lib/* org.sleuthkit.datamodel.Examples.Sample  "/home/agentmilindu/Projects/OpenDF/sleuthkit/bindings/java/test/input/Cfreds001A001.dd"

@@ -1,0 +1,28 @@
+<nav class="sub-menu" role="navigation" style="margin-bottom: 0">
+    <div>
+        <a href="">
+            <span class="title">:Investigators</span>
+        </a>
+    </div>
+    <ul class="nav navbar-top-links ">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#/{{idProject}}/settings/add-investigators">
+                + Add Investigator
+            </a>
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+    <!-- /.navbar-static-side -->
+</nav>
+
+<div id="content-wrapper">
+    <div class="list-group">
+            <a href="" class="list-group-item" ng-controller="investigatorsController" ng-repeat="investigator in investigators" ng-click="" >
+                <input class="pull-right" type="button" value="Remove" ng-click="removeInvestigator(investigator.idUser)"/>
+                <h4 class="list-group-item-heading"> {{investigator.name}} </h4>
+                <i class="list-group-item-text">{{investigator.email}}</i>
+            </a>      
+            <!-- /.list-group-item -->
+    </div>
+</div>

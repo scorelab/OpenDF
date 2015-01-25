@@ -1,0 +1,59 @@
+<nav class="sub-menu" role="navigation" style="margin-bottom: 0">
+    <div > 
+        <a  href="#{{idProject}}/disk-images">
+            <span class="title">:Disk Images</span>
+        </a>
+    </div>
+    <ul class="nav navbar-top-links ">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                + Add New
+            </a>
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+    <!-- /.navbar-static-side -->
+</nav>
+<div id="content-wrapper">
+
+    <div class="row" ng-controller="diskImageController">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Add new disk image
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form"  name="addNewDiskImage" ng-submit="addNew()" ng-init="">
+                                <div class="form-group">
+                                    <label>Disk image name</label>
+                                    <input class="form-control" placeholder="Enter case name" ng-model="diskImage.name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Disk image Description</label>
+                                    <textarea class="form-control" placeholder="Disk image Description" ng-model="diskImage.description" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Created Date</label>
+                                    <input class="form-control" name="createdDate" placeholder="Enter Date" type="date" ng-model="diskImage.createdDate" max="{{$today() | date:'yyyy-MM-dd' }}" required>
+                                    <p class="help-block">( Creation date of the disk image )</p>
+                                    <span class="error" ng-show="addNewDiskImage.createdDate.$error.date"> Not a valid date! </span>
+                                </div>
+                                <div class="form-group">
+
+                                    <input type="file" name="file" ng-file-select="file=$files[0]" required >
+                                </div>
+
+                                <button class="btn btn-default" type="submit">Submit</button>
+                                <button type="reset" class="btn btn-default">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

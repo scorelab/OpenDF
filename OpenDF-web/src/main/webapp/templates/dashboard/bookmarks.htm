@@ -1,0 +1,37 @@
+<nav class="navbar navbar-default navbar-static-top sub-menu" role="navigation" style="margin-bottom: 0">
+    <div>
+        <a href="">
+            <span class="title">:Notes</span>
+        </a>
+    </div>
+    <!-- /.navbar-top-links -->
+    <!-- /.navbar-static-side -->
+</nav>
+
+<div id="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+                <!-- /.panel-heading -->
+                <div ng-controller="notesController">
+                    <div class="list-group">
+                        <a href="" class="list-group-item" ng-repeat="note in notes">
+                                    <h4 class="primary-font">
+                                        <span ng-if="hasFileType(note.idFile.name)"> 		
+                                            <i class="fa fa-file-audio-o" ng-show="isFileType(note.idFile.name,['.mp3','.wma'])"></i>			
+                                            <i class="fa fa-file-pdf-o" ng-show="isFileType(note.idFile.name,['.pdf'])"></i>			
+                                            <i class="fa fa-file-archive-o" ng-show="isFileType(note.idFile.name,['.tar','.zip','.rar','.7z','.gz'])"></i>			
+                                            <i class="fa fa-file-text" ng-show="isFileType(note.idFile.name,['.txt'])"></i>			
+                                        </span>
+                                        <span ng-if="!hasFileType(note.idFile.name)">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        {{note.idFile.name}}
+                                    </h4> 
+                                <p class="list-group-item-text">{{note.description}}</p>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+        </div>
+    </div>
+</div>

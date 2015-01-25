@@ -1,0 +1,36 @@
+<nav class="navbar navbar-default navbar-static-top sub-menu" role="navigation" style="margin-bottom: 0">
+    <div >
+
+        <a  href="dashboard.html">
+            <span class="title">:Browse by hierarchy</span>
+        </a>
+    </div>
+    <ul class="nav navbar-top-links"  ng-controller="filesController">
+        <li class="dropdown" ng-show="file.parentDirectory != 0">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#/{{idProject}}/browse-by-hierarchy/{{file.parentDirectory}}">
+                ^ Level Up
+            </a>
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-static-side -->
+</nav>
+
+<div id="content-wrapper" >
+    <div class="list-group">
+	<a  class="list-group-item" ng-controller="filesController" ng-repeat="fl in file.childrenCollection" href="#/{{idProject}}/browse-by-hierarchy/{{fl.idFile}}">
+					
+            <h4 class="list-group-item-heading" ng-if="fl.name !=''">	fa-folder-open	
+                <span ng-if="fl.isDir"> <i class="fa fa-folder-o"></i></span>		
+                <span ng-if="!fl.isDir && fl.name.match(/\.[0-9a-z]{1,5}$/i)"> 		
+                <i class="fa fa-file-audio-o" ng-show="$.inArray(fl.name.match(/\.[0-9a-z]{1,5}$/i)[0], ['.mp3','.wma'])"></i>			
+                <i class="fa fa-file-pdf-o" ng-show="$.inArray(fl.name.match(/\.[0-9a-z]{1,5}$/i)[0], ['.pdf'])"></i>			
+                <i class="fa fa-file-archive-o" ng-show="$.inArray(fl.name.match(/\.[0-9a-z]{1,5}$/i)[0], ['.tar','.zip','.rar','.7z','.gz'])"></i>			
+                <i class="fa fa-file-text" ng-show="$.inArray(fl.name.match(/\.[0-9a-z]{1,5}$/i)[0], ['.txt'])"></i>			
+                </span>{{fl.name}}			
+            </h4>
+            <h4 class="list-group-item-heading" ng-if="fl.name ==''"><i class="fa fa-file-audio-o" ng-show="$.inArray(fl.name.match(/\.[0-9a-z]{1,5}$/i)[0], ['.mp3','.wma'])"></i>$UNNAMED</h4>
+            <span class="list-group-item-text">Size: {{fl.size}}kb <i ng-if="fl.accessDate">Last access: {{fl.accessDate}}</i><i ng-if="fl.isVirtual">Virtual {{fl.isVirtual}}</i><i ng-if="fl.isDir">Dir: {{fl.isDir}}</i></span>
+	</a>
+    </div>
+</div>

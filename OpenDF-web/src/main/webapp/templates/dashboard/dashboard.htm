@@ -1,0 +1,78 @@
+<div id="content-wrapper">
+    <br><br>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-md-12" ><div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-info-circle fa-fw"></i> {{project.name}} [ #{{project.idProject}} ]
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                {{project.description}}
+            </div>
+            <!-- /.panel-body -->
+        </div> </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" >
+          <div class="panel panel-default" ng-controller="diskImagesController">
+            <div class="panel-heading">
+                <i class="fa fa-hdd-o fa-fw"></i> Disk Images [ {{diskImages.length}} ]
+            </div>
+            <!-- /.panel-heading -->
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 25px">#</th>
+                    <th>Name</th>
+                    <th style="width: 100px;">State</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="diskimage in diskImages">
+                    <th scope="row">{{$index+1}}</th>
+                    <td>{{diskimage.name}}</td>
+                    <td>
+                        <i ng-show="diskimage.state=0">Unanalyzed</i>
+                        <i ng-show="diskimage.state=2">Analyzed</i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            <!-- /.panel-body -->
+        </div>    
+      </div><div class="col-md-6" >
+          <div class="panel panel-default" ng-controller="investigatorsController">
+            <div class="panel-heading">
+                <i class="fa fa-star-o fa-fw"></i> Investigators [ {{investigators.length}} ]
+            </div>
+            <!-- /.panel-heading -->
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 25px">#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="investigator in investigators">
+                    <th scope="row">{{$index+1}}</th>
+                    <td>{{investigator.name}}</td>
+                    <td>
+                        {{investigator.email}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+
+    <hr>
+    <!-- /.row -->
+    <div class="row">
+        
+    </div>
+    <!-- /.row -->
+</div>

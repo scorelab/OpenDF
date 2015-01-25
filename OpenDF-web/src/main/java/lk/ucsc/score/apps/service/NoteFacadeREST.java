@@ -16,46 +16,44 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import lk.ucsc.score.apps.models.Diskimage;
+import lk.ucsc.score.apps.models.Note;
+import javax.ws.rs.FormParam;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+import lk.ucsc.score.apps.uploaders.Validator;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.*;
 import lk.ucsc.score.apps.models.Project;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import lk.ucsc.score.apps.models.Log;
+import lk.ucsc.score.apps.models.File;
 /**
  *
  * @author Acer
  */
 @Stateless
-@Path("diskimage")
-public class DiskimageFacadeREST extends AbstractFacade<Diskimage> {
+@Path("note")
+public class NoteFacadeREST extends AbstractFacade<Note> {
     @PersistenceContext(unitName = "lk.ucsc.score.apps_OpenDF-web_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    public DiskimageFacadeREST() {
-        super(Diskimage.class);
+    public NoteFacadeREST() {
+        super(Note.class);
     }
 
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Diskimage entity) {
-        entity.setState(0);
-        super.create(entity);
-        Project project =  em.find(Project.class, entity.getProjectidProject().getIdProject());
-        project.getDiskimageCollection().add(entity); // useful to maintain coherence, but ignored by JPA
-        em.persist(project);
-        getEntityManager().persist(new Log("A new report generated", project));
-        
+    public void create(Note entity) {
+        entity.setDescription(Jsoup.clean(entity.getDescription(), Whitelist.basic()));
+        super.create(entity);        
+        em.refresh(em.find(Project.class, entity.getIdProject().getIdProject()));     
+        em.refresh(em.find(File.class, entity.getIdFile().getIdFile()));
     }
-    
+
     @PUT
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void edit(Diskimage entity) {
+    public void edit(Note entity) {
         super.edit(entity);
     }
 
@@ -68,31 +66,30 @@ public class DiskimageFacadeREST extends AbstractFacade<Diskimage> {
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Diskimage find(@PathParam("id") Integer id) {
+    public Note find(@PathParam("id") Integer id) {
         return super.find(id);
-    }
-
-    @GET
-    @Path("startAnalyzing/{id}")
-    @Produces({"application/xml", "application/json"})
-    public void startAnalyzing(@PathParam("id") Integer id) {
-        Diskimage entity = super.find(id);
-        entity.setState(2);
-        super.edit(entity);
     }
 
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
-    public List<Diskimage> findAll() {
+    public List<Note> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})
-    public List<Diskimage> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Note> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
+    }
+
+
+    @GET
+    @Path("of/{idProject}")
+    @Produces({"application/xml", "application/json"})
+    public List<Note> findRange( @PathParam("idProject") Integer idProject) {
+        return em.createNamedQuery("Note.findByIdProject").setParameter("idProject", idProject).getResultList();
     }
 
     @GET

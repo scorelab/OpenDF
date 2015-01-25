@@ -6,6 +6,10 @@ function changeUsername(data){
     console.log(data);
     $.post("api/user/change/username", data, function(){ alert("Username is successfully changed");  });
 }
+function changeDisplayName(data){
+    console.log(data);
+    $.post("api/user/change/displayname", data, function(){ alert("Display Name is successfully changed");  });
+}
 function changeEmail(data){
     console.log(data);
     $.post("api/user/change/email", data, function(){ alert("Email is successfully changed");  });
@@ -24,7 +28,7 @@ OpenDFApp.config(['$routeProvider',
             controller: 'investigatorsController'
         }).
         when('/investigators/add-new', {
-            templateUrl: 'templates/index/add-new-investigator.htm',
+            templateUrl: 'templates/index/investigators-add-new.htm',
             controller: 'investigatorsController'
         }).
         when('/projects/add-new', {
@@ -34,6 +38,10 @@ OpenDFApp.config(['$routeProvider',
         when('/settings/account', {
             templateUrl: 'templates/index/settings/account.htm',
             controller: ''
+        }).
+        when('/logs', {
+            templateUrl: 'templates/index/logs.htm',
+            controller: 'logsController'
         }). 
         otherwise({
             redirectTo: '/'
@@ -74,16 +82,33 @@ OpenDFApp.controller('projectController', ['$scope', 'ProjectsFactory', function
             window.location = 'index.jsp';
         };
 }]);
+OpenDFApp.controller('logsController', ['$scope', 'LogsFactory', function ($scope, LogsFactory) {
+
+        LogsFactory.query(function(data){
+            $scope.logs = data;
+        });
+}]);
+OpenDFApp.controller('investigatorController', ['$scope', 'InvestigatorsFactory', function ($scope, InvestigatorsFactory) {
+
+        $scope.investigator = {};
+        $scope.save = function(){
+            if($scope.investigator.password == $scope.investigator.repassword){
+                InvestigatorsFactory.save($scope.investigator, function(){
+                    window.location = '#/investigators';
+                });
+            }
+            else{
+                alert("Passwords you enter are not same");
+            }
+
+            
+        };
+}]);
 OpenDFApp.controller('investigatorsController', ['$scope', 'InvestigatorsFactory', function ($scope, InvestigatorsFactory) {
 
         InvestigatorsFactory.query(function(data) {
            $scope.investigators = data;
         });
-        $scope.addNew = function(){
-            ProjectsFactory.save($scope.project);
-            $scope.project = {name: "", depscription: "", createdDate:""}
-            window.location = 'index.jsp';
-        };
 }]);
 
 var services = angular.module('OpenDFApp.services', ['ngResource']);
@@ -94,7 +119,9 @@ services.factory('ProjectsFactory', function ($resource) {
 services.factory('InvestigatorsFactory', function ($resource) {
     return $resource('api/user/:id', {id: '@_id'}, {});
 });
-
+services.factory('LogsFactory', function ($resource) {
+    return $resource('api/log/:id', {id: '@_id'}, {});
+})
 services.factory('UserFactory', function ($resource) {
     return $resource('api/user/:id', {id: '@_id'}, {
             current: {

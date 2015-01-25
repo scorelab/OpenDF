@@ -1,12 +1,12 @@
 <nav class="sub-menu" role="navigation" style="margin-bottom: 0">
     <div>
-        <a class="navbar-brand" href="#/reports">
+        <a href="">
             <span class="title">:Investigators</span>
         </a>
     </div>
     <ul class="nav navbar-top-links ">
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#/disk-images/add-new">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#/investigators/add-new">
                 <i class="fa fa-plus fa-fw"></i>
             </a>
         </li>
@@ -17,8 +17,8 @@
 </nav>
 <div id="content-wrapper" class="row">
     <div class="list-group">
-            <a href="#/report/{{report.title}}" class="list-group-item" ng-controller="investigatorsController" ng-repeat="investigator in investigators" ng-click="" >
-                <h4 class="list-group-item-heading"><i class="fa fa-bar-chart-o fa-fw" ></i> {{investigator.name}} </h4>
+            <a href="" class="list-group-item" ng-controller="investigatorsController" ng-repeat="investigator in investigators" ng-click="" >
+                <h4 class="list-group-item-heading"><i class="fa fa-star-o fa-fw" ></i> {{investigator.name}} </h4>
                 <p class="list-group-item-text">{{investigator.email}}</p>
             </a>      
             <!-- /.list-group-item -->

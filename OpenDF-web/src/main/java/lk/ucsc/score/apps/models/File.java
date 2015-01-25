@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQuery;
@@ -39,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "File.findByIdFile", query = "SELECT f FROM File f WHERE f.idFile = :idFile"),
     @NamedQuery(name = "File.findByName", query = "SELECT f FROM File f WHERE f.name = :name"),
     @NamedQuery(name = "File.findByType", query = "SELECT f FROM File f JOIN f.diskImageidDiskImage d WHERE f.name LIKE :type AND d.idDiskImage IN (SELECT b.idDiskImage FROM Project p JOIN p.diskimageCollection b  WHERE p.idProject=:idProject)"),
-    @NamedQuery(name = "File.findBySize", query = "SELECT f FROM File f WHERE f.size = :size"),
+    @NamedQuery(name = "File.findTypes", query = "SELECT f.name  FROM File f WHERE f.name LIKE '%.%'"),
     @NamedQuery(name = "File.findByMIMEtype", query = "SELECT f FROM File f WHERE f.mIMEtype = :mIMEtype"),
     @NamedQuery(name = "File.findByCreatedDate", query = "SELECT f FROM File f WHERE f.createdDate = :createdDate"),
     @NamedQuery(name = "File.findByUpdatedDate", query = "SELECT f FROM File f WHERE f.updatedDate = :updatedDate"),
@@ -88,7 +90,9 @@ public class File implements Serializable {
     @Column(name = "isDir")
     private int isDir;
     @Transient
-    private Collection<File> childrenCollection;
+    private Collection<File> childrenCollection;    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFile")
+    private Collection<Note> noteCollection;
 
     public File() {
     }

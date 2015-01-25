@@ -1,0 +1,23 @@
+<nav class="sub-menu" role="navigation" style="margin-bottom: 0">
+    <div>
+        <a href="">
+            <span class="title">Logs</span>
+        </a>
+    </div>
+    <ul class="nav navbar-top-links ">
+        
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+    <!-- /.navbar-static-side -->
+</nav>
+<div id="content-wrapper" class="row">
+    <div class="list-group">
+            <a href="" class="list-group-item" ng-controller="logsController" ng-repeat="log in logs" ng-click="" >
+                <h4 class="list-group-item-heading"><i class="fa fa-star-o fa-fw" ></i> {{log.description}} </h4>
+                <p class="list-group-item-text">In {{log.idProject.name}} on {{log.timestamp}}</p>
+            </a>      
+            <!-- /.list-group-item -->
+    </div>
+</div>
+

@@ -62,7 +62,9 @@ public class Project implements Serializable {
     private Collection<User> userCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectidProject")
     private Collection<Diskimage> diskimageCollection;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProject")
+    private Collection<Note> noteCollection;
+    
     public Project() {
     }
 
@@ -123,7 +125,7 @@ public class Project implements Serializable {
     public Collection<Diskimage> getDiskimageCollection() {
         return diskimageCollection;
     }
-
+    
     public void setDiskimageCollection(Collection<Diskimage> diskimageCollection) {
         this.diskimageCollection = diskimageCollection;
     }

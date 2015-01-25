@@ -1,0 +1,55 @@
+<nav class="sub-menu" role="navigation" style="margin-bottom: 0">
+    <div>
+        <a href="">
+            <span class="title">:Investigators</span>
+        </a>
+    </div>
+    <ul class="nav navbar-top-links ">
+        <li class="dropdown">
+
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+    <!-- /.navbar-static-side -->
+</nav>
+
+<div id="content-wrapper">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            User details 
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <form role="form" action=""  method="POST" ng-submit="save()" ng-controller="investigatorController">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input placeholder="Enter new username" type="text" name="username" ng-model="investigator.username" pattern=".{5,100}"   title="8 characters minimum, 100 maximum" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input  placeholder="Enter the password" ng-model="investigator.password" type="password" name="password">
+                        </div>
+                        <div >
+                            <label>Confirm password</label>
+                            <input  placeholder="Enter the same password" ng-model="investigator.repassword" type="password" name="repassword">
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input placeholder="Enter new display name" type="text" ng-model="investigator.name" name="displayName" pattern=".{5,300}"   title="8 characters minimum, 300 maximum" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input placeholder="Enter new email" type="email" ng-model="investigator.email" name="email">
+                        </div>
+                        <br>
+                        <button type="submit" >Submit</button>
+                        <button type="reset" >Reset</button>
+                    </form>
+                </div>
+            </div>		
+        </div>	
+    </div>
+  </div>
+</div>

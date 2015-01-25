@@ -1,13 +1,15 @@
 
 var OpenDFApp = angular.module('OpenDFApp', ['ngRoute' ,'OpenDFApp.services', 'angularFileUpload']);
 
-OpenDFApp.value("sectionTitle" , "Dashboard");
-
 OpenDFApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
         when('/:idProject/file-system', {
             templateUrl: 'templates/dashboard/file-system.htm',
+            controller: ''
+        }).
+        when('/:idProject/bookmark/:file/in/:folder', {
+            templateUrl: 'templates/dashboard/bookmark-add-new.htm',
             controller: ''
         }).
         when('/:idProject/bookmarks', {
@@ -30,7 +32,15 @@ OpenDFApp.config(['$routeProvider',
             templateUrl: 'templates/dashboard/reports.htm',
             controller: 'reportsController'
         }).
-        when('/:idProject/report/:id', {
+        when('/:idProject/report/create/1', {
+            templateUrl: 'templates/dashboard/report--type1.htm',
+            controller: 'reportsController'
+        }).
+        when('/:idProject/report/create/', {
+            templateUrl: 'templates/dashboard/reports-add-new.htm',
+            controller: 'reportsController'
+        }).
+        when('/:idProject/report/:idReport', {
             templateUrl: 'templates/dashboard/report.htm',
             controller: 'reportsController'
         }).
@@ -41,6 +51,10 @@ OpenDFApp.config(['$routeProvider',
         when('/:idProject/disk-images/add-new', {
             templateUrl: 'templates/dashboard/disk-images-add-new.htm',
             controller: 'diskImagesController'
+        }).
+        when('/:idProject/settings/notifications', {
+            templateUrl: 'templates/dashboard/settings/notification.htm',
+            controller: 'notificationsController'
         }).
         when('/:idProject/settings/modules', {
             templateUrl: 'templates/dashboard/settings/modules.htm',
@@ -66,12 +80,13 @@ OpenDFApp.config(['$routeProvider',
             redirectTo: '/'
         });
     }]);
-OpenDFApp.controller('dashboardController', ['$scope', '$location', '$routeParams','ProjectsFactory', 'BackboneService', '$rootScope' , function ($scope, $location, $routeParams, ProjectsFactory, BackboneService, $rootScope) {
+OpenDFApp.controller('dashboardController', ['$scope', '$location', '$routeParams','ProjectsFactory', 'BackboneService', '$rootScope', function ($scope, $location, $routeParams, ProjectsFactory, BackboneService, $rootScope) {
         BackboneService.id = $routeParams.idProject;
         $rootScope.idProject = $routeParams.idProject;
         ProjectsFactory.get({ id: $routeParams.idProject }, function(data) {
             $scope.project = data;
-            console.log($scope.project.idProject);
+            console.log($scope.project);
+            $rootScope.sectionTitle = $scope.project.name;
         }); 
 }]);
 OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneService', function ($scope, $location, BackboneService) {
@@ -105,7 +120,7 @@ OpenDFApp.controller('diskImagesController', ['$scope', 'DiskImagesFactory', '$l
 }]);
 
 
-OpenDFApp.controller('diskImageController', ['$scope', '$rootScope', 'DiskImagesFactory', '$location', 'BackboneService' , '$upload', function ($scope, $rootScope, DiskImagesFactory, $location, BackboneService , $upload) {
+OpenDFApp.controller('diskImageController', ['$scope', '$rootScope', 'DiskImagesFactory', '$location', 'BackboneService' , '$upload', '$route', function ($scope, $rootScope, DiskImagesFactory, $location, BackboneService , $upload, $route) {
         $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
         $scope.file = {};
         $scope.states = ['Uploading', 'Uploaded', 'Analyzed'];
@@ -141,21 +156,21 @@ OpenDFApp.controller('diskImageController', ['$scope', '$rootScope', 'DiskImages
               }).success(function(response, status, headers, config) {
                 BackboneService.prosecces[process] = { name: "File uploaded", percentage:100};
                 BackboneService.stopProcess(process);
-                
+                BackboneService.addNotification({ msg: "Disk Image uploaded" });
                 console.log(response);
                 if(!response['error']){
                     $scope.diskImage.path = response['file'];
                     DiskImagesFactory.save($scope.diskImage, function(){
-                        
-                        
+                        console.log("afvaf");
                         DiskImagesFactory.getDiskImages({ id: BackboneService.id || $routeParams.idProject }, function(diskImages){
                             $scope.diskImage.state = "Uploaded";
                             delete BackboneService.uploadingDiskImages[key];
+                            console.log("233");
                             console.log(BackboneService.uploadingDiskImages);
-                            $scope.$apply(function(){
-                                BackboneService.diskImages = diskImages;
-                            });
-                            //$scope.$apply();
+                            BackboneService.diskImages = diskImages;
+                            console.log(BackboneService.diskImages);
+                            $route.reload();
+                            
                         });
                     });
                 }
@@ -166,27 +181,32 @@ OpenDFApp.controller('diskImageController', ['$scope', '$rootScope', 'DiskImages
 
 
 OpenDFApp.controller('notificationsController', ['$scope', 'NotificationsFactory', '$location', 'BackboneService' , function ($scope,  DiskImagesFactory, $location, BackboneService) {
-        $scope.diskImage = {name: "", depscription: "", createdDate:"", type: "",  size: ""};
-        $scope.addNew = function(){
-            BackboneService.diskImages.push($scope.diskImage);
-            BackboneService.prosecces.push({ name: "File uploading", percentage:10});
-            $location.path('/disk-images');
-        }
+        $scope.notifications = BackboneService.notifications;
 }]);
 
-OpenDFApp.controller('noteController', ['$scope', 'notesFactory', 'BackboneService' , function ($scope,  notesFactory, BackboneService) {
+OpenDFApp.controller('noteController', ['$scope', '$routeParams','notesFactory', 'BackboneService' , function ($scope, $routeParams, notesFactory, BackboneService) {
         $scope.note = {name: "", description: "", createdDate:""};
-        $scope.note.name = "";
-        $scope.note.description = "";
-        $scope.note.createdDate =  new Date();
-        $scope.send = function(){
+        $scope.save = function(){
+            $scope.note.idFile = { idFile : $routeParams.file };
+            $scope.note.idProject = { idProject: $routeParams.idProject };
+            $scope.note.createdDate =  new Date();
             BackboneService.notes.push($scope.note);
+            notesFactory.save($scope.note);
+            window.location = 'dashboard.jsp#/'+$routeParams.idProject+'/browse-by-hierarchy/'+$routeParams.folder;
         }
 }]);
 
-OpenDFApp.controller('notesController', ['$scope', 'notesFactory','BackboneService' , function ($scope,  notesFactory, BackboneService) {
-        $scope.notes = BackboneService.notes;
-        console.log($scope.notes);
+OpenDFApp.controller('notesController', ['$scope', '$routeParams', 'notesFactory','BackboneService' , function ($scope, $routeParams, notesFactory, BackboneService) {
+
+        notesFactory.getNotesOf({ idProject: BackboneService.id || $routeParams.idProject }, function(notes){
+            $scope.notes  = notes;
+        });
+        $scope.isFileType = function(name, types){
+            return !$.inArray(name.match(/\.[0-9a-z]{1,5}$/i)[0], types);
+        }
+        $scope.hasFileType = function(name){
+            return name.match(/\.[0-9a-z]{1,5}$/i)!=null;
+        }
 }]);
 
 var services = angular.module('OpenDFApp.services', ['ngResource']);
@@ -194,7 +214,7 @@ var services = angular.module('OpenDFApp.services', ['ngResource']);
 services.factory('BackboneService', function ($rootScope) {
     kernel = {};
     kernel.id = -1;
-    kernel.notifications = [{createdDate:"",last_visted:"",agent:""}]
+    kernel.notifications = []
     kernel.prosecces = {};
     kernel.notes = [];
     kernel.activeProsecces = 0;
@@ -210,6 +230,11 @@ services.factory('BackboneService', function ($rootScope) {
         delete kernel.prosecces[processID];
         kernel.activeProsecces = kernel.activeProsecces - 1;
     }
+    kernel.addNotification = function(notification){
+            notification.time = new Date();
+            notification.status = 0;
+            kernel.notifications.push(notification);
+        }
     return kernel;
 });
 
@@ -241,7 +266,7 @@ services.factory('DiskImagesFactory', function ($resource) {
         })
 });
 OpenDFApp.controller('investigatorsController', ['$scope', '$location', '$routeParams', '$http', 'InvestigatorsFactory', function ($scope, $location, $routeParams, $http, InvestigatorsFactory) {
-        console.log('investigatorsController');
+
         InvestigatorsFactory.investigators({ id: $routeParams.idProject }, function(data) {
             $scope.investigators = data;
         }); 
@@ -249,10 +274,18 @@ OpenDFApp.controller('investigatorsController', ['$scope', '$location', '$routeP
             return InvestigatorsFactory.otherInvestigators({ id: $routeParams.idProject }); 
         }
         $scope.addInvestigator = function(idUser){
-            $http.get('api/project/'+$routeParams.idProject+'/add-investigator?user='+idUser);
+            $http.get('api/project/'+$routeParams.idProject+'/add-investigator?user='+idUser).success(function(){
+                 console.log('df'); window.location = 'dashboard.jsp#/'+$routeParams.idProject+'/settings/investigators';
+            }).error(function(){
+                 console.log('df'); window.location = 'dashboard.jsp#/'+$routeParams.idProject+'/settings/investigators';
+            });
         }
         $scope.removeInvestigator = function(idUser){
-            $http.get('api/project/'+$routeParams.idProject+'/remove-investigator?user='+idUser);
+            $http.get('api/project/'+$routeParams.idProject+'/remove-investigator?user='+idUser).success(function(){
+                 console.log('df'); window.location = 'dashboard.jsp#/'+$routeParams.idProject+'/settings/investigators';
+            }).error(function(){
+                 console.log('df'); window.location = 'dashboard.jsp#/'+$routeParams.idProject+'/settings/investigators';
+            });
         }
 }]);
 services.factory('InvestigatorsFactory', function ($resource) {
@@ -285,21 +318,62 @@ OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' ,
                     $scope.files = data; 
             });
         }
+        $scope.isFileType = function(name, types){
+            return !$.inArray(name.match(/\.[0-9a-z]{1,5}$/i)[0], types);
+        }
+        $scope.hasFileType = function(name){
+            return name.match(/\.[0-9a-z]{1,5}$/i)!=null;
+        }
         
 }]);
 services.factory('filesFactory', function ($resource) {
     return $resource('api/projects/:id/files/', {id: '@_id'}, {})
 });
-OpenDFApp.controller('reportsController', ['$scope', '$location', '$routeParams' , function ($scope, $location, $routeParams) {
-        $scope.reports = [{title: "Current Progress Report", date: new Date() ,description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"},{title: "Current Progress Report", date: new Date(1411436124013) ,description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"}, {title: "Current Progress Report", date: new Date(1411234124013), description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend"}];
+OpenDFApp.controller('reportsController', ['$scope', '$location', '$routeParams', 'reportsFactory','BackboneService' , function ($scope, $location, $routeParams, reportsFactory, BackboneService) {
+        if($routeParams.idReport){
+            reportsFactory.get({ id: $routeParams.idReport}, function(data) {
+                        console.log(data);
+                        $scope.report = data; 
+            });
+        }
+        else{
+            reportsFactory.getReportsOf({ idProject: BackboneService.id || $routeParams.idProject}, function(data) {
+                        console.log(data);
+                        $scope.reports = data; 
+            });
+        }
+        $scope.save = function(){
+            $.post('api/report/upload',{
+                content: $('#report').html(),
+                idProject: BackboneService.id || $routeParams.idProject,
+                title: $('#reportTitle').html()
+              }, function(data){ 
+                console.log(data);
+              }
+            )
+        }
+        
 }]);
 services.factory('reportsFactory', function ($resource) {
-    return $resource('api/projects/:id/reports', {id: '@_id'}, {})
+    return $resource('api/report/:id', {id: '@_id'}, {
+            getReportsOf: {
+                method: 'GET',
+                url : 'api/report/of/:idProject',
+                params : { idProject: '@_idProject' },
+                isArray : true
+            }})
 });
 
 
 services.factory('notesFactory', function ($resource) {
-    return $resource('api/notes/:id', {}, {})
+    return $resource('api/note/:id', {id: '@_id'}, {
+            getNotesOf: {
+                method: 'GET',
+                url : 'api/note/of/:idProject',
+                params : { idProject: '@_idProject' },
+                isArray : true
+            }});
+
 });
 
 services.factory('NotificationsFactory', function ($resource) {
@@ -334,11 +408,42 @@ OpenDFApp.controller('projectController', ['$scope', 'ProjectsFactory' , '$route
         }); 
         
 }]);
+OpenDFApp.controller('userController', ['$scope','$rootScope', 'UserFactory', '$location' , function ($scope, $rootScope,  UserFactory, $location) {
 
-OpenDFApp.run(function($rootScope) {
-        $rootScope.sectionTitle = OpenDFApp.value("sectionTitle");
-        T = OpenDFApp.value("sectionTitle");
+        UserFactory.current(function(data) {
+           $scope.user = data;
+           $rootScope.user = data;
+        });
+        $scope.goto = function(id){
+            window.location = 'dashboard.jsp#'+id;
+        }   
+//    });
+}]);
+services.factory('UserFactory', function ($resource) {
+    return $resource('api/user/:id', {id: '@_id'}, {
+            current: {
+                method: 'GET',
+                url : 'api/user/current'
+            }});
+});
+OpenDFApp.run(function($rootScope, $routeParams, $window) {
+        
+        $rootScope.$on('$routeChangeSuccess', function(e, current, pre) {
+          $rootScope.idProject = $routeParams.idProject;
+          R = $rootScope;
+        });
+        
+        $rootScope.goto = function(location){
+            window.location = 'dashboard.jsp#'+location;
+        } 
         $rootScope.$today = function(){ return new Date(); }
+        $rootScope.serve = function(URL) {
+            $window.open(URL);
+        };
+        $rootScope.viewer = function($file) {
+            $('#'+$file.idFile+'.image-viwer').html('<img src="ServeFile?idFile='+$file.idFile+'" style='max-width:100%'/>');
+            $('#'+$file.idFile+'.image-viwer').toggleClass('hidden');
+        };
 });
 
 

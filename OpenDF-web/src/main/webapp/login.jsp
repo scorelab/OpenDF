@@ -52,10 +52,10 @@
                             <% } %>
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Username" name="username" type="text" ng-minlength="8" value="asdfghjkl" pattern=".{5,}"   title="5 characters minimum" required>
+                                    <input class="form-control" placeholder="Username" name="username" type="text" ng-minlength="8" value="" pattern=".{5,}"   title="5 characters minimum" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="23456789"  pattern=".{8,}" title="8 characters minimum" required>
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value=""  pattern=".{8,}" title="8 characters minimum" required>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-success btn-block">Login</a>

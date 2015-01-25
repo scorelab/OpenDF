@@ -52,14 +52,13 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
         Object idUser =  session.getAttribute("user"); 
         if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
         User user =  em.find(User.class, (Integer)idUser);
-    Collection<User> users = new ArrayList<User>();
-    users.add(user);
-    entity.setUserCollection(users); // useful to maintain coherence, but ignored by JPA
-    entity.setCreatedDate(new Date());
-    entity.setStatus(1);
-    getEntityManager().persist(entity);
-
-    user.getProjectCollection().add(entity);
+        Collection<User> users = new ArrayList<User>();
+        users.add(user);
+        entity.setUserCollection(users); // useful to maintain coherence, but ignored by JPA
+        entity.setCreatedDate(new Date());
+        entity.setStatus(1);
+        getEntityManager().persist(entity);
+        user.getProjectCollection().add(entity);
     }
 
     @GET
@@ -150,7 +149,7 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
         }else{
              file = em.find(File.class, idFile);
         }
-        
+        em.flush();
         Collection<File> childrens = (Collection<File>)em.createNamedQuery("File.findByParentDirectoryN").setParameter(1, idFile).setParameter(2, id).getResultList();
         file.setChildrenCollection(childrens);
         return file;
@@ -161,6 +160,17 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     public Collection<File> getFile(@PathParam("id") Integer idProject,  @PathParam("type")  String type) {
         
         Collection<File> childrens = (Collection<File>)em.createNamedQuery("File.findByType").setParameter("type", "%."+type).setParameter("idProject", idProject).getResultList();
+        return childrens;
+   }
+    @GET
+    @Path("{id}/files/types")
+    @Produces({"application/xml", "application/json"})
+    public Collection<File> getFileTypes(@PathParam("id") Integer idProject,  @PathParam("type")  String type) {
+        
+        Collection<File> childrens = (Collection<File>)em.createNamedQuery("File.findTypes")
+                //.setParameter("type", "%."+type)
+                //.setParameter("idProject", idProject)
+                .getResultList();
         return childrens;
    }
 

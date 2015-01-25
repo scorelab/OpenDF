@@ -2,10 +2,10 @@
  * Start Bootstrap - SB Admin 2 Bootstrap Admin Theme (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
- html{
-     height: 100%;
- }
+*/
+html{
+    height: 100%;
+}
 body {
     background-color: #f8f8f8;
     font-family: 'Open Sans';
@@ -26,13 +26,13 @@ body {
     padding: 0px;
     background-color: #fff;
     /* bottom: 0; */
-/* position: relative; */
-/* height: 100%; */
-/* padding-top: 51px; */
-width: auto;
-/* left: 0; */
-/* right: 0; */
-min-height: 100%;
+    /* position: relative; */
+    /* height: 100%; */
+    /* padding-top: 51px; */
+    width: auto;
+    /* left: 0; */
+    /* right: 0; */
+    min-height: 100%;
 }
 #content-wrapper{
     padding: 30px;
@@ -186,7 +186,16 @@ form input[type=text],form input[type=password]{
     content: "\f107";
 }
 .nav>li>a {
-color: #2B2727;
+    color: #2B2727;
+}
+#side-menu.nav>li>a {
+    background-color: #ffffff;
+}
+#side-menu.nav>li>a>ul>li>a {
+    background-color: #ffffff;
+}
+.nav>li>a:hover, .nav>li>a:focus {
+background-color: #F5F5F5;
 }
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
@@ -252,17 +261,12 @@ color: #2B2727;
 .clickable{
     cursor: pointer;
 }
-
-
 .panel .slidedown .glyphicon{
     margin-right: 5px;
 }
-
 .login-panel {
     margin-top: 30%;
 }
-
-
 .btn-circle {
     width: 30px;
     height: 30px;
@@ -297,11 +301,9 @@ color: #2B2727;
     border: 1px solid #ddd;
     background-color: #eee!important;
 }
-
 .show-grid {
     margin: 15px 0;
 }
-
 .huge {
     font-size: 40px;
 }
@@ -396,16 +398,23 @@ color: #2B2727;
     font-size: 10px;
 }
 .profile-img {
-width: 96px;
-height: 96px;
-margin: 5px auto 10px;
-display: block;
-border-radius: 50%;
-position: center;
+    width: 96px;
+    height: 96px;
+    margin: 5px auto 10px;
+    display: block;
+    border-radius: 50%;
+    position: center;
 }
 .login-title {
-color: #555;
-font-size: 48px;
-font-weight: 400;
-display: block;
+    color: #555;
+    font-size: 48px;
+    font-weight: 400;
+    display: block;
+}
+.image-viwer{
+    margin: 18px 0px;
+    background: #ffffff;
+    border: 1px solid #fbfbfb;
+    padding: 10px;
+    text-align: center;
 }

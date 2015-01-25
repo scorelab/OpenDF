@@ -1,23 +1,9 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">
+<nav class="navbar navbar-default navbar-static-top sub-menu" role="navigation" style="margin-bottom: 0">
+    <div>
+        <a href="">
             <span class="title">:Notes</span>
         </a>
     </div>
-    <ul class="nav navbar-top-links ">
-        <li class="dropdown">
-            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#/disk-images/add-new">
-                <i class="fa fa-plus fa-fw"></i>
-            </a>-->
-        </li>
-        <!-- /.dropdown -->
-    </ul>
     <!-- /.navbar-top-links -->
     <!-- /.navbar-static-side -->
 </nav>
@@ -25,79 +11,27 @@
 <div id="content-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <div class="chat-panel panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-comments fa-fw"></i>
-                    Notes
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu slidedown">
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-refresh fa-fw"></i> Refresh
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-check-circle fa-fw"></i> Available
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-times fa-fw"></i> Busy
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-clock-o fa-fw"></i> Away
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-sign-out fa-fw"></i> Sign Out
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
                 <!-- /.panel-heading -->
-                <div class="panel-body" ng-controller="notesController">
-                    <ul class="chat">
-                        <li class="left clearfix"  ng-repeat="note in notes">
-                            <span class="chat-img pull-left">
-                                <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
-                            </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">{{note.name}}</strong> 
-                                    <small class="pull-right text-muted">
-                                        <i class="fa fa-clock-o fa-fw"></i> 12 sec ago
-                                    </small>
-                                </div>
-                                 <p>{{note.description}}</p>
-                            </div>
-                        </li>
-                    </ul>
+                <div ng-controller="notesController">
+                    <div class="list-group">
+                        <a href="" class="list-group-item" ng-repeat="note in notes">
+                                    <h4 class="primary-font">
+                                        <span ng-if="hasFileType(note.idFile.name)"> 		
+                                            <i class="fa fa-file-audio-o" ng-show="isFileType(note.idFile.name,['.mp3','.wma'])"></i>			
+                                            <i class="fa fa-file-pdf-o" ng-show="isFileType(note.idFile.name,['.pdf'])"></i>			
+                                            <i class="fa fa-file-archive-o" ng-show="isFileType(note.idFile.name,['.tar','.zip','.rar','.7z','.gz'])"></i>			
+                                            <i class="fa fa-file-text" ng-show="isFileType(note.idFile.name,['.txt'])"></i>			
+                                        </span>
+                                        <span ng-if="!hasFileType(note.idFile.name)">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        {{note.idFile.name}}
+                                    </h4> 
+                                <p class="list-group-item-text">{{note.description}}</p>
+                        </a>
+                    </div>
                 </div>
                 <!-- /.panel-body -->
-                <div class="panel-footer" ng-controller="noteController" >
-                    <div class="input-group">
-                        <input id="btn-input" type="text" ng-model="note.name" class="form-control input-sm" placeholder="Title" />
-                        
-                        <input id="btn-input" type="text" ng-model="note.description" class="form-control input-sm" placeholder="Note" />
-                        <span class="btn">
-                            <button ng-click="send()" class="btn btn-warning btn-sm" id="btn-chat">
-                                submit
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <!-- /.panel-footer -->
-            </div>
-            <!-- /.panel .chat-panel -->
         </div>
     </div>
 </div>

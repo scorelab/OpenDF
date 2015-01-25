@@ -1,0 +1,25 @@
+<nav class="sub-menu" role="navigation" style="margin-bottom: 0">
+    <div>
+        <a href="">
+            <span class="title">Notifications</span>
+        </a>
+    </div>
+    <ul class="nav navbar-top-links ">
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+    <!-- /.navbar-static-side -->
+</nav>
+
+<div id="content-wrapper">
+    <div class="list-group">
+            <a href="" class="list-group-item" ng-controller="notificationsController" ng-repeat="notification in notifications" ng-click="" >
+                <p class="list-group-item-text"><i class="fa fa-bullhorn  fa-fw"></i> {{notification.msg}}
+                    <button type="button" class="btn btn-default btn-xs pull-right" onclick="download()">
+                            <i class="fa fa-check "></i>
+                    </button>       
+                </p>
+            </a>      
+            <!-- /.list-group-item -->
+    </div>
+</div>

@@ -27,7 +27,9 @@ public class ApplicationConfig extends Application {
         resources.add(lk.ucsc.score.apps.service.UserFacadeREST.class);
         resources.add(lk.ucsc.score.apps.service.ProjectFacadeREST.class);
         resources.add(lk.ucsc.score.apps.service.DiskimageFacadeREST.class);
-        
+        resources.add(lk.ucsc.score.apps.service.NoteFacadeREST.class);
+        resources.add(lk.ucsc.score.apps.service.ReportFacadeREST.class);
+        resources.add(lk.ucsc.score.apps.service.LogFacadeREST.class);
         return resources;
     }
     

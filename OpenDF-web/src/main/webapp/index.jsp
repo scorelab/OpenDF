@@ -42,14 +42,8 @@
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top main-menu" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="OpenDF" href="index.jsp">OpenDF
-                        <span class="title"  >:Dashboard</span>
+                    <a class="navbar-brand OpenDF " href="index.jsp">OpenDF
+                        <small class="title"  >/ Dashboard</small>
                     </a>
 
                 </div>
@@ -58,13 +52,13 @@
                     
                     <li>
                         <a  href="#">
-                            Notifications 
-                            <span class="notification-counter">3</span> 
+                            <i class="fa fa-bell-o"></i> Notifications 
+                            <span class="notification-counter" ng-show="notifications.length">{{notifications.length}}</span> 
                         </a>
                     </li>
                     <li>
                         <a  href="Logout">
-                             Logout
+                            <i class="fa fa-sign-out"></i> Logout
                         </a>
                     </li>
                 </ul>
@@ -87,48 +81,8 @@
                             <li ng-show="user.level == 0 ">
                                 <a href="#/investigators">Investigators</a>
                             </li>
-
-                            <li>
-                                <a href="#"> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="#">Second Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Second Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level <span class="fa arrow"></span></a>
-                                        <ul class="nav nav-third-level">
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                        </ul>
-                                        <!-- /.nav-third-level -->
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="#"> Sample Pages<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="blank.html">Blank Page</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Login Page</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
+                           <li ng-show="user.level == 0 ">
+                                <a href="#/logs">Logs</a>
                             </li>
                             <li>
                                 <a href="#"></i> Settings<span class="fa arrow"></span></a>

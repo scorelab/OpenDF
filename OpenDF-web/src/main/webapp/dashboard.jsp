@@ -46,7 +46,7 @@
                 <div class="navbar-header">
                     
                     <a class="navbar-brand" href="index.jsp">OpenDF
-                        <span class="title" ng-bind="':'+$window.document.title">:{{sectionTitle}}</span>
+                        <small class="title">/ {{sectionTitle}}</small>
                     </a>
 
                 </div>
@@ -113,15 +113,15 @@
                     </li>-->
                     <ul class="nav navbar-top-links navbar-right">
                     
-                    <li>
-                        <a  href="#">
-                            Notifications 
-                            <span class="notification-counter">3</span> 
+                    <li ng-controller="notificationsController">
+                        <a  href="#/{{idProject}}/settings/notifications">
+                            <i class="fa fa-bell-o"></i> Notifications 
+                            <span class="notification-counter" ng-show="notifications.length">{{notifications.length}}</span> 
                         </a>
                     </li>
                     <li>
                         <a  href="Logout">
-                             Logout
+                            <i class="fa fa-sign-out"></i> Logout
                         </a>
                     </li>
                 </ul>
@@ -129,12 +129,12 @@
 
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
-                        <ul class="nav" id="side-menu">
-                            <li class="sidebar-user">
+                        <ul class="nav" id="side-menu" ng-controller="userController">
+                            <li class="sidebar-user" >
                                 <div class="row">
                                     <div class="col-lg-4" >
-                                        <img src="https://www.gravatar.com/avatar/e264bf37d8b3e5b87d9cc991f2baac7d?s=128&amp;d=identicon&amp;r=PG" ></div>
-                                    <div class="col-lg-8" ><h4 >Milindu Sanoj Kumarage</h4></div>                         
+                                        <img ng-src="{{user.avatar}}" ></div>
+                                    <div class="col-lg-8" ><h4 >{{user.name}}</h4></div>                         
                                 </div>
                                 <!-- /input-group -->
                             </li>
@@ -150,51 +150,14 @@
                                     <li>
                                         <a href="#/{{idProject}}/browse-by-type/">Browse by file type</a>
                                     </li>
-                                    <li>
-                                        <a href="tables.html">Timeline</a>
-                                    </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="tables.html"></i> Face Recognition</a>
+                                <a href="#/{{idProject}}/bookmarks"></i> Notes</a>
                             </li>
                             <li>
-                                <a href="#/{{idProject}}/bookmarks"></i> Bookmarks/ Notes</a>
-                            </li>
-
-                            <li>
-                                <a href="#"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="#">Second Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Second Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level <span class="fa arrow"></span></a>
-                                        <ul class="nav nav-third-level">
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Third Level Item</a>
-                                            </li>
-                                        </ul>
-                                        <!-- /.nav-third-level -->
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="#/{{idProject}}/reports"></i> Reports<span class="fa arrow"></span></a>
+                                <a href="#/{{idProject}}/reports"></i> Reports</a>
                             </li>
                             <li>
                                 <a href="#"></i> Settings<span class="fa arrow"></span></a>

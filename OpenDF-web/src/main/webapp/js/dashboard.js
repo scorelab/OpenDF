@@ -329,7 +329,7 @@ OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' ,
 services.factory('filesFactory', function ($resource) {
     return $resource('api/projects/:id/files/', {id: '@_id'}, {})
 });
-OpenDFApp.controller('reportsController', ['$scope', '$location', '$routeParams', 'reportsFactory','BackboneService' , function ($scope, $location, $routeParams, reportsFactory, BackboneService) {
+OpenDFApp.controller('reportsController', ['$scope', '$location', '$routeParams', 'reportsFactory','BackboneService', function ($scope, $location, $routeParams, reportsFactory, BackboneService) {
         if($routeParams.idReport){
             reportsFactory.get({ id: $routeParams.idReport}, function(data) {
                         console.log(data);

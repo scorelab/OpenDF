@@ -139,43 +139,43 @@
                                 <!-- /input-group -->
                             </li>
                             <li class="active">
-                                <a href="#/{{idProject}}/"></i> Dashboard</a>
+                                <a href="#/{{idProject}}/"> Dashboard</a>
                             </li>
                             <li>
-                                <a href="#/{{idProject}}/browse-by-hierarchy/-1"></i> File System<span class="fa arrow"></span></a>
+                                <a href="#/{{idProject}}/browse-by-hierarchy/-1"> File System<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="#/{{idProject}}/browse-by-hierarchy/-1">Browse by hierarchy </a>
+                                        <a href="#/{{idProject}}/browse-by-hierarchy/-1"><i class="fa fa-sitemap"></i> Browse by hierarchy </a>
                                     </li>
                                     <li>
-                                        <a href="#/{{idProject}}/browse-by-type/">Browse by file type</a>
+                                        <a href="#/{{idProject}}/browse-by-type/"><i class="fa fa-files-o"></i> Browse by file type</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="#/{{idProject}}/bookmarks"></i> Notes</a>
+                                <a href="#/{{idProject}}/bookmarks"> Notes</a>
                             </li>
                             <li>
-                                <a href="#/{{idProject}}/reports"></i> Reports</a>
+                                <a href="#/{{idProject}}/reports"> Reports</a>
                             </li>
                             <li>
-                                <a href="#"></i> Settings<span class="fa arrow"></span></a>
+                                <a href=""> Settings<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="#/{{idProject}}/disk-images">Disk Images</a>
+                                        <a href="#/{{idProject}}/disk-images"><i class="fa fa-hdd-o"></i> Disk Images</a>
                                     </li>
                                     <li>
-                                        <a href="notifications.html">Notifications</a>
+                                        <a href="notifications.html"><i class="fa fa-bell-o"></i> Notifications</a>
                                     </li>
                                     <li>
-                                        <a href="#/{{idProject}}/settings/modules">Modules</a>
+                                        <a href="#/{{idProject}}/settings/modules"><i class="fa fa-cube"></i> Modules</a>
                                     </li>
                                     <li>
-                                        <a href="#/{{idProject}}/settings/investigators">Investigators</a>
+                                        <a href="#/{{idProject}}/settings/investigators"><i class="fa fa-user-secret"></i> Investigators</a>
                                     </li>
                                     <li>
-                                        <a href="#/{{idProject}}/settings/project">Project</a>
+                                        <a href="#/{{idProject}}/settings/project"><i class="fa fa-cog"></i> Project</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->

@@ -13,3 +13,14 @@ ul
 	
 h3	How to contribute?
 p We are on Github! You can simply fork our repo and start developing, one you are done with your super awesome new feature, send us a Pull Request.
+
+h3 Some open issues
+#issues.row
+script.
+	$(document).ready(function(){
+		$.get('https://api.github.com/repos/scorelab/OpenDF/issues?state=open&per_page=4', function(data){
+			$.each( data, function( index, issue ) {
+				$('#issues').append("<a href='"+issue.html_url+"' target='_blank'><div class='col-md-3'><div class='panel panel-default'><div class='panel-body'><small>#"+issue.number+"</small><b> "+issue.title+"</b><br/>"+issue.body+"<hr><img src='"+issue.user.avatar_url+"'/> by @"+issue.user.login+"</div></div></div>");
+			});
+		});
+	});

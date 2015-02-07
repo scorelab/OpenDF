@@ -50,7 +50,7 @@ p {
 
 /* Links */
 a {
-    color: #f85c37;
+    color: #6F6F6F;
     word-wrap: break-word;
 
     -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
@@ -295,4 +295,15 @@ font-size: 13px;
 	width: 100%;
 	border: 0;
 	border: 1px solid #ccc;
+}
+#issues .panel hr {
+	border-top: 1px solid #F7F7F7;
+}
+
+#issues .panel img {
+	width: 25px;
+	border-radius: 50%;
+}
+#issues .panel hr {
+	border-top: 1px solid #F7F7F7;
 }

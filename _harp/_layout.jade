@@ -15,6 +15,7 @@ head
 	script(type='text/javascript').
 		$(function() {
 			$(".rslides").responsiveSlides();
+			
 		});
 	// HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
 	//if lt IE 9
@@ -84,3 +85,10 @@ script(src='assets/js/bootstrap.js')
 script(src='assets/js/jquery.smooth-scroll.min.js')	 
 script.
 	$('.smoothScroll').smoothScroll({offset: -81});
+	if(window.location.hash) {
+		console.log(window.location.hash);
+		$.smoothScroll({
+			scrollTarget: window.location.hash,
+			offset: -81
+		});
+	}

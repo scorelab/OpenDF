@@ -222,9 +222,12 @@ a:after {
 }
 
 #footer p {
-	color: white;
-	text-align: right;
+	color: rgb(171, 171, 171);
 	font-weight: 400;
+}
+
+#footer a {
+	color: white;
 }
 
 /* Image Opacity */

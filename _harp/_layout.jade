@@ -75,11 +75,17 @@ section#contact
 				!= yield
 #footer
 	.container
-		.row.copyrights
-			p 
-				a(href='http://ucsc.lk/') UCSC 
-				||
-				a(href='http://scorelab.org/')  SCORE
+		.row
+			p
+				span 
+					| IRC 
+					a(href="irc://irc.freenode.net/opendf") #OpenDF 
+					| Mailing list 
+					a(href='https://groups.google.com/forum/#!forum/opendf') OpenDF
+				span.pull-right.copyrights
+					a(href='http://ucsc.lk/') UCSC 
+					||
+					a(href='http://scorelab.org/')  SCORE
 			
 script(src='assets/js/bootstrap.js')		 
 script(src='assets/js/jquery.smooth-scroll.min.js')	 

@@ -6,7 +6,13 @@
    $('#issues').append("<a href='"+issue.html_url+"' target='_blank'><div class='col-md-3'><div class='panel panel-default'><div class='panel-body'><small>#"+issue.number+"</small><b> "+issue.title+"</b><br/>"+issue.body+"<hr><img src='"+issue.user.avatar_url+"'/> by @"+issue.user.login+"</div></div></div>");
   });
  });
-});</script></div></div></div></div><div id="footer"><div class="container"><div class="row"><p><span> 
+});</script></div></div></div></div><div id="fb-root"></div><script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=336948363025220&version=v2.0";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><div id="footer"><div class="container"><div class="row"><span data-href="http://www.scorelab.org/OpenDF/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true" class="fb-like"></span>&nbsp;<span data-size="medium" data-href="http://www.scorelab.org/OpenDF/" class="g-plusone"></span><p><span> 
 IRC <a href="irc://irc.freenode.net/opendf">#OpenDF </a>Mailing list <a href="https://groups.google.com/forum/#!forum/opendf">OpenDF</a></span><span class="pull-right copyrights"><a href="http://ucsc.lk/">UCSC </a>|<a href="http://www.scorelab.org/"> SCORE</a></span></p></div></div></div><script src="assets/js/bootstrap.js">		 </script><script src="assets/js/jquery.smooth-scroll.min.js">	 </script><script>$('.smoothScroll').smoothScroll({offset: -81});
 if(window.location.hash) {
  console.log(window.location.hash);
@@ -14,4 +20,4 @@ if(window.location.hash) {
   scrollTarget: window.location.hash,
   offset: -81
  });
-}</script>
+}</script><script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>

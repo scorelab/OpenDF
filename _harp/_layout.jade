@@ -73,9 +73,24 @@ section#contact
 		.row
 			.col-lg-12
 				!= yield
+				
+div#fb-root
+script.
+	(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=336948363025220&version=v2.0";
+	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	
 #footer
 	.container
 		.row
+			span.fb-like( data-href="http://www.scorelab.org/OpenDF/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true")
+			&nbsp;
+			span.g-plusone( data-size="medium" data-href="http://www.scorelab.org/OpenDF/")
+	
 			p
 				span 
 					| IRC 
@@ -86,6 +101,7 @@ section#contact
 					a(href='http://ucsc.lk/') UCSC 
 					||
 					a(href='http://www.scorelab.org/')  SCORE
+				
 			
 script(src='assets/js/bootstrap.js')		 
 script(src='assets/js/jquery.smooth-scroll.min.js')	 
@@ -98,3 +114,4 @@ script.
 			offset: -81
 		});
 	}
+script(src="https://apis.google.com/js/platform.js" async defer)

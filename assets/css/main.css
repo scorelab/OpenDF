@@ -307,3 +307,10 @@ font-size: 13px;
 #issues .panel hr {
 	border-top: 1px solid #F7F7F7;
 }
+img.snapshot{
+	width: 100%;border: 1px solid #bbb;
+}
+hr.light{
+	border-top: 1px solid #F5F5F5;
+	margin: 25px 0px;
+}

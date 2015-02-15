@@ -1,14 +1,17 @@
-.container
-	.row
-		.col-lg-3
-			div.panel
-				div.panel.panel-default
-					div.panel-heading Navigations
-					div.panel-body
-						ol
-							li Installation Guide
-							li User Manual
-							li Test Documents
-		.col-lg-9
-			block docs
+extends _docs.jade
 
+block docs
+	h1 Installation Guide
+	p Installing could be done in several ways, differ on your environment, your development preferences and purpose of installing even.
+	h2 For Development
+	h3 1). With Netbeans
+	p Open the Maven project with Netbeans ( Netbeans 8.0 or higher recommended ),
+		| do a build with dependencies and then you can Run, netbeans will deploy the application to the Glassfish server.
+	p Netbeans should automatically create the JDBS connections and connection pools, JMS Resources,
+		| JMS Factories, etc. If it is not the case, then have to configure them manually.
+	p Use Open Required Projects option to open the ear, ejb and web projects.
+	h2 For Just Sneak Peek
+	h3 1). Using Vagrant
+	p You can simply use the Vagrant to spawn an OpenDF instance on a Virtualbox VM. If you have Vagrant you can charm the vagrant up command.
+	h2 For Use in Production
+	p 

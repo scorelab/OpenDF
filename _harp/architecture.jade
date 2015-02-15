@@ -1,0 +1,21 @@
+extends _docs.jade
+
+block docs
+	h1 Architecture
+	img(src='assets/img/architecture.png', alt='')
+	p The architecture of the system describes the whole procedure of the developing system.
+	h3 Disk images
+	p The investigators of the case must first upload their disk image to the system. It’s the input to the whole system.
+	h3 Sleuth kit
+	p The sleuth kit is used to analyze the data according to its several analyzing techniques such as Meta data structure, timeline generation and sorting files according to the type.
+	h3 Task queue
+	p In our system we use the task queue to analyze the data as it’s a time consuming work.
+	h3 Database
+	p After the data has being analyzed it will move on to the database and it stores all the analyzed data.
+	h3 Pluggable modules
+	p The system we are hoping to develop is a combination of several pluggable modules.
+		| And these pluggable modules can access the data in the database. 
+		| These modules have specific functionalities. Some of the pluggable modules are optical character recognition, voice to text, face recognition, etc. 
+		| These modules can be extended, replaced, or even add new modules. 
+		| So the existing system can be generalized to use for other forensics such as network forensics, mobile device forensics, criminal forensics, database forensics. 
+		| And after that finally the system will give full report to the investigators.

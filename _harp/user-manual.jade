@@ -1,4 +1,142 @@
 extends _docs.jade
 
 block docs
-    h1 User Manual
+	h1 User Manual
+	h2 1. GETTING STARTED
+	h3 1.1. LOGIN
+	p First step in the system is to log to the system. For that you need to use the “Login page”.
+		| First enter the email address correctly and then enter the correct password and click login button.
+		| If both are correct then only you will be able to go inside the system otherwise it will give you warning massage.
+		| If you get that then click ‘ok’ and try again.
+	p Username required minimum 8 characters and password required minimum 5 characters.
+	p When click on “reminder me” it will save the email address and the password, so it will not need to type them again in the next login.
+	img(src='assets/img/usermanual_1.png', alt='')
+	
+	h3 1.2 SYSTEM MENU
+	p Once a user log to the system first page would be the recent projects page.
+		| It will show the working projects. There will be several tabs in the left side of the page,
+		ul
+			li Home (default page)
+			li Investigator- use to add investigators
+			li Settings-use to change account details of the users of the project
+				
+	p When a user move to a project by clicking on the relevant project, the system will move to the dashboard of the relevant project.
+	p In the dashboard there will be fields containing,
+		ul
+			li Name of the project
+			li Description about the project
+			li Investigators relevant to that project
+			li Description about the disk images
+	p In the left side of the page there will be several tabs containing the fields,
+		ul
+			li Dashboard(default)
+			li File systems- contains analyzed disk image files
+			li Notes- contains notes about disk image analyzed files
+			li Reports- contains reports about a project
+			li Settings- contains more sub fields
+			
+	h3 1.3 CHANGING USER ID AND PASSWORD
+	p Before login to a specific project if a user wants to edit his account, he can select settings from the left side tab and go to Account,
+		| edit the following fields which will be available there.
+	ul
+		li Change username
+		li Change password
+		li Change profile picture
+		
+	p Finally when he click the submit button below the changes will save regarding the corresponding user.
+		|Reset button is used to go to the initial position.
+		
+	img(src='assets/img/usermanual_2.png', alt='')
+	h3 1.4 EXIT SYSTEM
+	p After complete the tasks by the users they can logout from the system by clicking the “Logout” button in the top right of the page.
+		|This logout tab will be visible in every page of the system.
+	img(src='assets/img/usermanual_3.png', alt='')
+	h2 2. USING THE SYSTEM
+	h3 2.1 RECENT ACTIVITIES
+	p After login to the system, it will come to the projects page (recent projects page). There it will show the all the projects assigned to the relevant user.
+		| It includes all projects assigned to that user and shows the progress of those projects and the recent activities.
+	p Once the user click on each project the system will move to the dashboard of the relevant project.
+	img(src='assets/img/usermanual_4.png', alt='')
+	p When the user log to a one specific project the dashboard of the relevant project will be visible. In the dashboard there will be fields containing,
+		ul
+			li Name of the project
+			li Description about the project
+			li Investigators relevant to that project
+			li Description about the disk images
+	p In the left side of the page there will be several tabs containing the fields, 
+		ul
+			li Dashboard(default)
+			li File system
+			li Notes
+			li Reports
+			li Settings
+	img(src='assets/img/usermanual_5.png', alt='')
+	h3 2.2.	ADD NEW PROJECT
+	p From this feature users can add new projects to the system. Once they received a new project they can add that to the system.
+		| For that, login to the system and in the projects page on the top left of that page there’s a “+” sign.
+		| Click on that and then it will appear the “add new case form”. There are 3 text boxes for the name, description and for the date.
+		| After filling those fields can submit the case by the “submit” button. From the “reset” button can move to the default form.
+	img(src='assets/img/usermanual_6.png', alt='')
+	h3 2.3 ADD DISK IMAGES
+	p Any investigator can perform this task. After login to the system the user can go to the relevant project dashboard and click “settings”
+		| on the left side tab and choose disk images from that. Then system will move to the disk images page. Once click on the “+Add New”
+		| on the top of the page, the user can add a new disk image to the project by filling the relevant fields in the form.
+	p After upload a disk image to the system it will show the disk image in this page. Several disk images will be shown there and in the newly add disk image state will show as: uploading
+	img(src='assets/img/usermanual_7.png', alt='')
+	h3 PROGRESS OF UPLOAD DISK IMAGE
+	p The progress of the analyzing of uploaded disk image will be shown in the relevant disk image box as “Assembling”
+	img(src='assets/img/usermanual_8.png', alt='')
+	h3 2.4 ADD INVESTIGATORS
+	p Investigators can be added to the system in two ways.
+		ul
+			li Add investigators to the system
+			li Add investigators to a relevant project
+	p Both these tasks are done by the investigating head.
+	h3 2.4.1.	ADD INVESTIGATORS TO THE SYSTEM
+	p Login &rarr; Investigators &rarr; Add
+	h3 2.4.2.	ADD INVESTIGATORS TO THE PROJECT
+	p Login &rarr; Dashboard &rarr; Settings &rarr; Investigators &rarr; Add
+	p The investigating head can add investigators to each project from this feature. For this you have to login to the system as the head investigator.
+		| After you login to the system and login to the dashboard of the relevant project it will show settings in the left side tabs.
+		| Once you click on that tabs and select Investigators it will come to add investigators page. Once click on the add button of the relevant investigator,|
+		| he will added to the system. You can add more than one investigator to a project.
+	img(src='assets/img/usermanual_9.png', alt='')
+	h3 2.4.3.	VIEW INVESTIGATORS
+	p Login &rarr; Dashboard &rarr; Settings &rarr; Investigators
+	p From this feature you can see the relevant investigators who are assigned for a project. Any investigator can perform this task.
+		| For that, login to the system and it will show settings in the left side tabs. Once click on that tabs and select Investigators it will come to add investigators page.
+	img(src='assets/img/usermanual_10.png', alt='')
+	h3 2.5 BROWSE FILE BY TYPE
+	p Login &rarr; Dashboard &rarr; Settings &rarr; File Systems &rarr; Browse file by Type
+	p After analyze a relevant disk image, the analyzed files in the disk image will be shown in this file system feature. Users can browse these analyzed files in 2 ways.
+		ul
+			li Browse file by type
+			li Browse file by hierarchy
+	p This feature is used to browse files by their type of a relevant disk image. Any investigator can perform this task. After login to the system it will show settings in the left side tabs.
+		| Once you click File systems on that tab and click Browse by File type it will come to Browse file by type page. In this page there it will show the types of the files.
+	img(src='assets/img/usermanual_11.png', alt='')	
+	h3 2.6 BROWSE FILE BY HIERARCHY
+	p Login &rarr; Dashboard &rarr; Settings &rarr; File Systems &rarr; Browse file by Hierarchy
+	p This feature is used to browse files by their type of a relevant project. Any investigator can perform this task. After login to the system it will show settings in the left side tabs.
+		| Once you click File systems on that tab and click Browse by File hierarchy it will come to Browse file by hierarchy page.
+	img(src='assets/img/usermanual_12.png', alt='')
+	h2 3. REPORTS
+	h3 3.1 VIEW REPORTS
+	p Login &rarr; Dashboard &rarr; Reports
+	p From this feature users can view the relevant reports for each project. Any investigator can perform this task.  After login to the system it will show Reports in the left side tabs.
+		| Once you click Reports on that tab it will come to the reports page. There are 3 types of reports in the system,
+	ul
+		li Current state report
+		li Disk image reports
+		li Current state report
+	img(src='assets/img/usermanual_13.png', alt='')
+	h3 3.2 DOWNLOAD REPORTS
+	p The users can download the reports by clicking the download button in the top right of the page.
+	p The following is an example of the current state report. It contains details about the,
+		ul
+			li Name of the project
+			li Relevant investigators
+			li Disk image details
+			li Notes about disk image files
+	img(src='assets/img/usermanual_14.png', alt='')
+	

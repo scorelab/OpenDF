@@ -37,7 +37,7 @@
             <artifactId>Tsk_DataModel</artifactId>
             <version>4.1.3</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/sleuthkit/bindings/java/dist/Tsk_DataModel.jar</systemPath>
+            <systemPath>${project.basedir}/../sleuthkit/bindings/java/dist/Tsk_DataModel.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.xerial</groupId>

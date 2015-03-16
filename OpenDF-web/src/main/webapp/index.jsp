@@ -128,6 +128,11 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="js/index.js"></script>
+    
+        <!-- Angular App -->
+        <script src="js/app/app.js"></script>
+        <script src="js/app/controllers.js"></script>
+        <script src="js/app/services.js"></script>
 
     </body>
 

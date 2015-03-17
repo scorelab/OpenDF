@@ -45,11 +45,6 @@
           <artifactId>jsoup</artifactId>
           <version>1.8.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.sleuthkit</groupId>
-            <artifactId>Tsk_DataModel</artifactId>
-            <version>4.1.3</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -108,5 +103,10 @@
             <layout>default</layout>
             <name>Repository for library EclipseLink (JPA 2.0)</name>
         </repository>
+        <repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/../repo</url>
+		</repository>
     </repositories>
 </project>

@@ -23,7 +23,7 @@ SOURCE OpenDF.sql
 ```
 
 Then just exit the mysql CLI:
-```sql
+```bash
 exit
 ```
 

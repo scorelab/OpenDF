@@ -1,4 +1,7 @@
 # Setting up the database
+In the following, the preparation of a database for use with OpenDF
+is going to be described.
+
 
 First, let's enter the mysql CLI:
 ```bash

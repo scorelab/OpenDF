@@ -15,6 +15,7 @@ Then grant all DB privileges to him.
 ```sql
 CREATE USER IF NOT EXISTS 'OpenDFU'@'localhost' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';
+```
 
 Then, run the OpenDF.sql script to fill the database with tables:
 ```sql

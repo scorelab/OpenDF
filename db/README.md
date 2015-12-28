@@ -22,5 +22,10 @@ Then, run the OpenDF.sql script to fill the database with tables:
 SOURCE OpenDF.sql
 ```
 
+Then just exit the mysql CLI:
+```sql
+exit
+```
+
 Congratulations! You've successfully set up your database server for
 use with OpenDF!

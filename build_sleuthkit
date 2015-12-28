@@ -1,0 +1,127 @@
+#!/bin/bash
+
+# Shell script to build Sleuth Kit Framework
+# Copyright (C) 2015 Philip Lindner
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# Script for downloading, compiling and installing Sleuth Kit Framework
+# Command line options:
+# 	-p (--package-check)	Check if needed packages (git, make, 
+# 				autoconf, automake, libtool) are installed
+# 	-w (--whitespace-check)	Check the absolute path for whitespace
+#				characters which would cause make to fail
+
+
+# Core functionality - clone, build and install
+function build() {
+	git clone https://github.com/sleuthkit/sleuthkit.git sleuthkit_recent
+	cd sleuthkit_recent
+	./bootstrap
+	./configure
+	make
+	echo $1 | sudo -S make install
+}
+
+# Check the absolute path for whitespaces
+# When this was written, such a whitespace would cause -make- to fail
+function check_path_for_whitespaces() {
+	ABSOLUTE_PATH=$(readlink -f .)
+	for (( i=0; i<${#ABSOLUTE_PATH}; i++ )); do
+		if [ "${ABSOLUTE_PATH:$i:1}" = " " ]; then
+			echo "Warning: Your path contains a whitespace!"
+			echo "This may cause -make- to fail during compilation"
+			break
+		fi
+	done
+}
+
+# Check if all required packages are installed
+# These packages aren't explicity checked for in the configure script
+function check_packages() {
+
+	REQ_PACKAGES=("git" "make" "autoconf" "automake" "libtool")
+	INSTALLED_MANAGERS=()
+
+	# Commands for checking if packet manager exists
+	DPKGPROBE="dpkg-query -W > /dev/null 2>&1"
+	RPMPROBE="rpm -qa > /dev/null 2>&1"
+
+	# Commands for fetching a list of installed packages
+	DPKGLIST="dpkg-query -f '\${binary:Package}\n' -W"
+	RPMLIST="rpm -qa"
+
+	# Checking which packet manager(s) is (are) installed
+	eval $DPKGPROBE
+	if [ "$?" = "0" ]; then
+		INSTALLED_MANAGERS+=(DPKGLIST)
+	fi
+
+	eval $RPMPROBE
+	if [ "$?" = "0" ]; then
+		INSTALLED_MANAGERS+=(RPMLIST)
+	fi
+
+	ALLFOUND=1
+	for i in ${REQ_PACKAGES[@]}; do
+		FOUND_PACK=0
+		for manager in ${INSTALLED_MANAGERS[@]}; do
+			if [ "$(eval \$$manager | grep $i)" != "" ]; then
+				FOUND_PACK=1
+			fi
+		done
+		if [ "$FOUND_PACK" = 0 ]; then
+			echo "The package $i needs to be installed to compile dependencies!"
+			ALLFOUND=0
+		fi
+	done
+
+	if [ "$ALLFOUND" = 0 ]; then
+		echo "Your system is missing some packages required for compilation."
+		echo "Please install these packages and run this script again."
+		exit 1
+	fi
+}
+
+CHECK_PACKAGES=0
+CHECK_WHITESPACE=0
+SHOULD_INSTALL=1
+
+# Check for command line options
+while [ "$1" != "" ]; do
+	case $1 in
+		-p | --package-check)
+			CHECK_PACKAGES=1
+			shift;&
+		-w | --whitespace-check)
+			CHECK_WHITESPACE=1
+			shift;;
+	esac
+done
+
+echo -n "Enter your sudo password: "
+read -s PASSWORD
+echo ""
+
+if [ "$CHECK_WHITESPACE" = 1 ]; then
+	check_path_for_whitespaces
+fi
+
+if [ "$CHECK_PACKAGES" = 1 ]; then
+	check_packages
+fi
+
+build $PASSWORD
+

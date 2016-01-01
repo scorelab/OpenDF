@@ -2,11 +2,11 @@ OpenDF : A Digital Forensics Cloud Tool
 ======
 [![Build Status](https://travis-ci.org/scorelab/OpenDF.svg?branch=master)](https://travis-ci.org/scorelab/OpenDF)
 
-Digital forensics tools are used to investigate cyber crimes happening nowadays. The more the powerful the tool is the more easy it is to gather evidences. Our aim is to develop a powerful Digital Forensics tool with the power of the cloud computing to enable the investigators mine the evidences effectively and report successfully.
+Nowadays, digital forensic tools are often used to investigate cyper crimes which are becoming more and more frequent. In the world of digital forensics, the more powerful tool one has, easier it is to gather evidences. We aim to develop a powerful Digital Forensics tool which has the power of cloud computing to enable investigaters to mine the evidences effectively and generate reports more successfully. 
 
 Refer [Wiki](https://github.com/scorelab/OpenDF/wiki) 
 
-### Using technologies
+### Technologies Used:
  1. Java EE
  2. EJB
  3. JMS

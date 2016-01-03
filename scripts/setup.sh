@@ -28,7 +28,10 @@ cd ..
 
 # Deploy OpenDF to glassfish server
 # The glassfish bin directory should be in the $PATH.
+asadmin start-domain domain1
 asadmin deploy "OpenDF-ear/targetOpenDF-ear-1.0-SNAPSHOT.ear"
+
+echo "Setup done!"
 
 
 

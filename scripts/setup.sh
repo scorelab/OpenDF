@@ -19,7 +19,7 @@ mvn clean install
 # Setting up mysql
 service mysql start
 mysql -u root --password="rooot" --execute="CREATE DATABASE IF NOT EXISTS OpenDF;"
-mysql -u root --password="rooot" --execute="CREATE USER IF NOT EXISTS 'OpenDFU'@'localhost' IDENTIFIED BY '123';"
+mysql -u root --password="rooot" --execute="CREATE USER 'OpenDFU'@'localhost' IDENTIFIED BY '123';"
 mysql -u root --password="rooot" --execute="GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';"
 mysql -u root --password="rooot" --execute="SOURCE db/OpenDF.sql"
 

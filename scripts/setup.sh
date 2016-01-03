@@ -4,11 +4,11 @@ echo "Setup in progress!"
 
 cd /home/OpenDF
 
-# Install maven, mysql, automake, libtool, make
+# Install maven, mysql, automake, libtool, libstdc++, make
 # The following two lines prevent mysql from asking for a password (it will be set to rooot)
 echo mysql-server mysql-server/root_password password rooot | debconf-set-selections
 echo mysql-server mysql-server/root_password_again password rooot | debconf-set-selections
-apt-get -y install maven mysql-server mysql-client automake libtool make
+apt-get -y install maven mysql-server mysql-client automake libtool libstdc++ make
 
 # Build OpenDF
 mvn install:install-file -Dfile=sleuthkit/bindings/java/dist/Tsk_DataModel.jar \

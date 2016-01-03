@@ -17,13 +17,14 @@ mvn install:install-file -Dfile=sleuthkit/bindings/java/dist/Tsk_DataModel.jar \
 mvn clean install
 
 # Setting up mysql
-mysql -e CREATE DATABASE IF NOT EXISTS OpenDF;
-mysql -e CREATE USER IF NOT EXISTS 'OpenDFU'@'localhost' IDENTIFIED BY '123';
-mysql -e GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';
-mysql -e SOURCE db/OpenDF.sql
+service mysql start
+mysql --execute="CREATE DATABASE IF NOT EXISTS OpenDF;"
+mysql --execute="CREATE USER IF NOT EXISTS 'OpenDFU'@'localhost' IDENTIFIED BY '123';"
+mysql --execute="GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';"
+mysql --execute="SOURCE db/OpenDF.sql"
 
 # Build dependencies
-# Not using build_sleuthkit here as it is interactive
+# Not using the build_sleuthkit script here as it is interactive
 git clone https://github.com/sleuthkit/sleuthkit.git sleuthkit_recent
 cd sleuthkit_recent
 ./bootstrap

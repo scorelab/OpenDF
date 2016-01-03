@@ -21,8 +21,7 @@ service mysql start
 mysql -u root --password="rooot" --execute="CREATE DATABASE IF NOT EXISTS OpenDF;"
 mysql -u root --password="rooot" --execute="CREATE USER 'OpenDFU'@'localhost' IDENTIFIED BY '123';"
 mysql -u root --password="rooot" --execute="GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';"
-mysql -u root --password="rooot" --execute="USE OpenDF;"
-mysql -u root --password="rooot" --execute="SOURCE db/OpenDF.sql"
+mysql -u root --password="rooot" --execute="USE OpenDF; SOURCE db/OpenDF.sql"
 
 # Build dependencies
 # Not using the build_sleuthkit script here as it is interactive

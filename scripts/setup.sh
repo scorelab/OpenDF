@@ -8,7 +8,7 @@ cd /home/OpenDF
 # The following two lines prevent mysql from asking for a password (it will be set to rooot)
 echo mysql-server mysql-server/root_password password rooot | debconf-set-selections
 echo mysql-server mysql-server/root_password_again password rooot | debconf-set-selections
-apt-get install maven mysql-server mysql-client
+apt-get -y install maven mysql-server mysql-client
 
 # Build OpenDF
 mvn install:install-file -Dfile=sleuthkit/bindings/java/dist/Tsk_DataModel.jar \

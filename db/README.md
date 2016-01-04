@@ -16,7 +16,7 @@ CREATE DATABASE IF NOT EXISTS OpenDF;
 Create the user OpenDFU and set his password to 123.
 Then grant all DB privileges to him.
 ```sql
-CREATE USER IF NOT EXISTS 'OpenDFU'@'localhost' IDENTIFIED BY '123';
+CREATE USER 'OpenDFU'@'localhost' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';
 ```
 

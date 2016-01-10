@@ -20,6 +20,11 @@ CREATE USER 'OpenDFU'@'localhost' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';
 ```
 
+Select the database:
+```sql
+Use OpenDF;
+```
+
 Then, run the OpenDF.sql script to fill the database with tables:
 ```sql
 SOURCE OpenDF.sql

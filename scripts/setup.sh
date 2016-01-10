@@ -37,11 +37,13 @@ make
 make install
 cd ..
 
+
 echo "Setting up Glashfish server!"
+asadmin restart-domain
 wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.zip
 unzip mysql-connector-java-5.1.38.zip
 asadmin add-library --type ext mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar
-asadmin restart-domain  domain1
+asadmin restart-domain
 
 echo "Deploying OpenDF to glassfish server!"
 # Deploy OpenDF to glassfish server
@@ -51,8 +53,4 @@ asadmin add-resources "OpenDF-web/src/main/setup/glassfish-resources.xml"
 
 asadmin deploy "OpenDF-ear/target/OpenDF-ear-1.0-SNAPSHOT.ear"
 
-echo "OpenDF succefully deployed on http://$(/sbin/ip route|awk '/default/ { print $3 }'):8080/OpenDF-web-1.0-SNAPSHOT"
-
-
-
-
+echo "OpenDF succefully deployed on http://$(/sbin/ip route|awk '/default/ { print $3 }'):8080/OpenDF-web"

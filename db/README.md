@@ -22,7 +22,7 @@ GRANT ALL PRIVILEGES ON OpenDF.* TO 'OpenDFU'@'localhost';
 
 Select the database:
 ```sql
-Use OpenDF;
+USE OpenDF;
 ```
 
 Then, run the OpenDF.sql script to fill the database with tables:

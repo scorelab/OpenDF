@@ -4,19 +4,17 @@ echo "Setup in progress!"
 
 cd /home/OpenDF
 
-# Generate a password for mysql using unix system time as source
-RAN_PW=$(date +%s | md5sum | base64 | head -c 16)
+# Command for generating a 16-character pseudo-random password using $RANDOM as source
+RAN_PW="echo -n $RANDOM | md5sum | base64 | head -c 16"
 
 # Set environment variables (or get them from docker if possible)
 SLEUTHKIT_REPO=${SLEUTHKIT_REPO:-"https://github.com/sleuthkit/sleuthkit.git"}
 
 MYSQL_USER=${MYSQL_USER:-"root"}
-MYSQL_PW=${MYSQL_PW:-"$RAN_PW"}
+MYSQL_PW=${MYSQL_PW:-"$(eval $RAN_PW)"}
 
 OPENDF_DB_USER=${OPENDF_DB_USER:-"OpenDFU"}
-OPENDF_DB_PW=${OPENDF_DB_PW:-"123"}
-
-echo "Mysql password set to: $MYSQL_PW"
+OPENDF_DB_PW=${OPENDF_DB_PW:-"$(eval $RAN_PW)"}
 
 
 echo "Installing tools!"
@@ -66,6 +64,8 @@ asadmin add-resources "OpenDF-web/src/main/setup/glassfish-resources.xml"
 
 asadmin deploy "OpenDF-ear/target/OpenDF-ear-1.0-SNAPSHOT.ear"
 
+echo "MySQL login: user ${MYSQL_USER}; password ${MYSQL_PW}"
+echo "Access to OpenDF database granted to: user ${OPENDF_DB_USER}; password ${OPENDF_DB_PW}"
 echo "OpenDF succefully deployed on http://$(/sbin/ip route|awk '/default/ { print $3 }'):8080/OpenDF-web-1.0-SNAPSHOT"
 
 

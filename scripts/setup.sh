@@ -64,8 +64,8 @@ asadmin add-resources "OpenDF-web/src/main/setup/glassfish-resources.xml"
 
 asadmin deploy "OpenDF-ear/target/OpenDF-ear-1.0-SNAPSHOT.ear"
 
-echo "MySQL login: user ${MYSQL_USER}; password ${MYSQL_PW}"
-echo "Access to OpenDF database granted to: user ${OPENDF_DB_USER}; password ${OPENDF_DB_PW}"
+echo "[INFO] ----- MySQL login: user ${MYSQL_USER}; password ${MYSQL_PW} -----"
+echo "[INFO] ----- Access to OpenDF database granted to: user ${OPENDF_DB_USER}; password ${OPENDF_DB_PW} -----"
 echo "OpenDF succefully deployed on http://$(/sbin/ip route|awk '/default/ { print $3 }'):8080/OpenDF-web-1.0-SNAPSHOT"
 
 

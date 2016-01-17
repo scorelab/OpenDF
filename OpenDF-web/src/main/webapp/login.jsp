@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +48,7 @@
                             <% if(request.getParameter("msg")!=null) { %>
                             <div class="alert alert-warning alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <strong>Error : </strong> <%=request.getParameter("msg")+"!" %> 
+                                <strong>Error : </strong> ${fn:escapeXml(param.msg)}!
                             </div>
                             <% } %>
                             <fieldset>

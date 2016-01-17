@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lk.ucsc.score.apps.models.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -24,6 +25,8 @@ import lk.ucsc.score.apps.models.User;
  */
 @WebServlet(name = "UserLogin", urlPatterns = {"/userlogin"})
 public class UserLogin extends HttpServlet {
+
+    public static final String HASHED_PASSWORD_PREFIX = "bcrypt:";
 
     @PersistenceUnit(unitName = "lk.ucsc.score.apps_OpenDF-web_war_1.0-SNAPSHOTPU")
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory( "lk.ucsc.score.apps_OpenDF-web_war_1.0-SNAPSHOTPU" );
@@ -48,15 +51,27 @@ public class UserLogin extends HttpServlet {
                     List resultList = em.createNamedQuery("User.findByUsername")
                                              .setParameter("username", request.getParameter("username"))
                                              .getResultList();
-                    
-             User user;
              
-             
-            //TODO: Hash the password before comparing
             if(resultList.size()==0){
                 response.sendRedirect("login.jsp?msg=User not found");
+                return;
             }
-            else if ((user = (User) resultList.get(0)).getPassword().equals(request.getParameter("password"))) {
+
+            User user = (User) resultList.get(0);
+
+            String password = user.getPassword();
+            boolean validPassword = false;
+
+            if (password.startsWith(HASHED_PASSWORD_PREFIX)) {
+                // verify password hash with bcrypt
+                String bcryptHash = password.substring(HASHED_PASSWORD_PREFIX.length());
+                validPassword = BCrypt.checkpw(request.getParameter("password"), bcryptHash);
+            } else if (password.equals(request.getParameter("password"))) {
+                // password is not hashed, but matches the one provided
+                validPassword = true;
+            }
+
+            if (validPassword) {
                 System.out.println(user);
                 //TODO: Send the user token
                 request.getSession().setAttribute("user", user.getIdUser());

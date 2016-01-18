@@ -61,6 +61,7 @@ public class Setup extends HttpServlet {
             if (!password.equals(passwordConfirm)) { response.sendRedirect("setup.jsp?msg=Passwords do not match");return; }
             if (email.length() < 5) { response.sendRedirect("setup.jsp?msg=Email is too short");return; }
             if (name.length() < 1) { response.sendRedirect("setup.jsp?msg=Name is too short");return; }
+
             User user = new User();
             user.setUsername(username);
             user.setName(name);
@@ -78,10 +79,12 @@ public class Setup extends HttpServlet {
             
             System.out.println("User: " + user + " ID: " + user.getIdUser());
 
+            // log in as administrator
             request.getSession().setAttribute("user", user.getIdUser());
             response.sendRedirect("index.jsp");
         } catch(Exception e) {
             e.printStackTrace();
+            response.sendRedirect("setup.jsp?msg=Internal server error");
         } finally {
             out.close();
         }

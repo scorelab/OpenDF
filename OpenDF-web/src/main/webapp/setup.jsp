@@ -1,4 +1,13 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
+
+<!-- get the number of users that exist and store as userCount -->
+<sql:query dataSource="OpenDF" var="countResult">SELECT COUNT(*) FROM User;</sql:query>
+<% Long userCount = (Long) ((Result) pageContext.getAttribute("countResult")).getRowsByIndex()[0][0]; %>
+
+<!-- redirect to index page if OpenDF has already been setup (there is at least one user) -->
+<% if(userCount > 0) { response.sendRedirect("index.jsp"); return; } %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,9 +49,8 @@
                     <div class="login-panel panel panel-default">
                         <div class="panel-body">
                             <div class="panel-heading">
-                                <img class="profile-img" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT80r7crGcHV3eNA0QBU92K5Vw3GR-qVfym-RY_Gj288kML8p4YBA" alt="">
-                                <h1 class="text-center login-title">Initial Setup</h1>
-                                <h4>Administator account</h4>
+                                <h1 class="text-center login-title">Setup OpenDF</h1>
+                                <h4>Administator account details</h4>
                             </div>
 
                             <form role="form" action="initialsetup" method="POST">
@@ -74,7 +82,7 @@
                                         <input class="form-control" placeholder="Name" name="name" type="text" ng-minlength="1" value="" pattern=".{1,}"   title="1 characters minimum" required>
                                     </div>
                                     <!-- Change this to a button or input when using this as a form -->
-                                    <button type="submit" class="btn btn-lg btn-success btn-block">Finish setup</a>
+                                    <button type="submit" class="btn btn-lg btn-success btn-block">Create admin account</a>
                                 </fieldset>
                             </form>
                         </div>

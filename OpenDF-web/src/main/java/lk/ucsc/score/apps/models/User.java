@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "User")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "User.count", query = "SELECT COUNT(u) FROM User u"),
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByIdUser", query = "SELECT u FROM User u WHERE u.idUser = :idUser"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
@@ -63,7 +64,7 @@ public class User implements Serializable {
     private String name;
     @Size(max = 500)
     @Column(name = "avatar")
-    private String avatar;
+    private String avatar = "img/user.jpg";
     @Column(name = "level")
     private Integer level;
 

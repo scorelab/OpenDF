@@ -1,4 +1,14 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
+
+<!-- get the number of users that exist and store as userCount -->
+<sql:query dataSource="OpenDF" var="countResult">SELECT COUNT(*) FROM User;</sql:query>
+<% Long userCount = (Long) ((Result) pageContext.getAttribute("countResult")).getRowsByIndex()[0][0]; %>
+
+<!-- redirect to setup page if OpenDF has not been configured yet (no users) -->
+<% if(userCount == 0) { response.sendRedirect("setup.jsp"); return; } %>
+
 <!DOCTYPE html>
 <html lang="en">
 

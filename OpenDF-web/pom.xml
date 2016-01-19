@@ -58,13 +58,6 @@
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
                 <version>1.5.3</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <file>src/main/setup/glassfish-resources.xml</file>
                     <replacements>

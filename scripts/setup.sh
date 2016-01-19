@@ -29,6 +29,9 @@ echo "Building OpenDF!"
 mvn install:install-file -Dfile=sleuthkit/bindings/java/dist/Tsk_DataModel.jar \
 -DgroupId=org.sleuthkit -DartifactId=Tsk_DataModel -Dversion=4.1.3 -Dpackaging=jar
 
+# Replace database username and password in glassfish-resources.xml
+(cd OpenDF-web; mvn replacer:replace)
+
 mvn clean install
 
 echo "Setting up mysql!"

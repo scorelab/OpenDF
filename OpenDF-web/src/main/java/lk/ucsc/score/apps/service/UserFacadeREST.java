@@ -21,7 +21,9 @@ import javax.ws.rs.FormParam;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
+import lk.ucsc.score.apps.UserLogin;
 import lk.ucsc.score.apps.uploaders.Validator;
+import org.mindrot.jbcrypt.BCrypt;
 /**
  *
  * @author Acer
@@ -96,8 +98,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
         if(!password.equals(repassword) ){ throw new ServiceException(500, "Passwords do not match"); }
         if(password.length() <  8 ){ throw new ServiceException(500, "Password too short"); }
         if(password.length() > 30 ){ throw new ServiceException(500, "Password too long"); }
-        User user =  em.find(User.class, (Integer)idUser);
-        user.setPassword(password);
+        User user = em.find(User.class, (Integer)idUser);
+        user.setPassword(UserLogin.HASHED_PASSWORD_PREFIX + BCrypt.hashpw(password, BCrypt.gensalt()));
         em.persist(user);
     }
     

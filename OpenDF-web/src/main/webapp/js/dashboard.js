@@ -83,11 +83,13 @@ OpenDFApp.config(['$routeProvider',
 OpenDFApp.controller('dashboardController', ['$scope', '$location', '$routeParams','ProjectsFactory', 'BackboneService', '$rootScope', function ($scope, $location, $routeParams, ProjectsFactory, BackboneService, $rootScope) {
         BackboneService.id = $routeParams.idProject;
         $rootScope.idProject = $routeParams.idProject;
-        ProjectsFactory.get({ id: $routeParams.idProject }, function(data) {
-            $scope.project = data;
-            console.log($scope.project);
-            $rootScope.sectionTitle = $scope.project.name;
-        }); 
+        if($routeParams.idProject) {
+            ProjectsFactory.get({ id: $routeParams.idProject }, function(data) {
+                $scope.project = data;
+                console.log($scope.project);
+                $rootScope.sectionTitle = $scope.project.name;
+            });
+        }
 }]);
 OpenDFApp.controller('processesController', ['$scope', '$location' , 'BackboneService', function ($scope, $location, BackboneService) {
         $scope.processes = BackboneService.prosecces;

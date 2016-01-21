@@ -204,7 +204,7 @@ OpenDFApp.controller('notesController', ['$scope', '$routeParams', 'notesFactory
             $scope.notes  = notes;
         });
         $scope.isFileType = function(name, types){
-            return types.indexOf(name.match(/\.[0-9a-z]{1,5}$/i)[0]) >= 0;
+            return types.indexOf((name.match(/\.[0-9a-z]{1,5}$/i) || [undefined])[0]) >= 0;
         }
         $scope.hasFileType = function(name){
             return name.match(/\.[0-9a-z]{1,5}$/i)!=null;
@@ -307,7 +307,10 @@ services.factory('InvestigatorsFactory', function ($resource) {
         })
 });
 OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' , 'DiskImagesFactory', function ($scope, $location, $routeParams, DiskImagesFactory) {
-       $scope.displayType = 'thumbs';
+        $scope.displayFormat = localStorage.fileDisplayFormat || 'link';
+        $scope.$watch('displayFormat', function() {
+            localStorage.fileDisplayFormat = $scope.displayFormat;
+        })
        
         $scope.getFilesByHierarchy = function(){
             DiskImagesFactory.getFile({ id: $routeParams.idProject,  idFile: $routeParams.idFile  }, function(data) {
@@ -322,7 +325,7 @@ OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' ,
             });
         }
         $scope.isFileType = function(name, types){
-            return types.indexOf(name.match(/\.[0-9a-z]{1,5}$/i)[0]) >= 0;
+            return types.indexOf((name.match(/\.[0-9a-z]{1,5}$/i) || [undefined])[0]) >= 0;
         }
         $scope.hasFileType = function(name){
             return name.match(/\.[0-9a-z]{1,5}$/i)!=null;
@@ -336,11 +339,10 @@ OpenDFApp.directive('dfThumbBackgroundImage', function () {
         },
         link: function (scope, elem, attrs) {
             function isFileType(name, types) {
-                return types.indexOf(name.match(/\.[0-9a-z]{1,5}$/i)[0]) >= 0;
+                return types.indexOf((name.match(/\.[0-9a-z]{1,5}$/i) || [undefined])[0]) >= 0;
             }
             scope.$watch('dfThumbBackgroundImage', function (file) {
                 var isImage = isFileType(file.name, ['.png', '.jpg', '.jpeg', '.gif', '.tif']);
-                console.log('file', file, isImage);
                 if (isImage) {
                     elem.css({
                         'background-image': 'url(ServeFile?idFile=' + file.idFile + ')',

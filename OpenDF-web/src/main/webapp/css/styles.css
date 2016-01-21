@@ -425,3 +425,7 @@ background-color: #F5F5F5;
     margin-right: 10px;
     margin-bottom: 10px;
 }
+.file-thumbnail-image {
+    height: 110px;
+    background-size: cover;
+}

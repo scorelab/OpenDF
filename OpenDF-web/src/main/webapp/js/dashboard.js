@@ -345,11 +345,12 @@ OpenDFApp.directive('dfThumbBackgroundImage', function () {
                 var isImage = isFileType(file.name, ['.png', '.jpg', '.jpeg', '.gif', '.tif']);
                 if (isImage) {
                     elem.css({
-                        'background-image': 'url(ServeFile?idFile=' + file.idFile + ')',
-                        'background-size': 'cover'
+                        'background-image': 'url(ServeFile?idFile=' + file.idFile + ')'
                     });
                 } else {
-                    elem.css({'background-image': ''});
+                    elem.css({
+                        'background-image': 'url(img/document.svg)'
+                    });
                 }
             });
         }

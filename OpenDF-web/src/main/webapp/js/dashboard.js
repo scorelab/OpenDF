@@ -204,7 +204,7 @@ OpenDFApp.controller('notesController', ['$scope', '$routeParams', 'notesFactory
             $scope.notes  = notes;
         });
         $scope.isFileType = function(name, types){
-            return !$.inArray(name.match(/\.[0-9a-z]{1,5}$/i)[0], types);
+            return types.indexOf(name.match(/\.[0-9a-z]{1,5}$/i)[0]) >= 0;
         }
         $scope.hasFileType = function(name){
             return name.match(/\.[0-9a-z]{1,5}$/i)!=null;
@@ -322,7 +322,7 @@ OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' ,
             });
         }
         $scope.isFileType = function(name, types){
-            return !$.inArray(name.match(/\.[0-9a-z]{1,5}$/i)[0], types);
+            return types.indexOf(name.match(/\.[0-9a-z]{1,5}$/i)[0]) >= 0;
         }
         $scope.hasFileType = function(name){
             return name.match(/\.[0-9a-z]{1,5}$/i)!=null;
@@ -336,7 +336,7 @@ OpenDFApp.directive('dfThumbBackgroundImage', function () {
         },
         link: function (scope, elem, attrs) {
             function isFileType(name, types) {
-                return !$.inArray(name.match(/\.[0-9a-z]{1,5}$/i)[0], types);
+                return types.indexOf(name.match(/\.[0-9a-z]{1,5}$/i)[0]) >= 0;
             }
             scope.$watch('dfThumbBackgroundImage', function (file) {
                 var isImage = isFileType(file.name, ['.png', '.jpg', '.jpeg', '.gif', '.tif']);

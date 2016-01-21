@@ -20,13 +20,16 @@
     <div class="list-group" ng-controller="filesController" ng-init="getFilesByHierarchy()">
         <a  class="list-group-item" ng-if="displayType === 'list'"  ng-repeat="fl in file.childrenCollection" ng-click="(!fl.isDir)?false:goto('/'+idProject+'/browse-by-hierarchy/'+fl.idFile)">
             <h4 class="list-group-item-heading" ng-if="fl.name !=''">
-                <span ng-if="fl.isDir"> <i class="fa fa-folder-o"></i></span>		
-                <span ng-if="!fl.isDir && hasFileType(fl.name)"> 		
+                <span ng-if="fl.isDir"> <i class="fa fa-folder-o"></i></span>
+                <span ng-if="!fl.isDir && hasFileType(fl.name)">
                     <i class="fa fa-file-audio-o" ng-show="isFileType(fl.name,['.mp3','.wma'])"></i>
                     <i class="fa fa-file-pdf-o" ng-show="isFileType(fl.name,['.pdf'])"></i>
                     <i class="fa fa-file-archive-o" ng-show="isFileType(fl.name, ['.tar', '.zip', '.rar', '.7z', '.gz'])"></i>
                     <i class="fa fa-file-text" ng-show="isFileType(fl.name, ['.txt'])"></i>
                     <i class="fa fa-file-image-o" ng-show="isFileType(fl.name, ['.png', '.jpg', '.jpeg', '.gif', '.tif'])"></i>
+                    <i class="fa fa-file-word-o" ng-show="isFileType(fl.name, ['.odt', '.fodt', '.doc', '.dot', '.docx', '.docm', '.dotx', '.dotm', '.docb'])"></i>
+                    <i class="fa fa-file-excel-o" ng-show="isFileType(fl.name, ['.ods', '.fods', '.xls', '.xlt', '.xlm', '.xlsx', '.xlsm', '.xltx', '.xltm', '.xlw', '.xlsb'])"></i>
+                    <i class="fa fa-file-powerpoint-o" ng-show="isFileType(fl.name, ['.odp', '.fodp', '.ppt', '.pot', '.pps', '.pptx', '.pptm', '.potx', '.potm', '.ppam', '.ppsx', '.ppsm', '.sldx', '.sldm'])"></i>
                 </span>
                 <span ng-if="!fl.isDir && !hasFileType(fl.name)">
                     <i class="fa fa-file"></i>
@@ -48,9 +51,12 @@
                 <span ng-if="!fl.isDir && hasFileType(fl.name)">
                     <i class="fa fa-file-audio-o" ng-show="isFileType(fl.name,['.mp3','.wma'])"></i>
                     <i class="fa fa-file-pdf-o" ng-show="isFileType(fl.name,['.pdf'])"></i>
-                    <i class="fa fa-file-archive-o" ng-show="isFileType(fl.name,['.tar','.zip','.rar','.7z','.gz'])"></i>
-                    <i class="fa fa-file-text" ng-show="isFileType(fl.name,['.txt'])"></i>
-                    <i class="fa fa-file-image-o" ng-show="isFileType(fl.name,['.png', '.jpg', '.jpeg', '.gif', '.tif'])"></i>
+                    <i class="fa fa-file-archive-o" ng-show="isFileType(fl.name, ['.tar', '.zip', '.rar', '.7z', '.gz'])"></i>
+                    <i class="fa fa-file-text" ng-show="isFileType(fl.name, ['.txt'])"></i>
+                    <i class="fa fa-file-image-o" ng-show="isFileType(fl.name, ['.png', '.jpg', '.jpeg', '.gif', '.tif'])"></i>
+                    <i class="fa fa-file-word-o" ng-show="isFileType(fl.name, ['.odt', '.fodt', '.doc', '.dot', '.docx', '.docm', '.dotx', '.dotm', '.docb'])"></i>
+                    <i class="fa fa-file-excel-o" ng-show="isFileType(fl.name, ['.ods', '.fods', '.xls', '.xlt', '.xlm', '.xlsx', '.xlsm', '.xltx', '.xltm', '.xlw', '.xlsb'])"></i>
+                    <i class="fa fa-file-powerpoint-o" ng-show="isFileType(fl.name, ['.odp', '.fodp', '.ppt', '.pot', '.pps', '.pptx', '.pptm', '.potx', '.potm', '.ppam', '.ppsx', '.ppsm', '.sldx', '.sldm'])"></i>
                 </span>
                 <span ng-if="!fl.isDir && !hasFileType(fl.name)">
                     <i class="fa fa-file"></i>

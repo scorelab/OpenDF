@@ -307,6 +307,7 @@ services.factory('InvestigatorsFactory', function ($resource) {
         })
 });
 OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' , 'DiskImagesFactory', function ($scope, $location, $routeParams, DiskImagesFactory) {
+       $scope.displayType = 'thumbs';
        
         $scope.getFilesByHierarchy = function(){
             DiskImagesFactory.getFile({ id: $routeParams.idProject,  idFile: $routeParams.idFile  }, function(data) {
@@ -328,6 +329,30 @@ OpenDFApp.controller('filesController', ['$scope', '$location', '$routeParams' ,
         }
         
 }]);
+OpenDFApp.directive('dfThumbBackgroundImage', function () {
+    return {
+        scope: {
+            dfThumbBackgroundImage: '='
+        },
+        link: function (scope, elem, attrs) {
+            function isFileType(name, types) {
+                return !$.inArray(name.match(/\.[0-9a-z]{1,5}$/i)[0], types);
+            }
+            scope.$watch('dfThumbBackgroundImage', function (file) {
+                var isImage = isFileType(file.name, ['.png', '.jpg', '.jpeg', '.gif', '.tif']);
+                console.log('file', file, isImage);
+                if (isImage) {
+                    elem.css({
+                        'background-image': 'url(ServeFile?idFile=' + file.idFile + ')',
+                        'background-size': 'cover'
+                    });
+                } else {
+                    elem.css({'background-image': ''});
+                }
+            });
+        }
+    };
+});
 services.factory('filesFactory', function ($resource) {
     return $resource('api/projects/:id/files/', {id: '@_id'}, {})
 });

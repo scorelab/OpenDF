@@ -12,6 +12,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a forwarded port mapping 
   config.vm.network "forwarded_port", guest: 8080, host: 8080
 
-  # Setup OpenDF on the precise32 box.
+  # Setup OpenDF on the box.
   config.vm.provision "shell", path: "scripts/vagrant_boot.sh"
 end

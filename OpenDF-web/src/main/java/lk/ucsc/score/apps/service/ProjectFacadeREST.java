@@ -30,6 +30,7 @@ import lk.ucsc.score.apps.models.User;
 import lk.ucsc.score.apps.models.File;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.ws.rs.DefaultValue;
+import lk.ucsc.score.apps.Authentication;
 /**
  *
  * @author Acer
@@ -47,6 +48,8 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     @POST
     @Consumes({"application/xml", "application/json"})
     public void create(Project entity, @Context HttpServletRequest request) {
+        Authentication.assertUserHasAccess(request);
+        
         HttpSession session = request.getSession();
         if(session == null ){ throw new ServiceException(401, "Not authorized"); }
         Object idUser =  session.getAttribute("user"); 
@@ -65,11 +68,8 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     @Path("{id}/add-investigator")
     @Consumes({"application/xml", "application/json"})
     public void addInvestigator(@PathParam("id") Integer id, @QueryParam("user") Integer idUser , @Context HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
-        //Object idUser =  session.getAttribute("user"); 
-        //TODO Check if admin
-        //if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        Authentication.assertUserIsAdmin(request, em);
+        
         User user =  em.find(User.class, idUser);
         Project project =  em.find(Project.class, id);
 
@@ -77,55 +77,55 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
         user.getProjectCollection().add(project);
         getEntityManager().persist(project);
         getEntityManager().persist(user);
-        
     }
 
     @GET
     @Path("{id}/remove-investigator")
     @Consumes({"application/xml", "application/json"})
     public void removeInvestigator(@PathParam("id") Integer id, @QueryParam("user") Integer idUser , @Context HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
-        //Object idUser =  session.getAttribute("user"); 
-        //TODO Check if admin
-        //if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        Authentication.assertUserIsAdmin(request, em);
+        
         User user =  em.find(User.class, idUser);
         Project project =  em.find(Project.class, id);
 
         project.getUserCollection().remove(user); // useful to maintain coherence, but ignored by JPA
         user.getProjectCollection().remove(project);
         getEntityManager().persist(project);
-        getEntityManager().persist(user);
-        
+        getEntityManager().persist(user);   
     }
 
     @PUT
-    @Override
     @Consumes({"application/xml", "application/json"})
-    public void edit(Project entity) {
+    public void edit(@Context HttpServletRequest request, Project entity) {
+        Authentication.assertUserHasProject(request, em, entity.getIdProject());
+        
         super.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
+    public void remove(@Context HttpServletRequest request, @PathParam("id") Integer id) {
+        Authentication.assertUserHasProject(request, em, id);
+        
         super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Project find(@PathParam("id") Integer id) {
+    public Project find(@Context HttpServletRequest request, @PathParam("id") Integer id) {
+        Authentication.assertUserHasProject(request, em, id);
+        
         return super.find(id);
     }
 
     @GET
     @Produces({"application/xml", "application/json"})
     public Collection<Project> findAll(@Context HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        if(session == null ){ throw new ServiceException(401, "Not authorized"); }
-        Object idUser =  session.getAttribute("user"); 
-        if(idUser == null ){ throw new ServiceException(401, "Not authorized"); }
+        Authentication.assertUserHasAccess(request);
+
+        Object idUser = Authentication.getUserId(request);
+
         User user =  em.find(User.class, (Integer)idUser);
         System.out.println("Username:  "+user.getUsername()+user.getIdUser()+user.getProjectCollection().toString());
         return user.getProjectCollection();
@@ -134,14 +134,18 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     @GET
     @Path("{id}/diskImages")
     @Produces({"application/xml", "application/json"})
-    public Collection<Diskimage> getDiskimages(@PathParam("id") Integer id) {
+    public Collection<Diskimage> getDiskimages(@Context HttpServletRequest request, @PathParam("id") Integer id) {
+        Authentication.assertUserHasProject(request, em, id);
+        
         return super.find(id).getDiskimageCollection();
     }
 
     @GET
     @Path("{id}/file/{idFile}")
     @Produces({"application/xml", "application/json"})
-    public File getFile(@PathParam("id") Integer id,  @PathParam("idFile") @DefaultValue("-1") Integer idFile) {
+    public File getFile(@Context HttpServletRequest request, @PathParam("id") Integer id,  @PathParam("idFile") @DefaultValue("-1") Integer idFile) {
+        Authentication.assertUserHasProject(request, em, id);
+        
         File file;
         if(idFile==-1){
              file = new File();
@@ -157,7 +161,8 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     @GET
     @Path("{id}/files/type/{type}")
     @Produces({"application/xml", "application/json"})
-    public Collection<File> getFile(@PathParam("id") Integer idProject,  @PathParam("type")  String type) {
+    public Collection<File> getFile(@Context HttpServletRequest request, @PathParam("id") Integer idProject,  @PathParam("type")  String type) {
+        Authentication.assertUserHasProject(request, em, idProject);
         
         Collection<File> childrens = (Collection<File>)em.createNamedQuery("File.findByType").setParameter("type", "%."+type).setParameter("idProject", idProject).getResultList();
         return childrens;
@@ -165,7 +170,8 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     @GET
     @Path("{id}/files/types")
     @Produces({"application/xml", "application/json"})
-    public Collection<File> getFileTypes(@PathParam("id") Integer idProject,  @PathParam("type")  String type) {
+    public Collection<File> getFileTypes(@Context HttpServletRequest request, @PathParam("id") Integer idProject,  @PathParam("type")  String type) {
+        Authentication.assertUserHasProject(request, em, idProject);
         
         Collection<File> childrens = (Collection<File>)em.createNamedQuery("File.findTypes")
                 //.setParameter("type", "%."+type)
@@ -177,28 +183,37 @@ public class ProjectFacadeREST extends AbstractFacade<Project> {
     @GET
     @Path("{id}/investigators")
     @Produces({"application/xml", "application/json"})
-    public Collection<User> getInvestigators(@PathParam("id") Integer id) {
+    public Collection<User> getInvestigators(@Context HttpServletRequest request, @PathParam("id") Integer id) {
+        Authentication.assertUserHasProject(request, em, id);
+        
         return super.find(id).getUserCollection();
     }
 
     @GET
     @Path("{id}/other-investigators")
     @Produces({"application/xml", "application/json"})
-    public Collection<User> getOtherInvestigators(@PathParam("id") Integer id) {
+    public Collection<User> getOtherInvestigators(@Context HttpServletRequest request, @PathParam("id") Integer id) {
+        Authentication.assertUserHasProject(request, em, id);
+        
         return em.createNamedQuery("User.findNonInvestigatorsOfaProject").setParameter("idProject", id).getResultList();
     }
     
     @GET
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})
-    public List<Project> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Project> findRange(@Context HttpServletRequest request, @PathParam("from") Integer from, @PathParam("to") Integer to) {
+        Authentication.assertUserHasAccess(request);
+        
+        // TODO: Limit this to projects user has access to, or remove it
         return super.findRange(new int[]{from, to});
     }
 
     @GET
     @Path("count")
     @Produces("text/plain")
-    public String countREST() {
+    public String countREST(@Context HttpServletRequest request) {
+        Authentication.assertUserHasAccess(request);
+        
         return String.valueOf(super.count());
     }
 

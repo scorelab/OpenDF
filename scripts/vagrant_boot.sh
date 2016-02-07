@@ -15,9 +15,15 @@ cp -r /vagrant/* /home/OpenDF
 apt-get update
 apt-get -y install openjdk-7-jdk unzip git
 
-echo "Downloading glassfish server... "
+echo -n "Downloading glassfish server... "
 wget -q download.java.net/glassfish/4.0/release/glassfish-4.0.zip
-echo "done."
+RETCODE=$?
+if [ "$RETCODE" == 0 ]; then
+    echo "done."
+else
+    echo "error! - code $RETCODE"
+    exit $RETCODE
+fi
 unzip glassfish-4.0.zip -d /opt/glassfish
 rm glassfish-4.0.zip
 export PATH=/opt/glassfish/glassfish4/bin:$PATH

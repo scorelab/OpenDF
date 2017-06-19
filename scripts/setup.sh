@@ -16,7 +16,6 @@ MYSQL_PW=${MYSQL_PW:-"$(eval $RAN_PW)"}
 OPENDF_DB_USER=${OPENDF_DB_USER:-"OpenDFU"}
 OPENDF_DB_PW=${OPENDF_DB_PW:-"$(eval $RAN_PW)"}
 
-
 echo "Installing tools!"
 # Install maven, mysql, automake, libtool, libstdc++, make
 # The following two lines prevent mysql from asking for a password (it will be set to $MYSQL_PASS)
@@ -54,6 +53,7 @@ make install
 cd ..
 
 echo "Setting up Glashfish server!"
+asadmin restart-domain
 wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.zip
 unzip mysql-connector-java-5.1.38.zip
 asadmin add-library --type ext mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar
@@ -71,4 +71,6 @@ echo "[INFO] ----- MySQL login: user ${MYSQL_USER}; password ${MYSQL_PW} -----"
 echo "[INFO] ----- Access to OpenDF database granted to: user ${OPENDF_DB_USER}; password ${OPENDF_DB_PW} -----"
 echo "OpenDF succefully deployed on http://$(/sbin/ip route|awk '/default/ { print $3 }'):8080/OpenDF-web-1.0-SNAPSHOT"
 
+asadmin deploy "OpenDF-ear/target/OpenDF-ear-1.0-SNAPSHOT.ear"
 
+echo "OpenDF succefully deployed on http://$(/sbin/ip route|awk '/default/ { print $3 }'):8080/OpenDF-web"

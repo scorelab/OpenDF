@@ -1,3 +1,15 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ page import="javax.servlet.jsp.jstl.sql.Result" %>
+
+<!-- get the number of users that exist and store as userCount -->
+<sql:query dataSource="OpenDF" var="countResult">SELECT COUNT(*) FROM User;</sql:query>
+<% Long userCount = (Long) ((Result) pageContext.getAttribute("countResult")).getRowsByIndex()[0][0]; %>
+
+<!-- redirect to setup page if OpenDF has not been configured yet (no users) -->
+<% if(userCount == 0) { response.sendRedirect("setup.jsp"); return; } %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +45,57 @@
 </head>
 
 <body ng-app"">
-    <div class="container">
+    <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="side-menu">
+                            <li class="sidebar-user">
+                                <div class="row">
+                                    <div class="col-lg-4" >
+                                        <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT80r7crGcHV3eNA0QBU92K5Vw3GR-qVfym-RY_Gj288kML8p4YBA" ></div>
+                                                        
+                                </div>
+                                <!-- /input-group -->
+                            </li>
+                            <li class="active">
+                                <a href="#/"><i class="fa fa-home fa-lg"></i> Register</a>
+                            </li>
+                            <li>
+                                <a href="#/file-system"><i class="fa fa-folder-open fa-fw"></i>  About<span class="fa arrow"></span></a>
+                                
+                            </li>
+                            <li>
+                                <a href="tables.html"><i class="fa fa-eye fa-fw"></i>  Help</a>
+                            </li>
+                            <li>
+                                <a href="#/bookmarks"><i class="fa fa-bookmark fa-fw"></i>  Contact</a>
+                            </li>
+
+                            <li>
+                                
+                            <li>
+                                <a href="#/reports"><i class="fa fa-files-o fa-fw"></i>Documentation<span class="fa arrow"></span></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-gear fa-fw"></i>  Settings<span class="fa arrow"></span></a>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+                <!-- /.navbar-static-side -->
+            </nav>
+<div id="context-wrapper" class="ng-view">
+            <!-- Page Content -->
+            
+
+            
+            <!-- /#page-wrapper -->
+
+        
+        <!-- /#wrapper -->
+
+<div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">                
@@ -47,7 +109,7 @@
                             <% if(request.getParameter("msg")!=null) { %>
                             <div class="alert alert-warning alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <strong>Error : </strong> <%=request.getParameter("msg")+"!" %> 
+                                <strong>Error : </strong> ${fn:escapeXml(param.msg)}!
                             </div>
                             <% } %>
                             <fieldset>
@@ -66,8 +128,9 @@
             </div>
         </div>
     </div>
-
-    <!-- jQuery Version 1.11.0 -->
+</div>
+  </div>
+  <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
 

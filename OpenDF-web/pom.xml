@@ -50,6 +50,12 @@
             <artifactId>Tsk_DataModel</artifactId>
             <version>4.1.5</version>
         </dependency>
+        <!-- bcrypt hashing -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
     </dependencies>
 
     <build>

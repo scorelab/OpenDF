@@ -418,3 +418,14 @@ background-color: #F5F5F5;
     padding: 10px;
     text-align: center;
 }
+
+.file-thumbs {
+    width: 200px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.file-thumbnail-image {
+    height: 110px;
+    background-size: cover;
+}

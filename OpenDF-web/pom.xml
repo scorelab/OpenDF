@@ -61,6 +61,26 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <configuration>
+                    <file>src/main/setup/glassfish-resources.xml</file>
+                    <replacements>
+                        <replacement>
+                            <xpath>/resources/jdbc-connection-pool/property[@name='User']/@value</xpath>
+                            <token>^.*$</token>
+                            <value>${env.OPENDF_DB_USER}</value>
+                        </replacement>
+                        <replacement>
+                            <xpath>/resources/jdbc-connection-pool/property[@name='Password']/@value</xpath>
+                            <token>^.*$</token>
+                            <value>${env.OPENDF_DB_PW}</value>
+                        </replacement>
+                    </replacements>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>

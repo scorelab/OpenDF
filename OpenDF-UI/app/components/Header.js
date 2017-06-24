@@ -24,24 +24,17 @@ export default class Header extends React.Component {
     return (
         <div>
           <AppBar
-            title="This is title"
+            title="OpenDF"
             iconClassNameRight="muidocs-icon-navigation-expand-more"
             onLeftIconButtonTouchTap={this.handleToggle}
           />
           <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
             <List>
-              <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
-              <ListItem primaryText="Starred" leftIcon={<ActionGrade />} />
-              <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
-              <ListItem primaryText="Drafts" leftIcon={<ContentDrafts />} />
-              <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
-            </List>
-            <Divider />
-            <List>
-              <ListItem primaryText="All mail" rightIcon={<ActionInfo />} />
-              <ListItem primaryText="Trash" rightIcon={<ActionInfo />} />
-              <ListItem primaryText="Spam" rightIcon={<ActionInfo />} />
-              <ListItem primaryText="Follow up" rightIcon={<ActionInfo />} />
+              <ListItem primaryText="Menu01" leftIcon={<ContentInbox />} />
+              <ListItem primaryText="Menu02" leftIcon={<ActionGrade />} />
+              <ListItem primaryText="Menu03" leftIcon={<ContentSend />} />
+              <ListItem primaryText="Menu04" leftIcon={<ContentDrafts />} />
+              <ListItem primaryText="Menu05" leftIcon={<ContentInbox />} />
             </List>
           </Drawer>
         </div>

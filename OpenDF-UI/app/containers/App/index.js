@@ -11,19 +11,36 @@
  * the linting exception.
  */
 
-import React from 'react';
+ import React from 'react';
+ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+ import injectTapEventPlugin from 'react-tap-event-plugin';
+ import Helmet from 'react-helmet';
+ import Header from 'components/Header';
+ import AppTheme from './Theme';
 
-export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+ injectTapEventPlugin();
 
-  static propTypes = {
-    children: React.PropTypes.node,
-  };
+ export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
-  render() {
-    return (
-      <div>
-        {React.Children.toArray(this.props.children)}
-      </div>
-    );
-  }
-}
+   static propTypes = {
+     children: React.PropTypes.node,
+   };
+
+   render() {
+     return (
+       <MuiThemeProvider muiTheme={AppTheme}>
+         <div className="opendf-theme-container">
+          <Helmet
+            titleTemplate="%s - ScoreLab OpenDF"
+            defaultTitle="ScoreLab OpenDF"
+            meta={[
+              { name: 'description', content: 'ScoreLab OpenDF ' },
+            ]}
+          />
+          <Header/>
+           {React.Children.toArray(this.props.children)}
+         </div>
+       </MuiThemeProvider>
+     );
+   }
+ }

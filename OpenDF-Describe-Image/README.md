@@ -16,8 +16,23 @@ $ pip install -r requirements.txt
 ```
 
 ## Usage
-For image classification just run the following command
-`python test_imagenet.py --image "Path to image"`
+Change Directory to `src`
+
+For VGG16 model
+```sh
+$ python main.py --model VGG16 --image "Path to image"
+```
+
+For VGG19 model
+```sh
+$ python main.py --model VGG19 --image "Path to image"
+```
+
+For ResNet50 model
+```sh
+$ python main.py --model ResNet50 --image "Path to image"
+```
+
 
 ## References
 

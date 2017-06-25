@@ -10,25 +10,9 @@ This source can be used with both Theano and Tensoflow backends, and upon instan
 
 Weights will be automatically loaded upon instantiation. If weights are unavailable in the source it will be automatically downloaded, and cached locally in `~/.keras/models/`.
 
-## Requirements 
-1. Install TensorFlow
+## How ro Install
 ```sh
-$ pip install tensorflow
-```
-
-2. Install Keras.
-```sh
-$ pip install keras
-```
-
-3. Install pillow
-```sh
-$ pip install pillow
-```
-
-4. Install numpy
-```sh
-$ pip install numpy
+$ pip install -r requirements.txt
 ```
 
 ## Usage

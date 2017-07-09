@@ -1,4 +1,5 @@
-
+import sys
+sys.path.append('/home/nishan/Documents/OpenDF/OpenDF-Describe-Image/src/models')
 from keras.preprocessing import image as image_utils
 from imagenet_utils import decode_predictions
 from imagenet_utils import preprocess_input

@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/nishan/Documents/OpenDF/OpenDF-Describe-Image/src/models')
+sys.path.append('../models')
 from keras.preprocessing import image as image_utils
 from imagenet_utils import decode_predictions
 from imagenet_utils import preprocess_input
@@ -46,5 +46,5 @@ preds = model.predict(image)
 print("ImageNet ID: {}, Label: {}".format(inID, label))
 cv2.putText(orig, "Label: {}".format(label), (10, 30),
 	cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
-cv2.imshow("Classification", orig)
+#cv2.imshow("Classification", orig)
 cv2.waitKey(0)

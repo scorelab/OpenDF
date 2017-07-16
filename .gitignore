@@ -1,9 +1,12 @@
-# Directories #
-/build/
-/bin/
-target/
+# Directories
+build
+bin
+target
 _test
+sleuthkit-develop
+
+# Files
 OpenDF-ear/nb-configuration.xml
 .vagrant
-/sleuthkit-develop/sleuthkit-develop/bindings/java/test/
-/sleuthkit-develop/bindings/java/test/
+*.iml
+.idea

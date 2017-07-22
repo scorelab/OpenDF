@@ -22,10 +22,17 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+#images dictionary contains uuids and corresponding file path for each uuid
+images = {}
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
+#images dictionary must have at least one record
+def get_actual_path(uuid):
+	uuid= str(uuid)
+	return images[uuid]
 
 def predict_image(modelType, imagePath):
 	print("[INFO] loading and preprocessing image...")
@@ -58,9 +65,12 @@ def allowed_file(filename):
 
 @app.route('/api/analyze/<path:path>', methods=['GET'])
 def upload_image(path):
-	IPath = "/"+path
+	IPath = get_actual_path(path)
+	print (IPath)
 	if(os.path.isfile(IPath)):
-		value = predictImage("VGG16",IPath)
+		value = predict_image("VGG16",IPath)
+	else:
+		value = "File not found"
 	return jsonify({"predicted" : value})
 	
 if __name__ == '__main__':

@@ -27,7 +27,7 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
-def predictImage(modelType, imagePath):
+def predict_image(modelType, imagePath):
 	print("[INFO] loading and preprocessing image...")
 	image = image_utils.load_img(imagePath, target_size=(224, 224))
 	image = image_utils.img_to_array(image)
@@ -57,7 +57,7 @@ def allowed_file(filename):
 
 
 @app.route('/api/analyze/<path:path>', methods=['GET'])
-def uploadImage(path):
+def upload_image(path):
 	IPath = "/"+path
 	if(os.path.isfile(IPath)):
 		value = predictImage("VGG16",IPath)

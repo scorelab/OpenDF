@@ -6,7 +6,6 @@ import subprocess
 from subprocess import PIPE
 import sys
 sys.path.append('../models')
-sys.path.append('../main')
 from keras.preprocessing import image as image_utils
 from imagenet_utils import decode_predictions
 from imagenet_utils import preprocess_input

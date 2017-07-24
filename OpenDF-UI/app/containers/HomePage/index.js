@@ -17,7 +17,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
   render() {
     return (
       <h1>
-        Welcome to OpendDF
+        <FormattedMessage {...messages.header} />
       </h1>
     );
   }

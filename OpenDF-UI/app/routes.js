@@ -41,6 +41,22 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       },
+    },{
+      path: '/profile',
+      name: 'Profile',
+      getComponent(nextState, cb) {
+        import('containers/Profile')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    },{
+      path: '/investigators',
+      name: 'Investigators',
+      getComponent(nextState, cb) {
+        import('containers/Investigators')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
     },
   ];
 }

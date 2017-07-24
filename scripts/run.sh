@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cd /home/OpenDF
-
 echo "Setting up Glashfish resources!"
 # Replace database username and password in glassfish-resources.xml
 (cd OpenDF-web; mvn replacer:replace)

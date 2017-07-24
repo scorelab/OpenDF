@@ -6,7 +6,7 @@ echo "Setup in progress!"
 SLEUTHKIT_REPO=${SLEUTHKIT_REPO:-"https://github.com/sleuthkit/sleuthkit.git"}
 
 echo "Installing tools!"
-apt-get -y install maven automake libtool build-essential
+apt-get install -y maven automake libtool build-essential
 
 echo "Building dependencies!"
 # Build dependencies

@@ -1,0 +1,39 @@
+version: '2'
+services:
+  mysql:
+      image: mysql
+      container_name: mysql
+      ports:
+       - "3307:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_PW}
+        OPENDF_DB_USER: ${OPENDF_DB_USER}
+        OPENDF_DB_PW: ${OPENDF_DB_PW}
+        MYSQL_PW: ${MYSQL_PW}
+        MYSQL_USER: ${MYSQL_USER}
+      volumes:
+       - ./:/OpenDF
+       - opendf-data:/var/lib/mysql
+      user: mysql
+      command: /OpenDF/scripts/setup-mysql.sh
+
+  web:
+      depends_on:
+       - mysql
+      container_name: web
+      build:
+        context: .
+      ports:
+       - "8080:8080"
+       - "4848:4848"
+      environment:
+        GLASSFISH_PW: ${GLASSFISH_PW}
+        GLASSFISH_USER: ${GLASSFISH_USER}
+        OPENDF_DB_USER: ${OPENDF_DB_USER}
+        OPENDF_DB_PW: ${OPENDF_DB_PW}
+        MYSQL_PW: ${MYSQL_PW}
+        MYSQL_USER: ${MYSQL_USER}
+      volumes:
+       - ./:/OpenDF
+volumes:
+  opendf-data:

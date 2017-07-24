@@ -29,4 +29,4 @@ rm glassfish-4.0.zip
 export PATH=/opt/glassfish/glassfish4/bin:$PATH
 
 cd /home/OpenDF/scripts
-./setup.sh
+build.sh

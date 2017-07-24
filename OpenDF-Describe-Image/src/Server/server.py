@@ -1,7 +1,6 @@
 import os
-from flask import Flask, request, redirect, url_for, jsonify, send_from_directory
+from flask import Flask, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
-from flask import send_from_directory
 import subprocess
 from subprocess import PIPE
 import sys
@@ -16,23 +15,20 @@ import numpy as np
 import argparse
 import cv2
 
-UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #images dictionary contains uuids and corresponding file path for each uuid
 images = {}
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
 #images dictionary must have at least one record
 def get_actual_path(uuid):
 	uuid= str(uuid)
-	return images[uuid]
+	if(uuid in images):
+	    return images[uuid]
+	else:
+	    return "Invalid uuid"
 
 def predict_image(modelType, imagePath):
 	print("[INFO] loading and preprocessing image...")
@@ -64,14 +60,19 @@ def allowed_file(filename):
 
 
 @app.route('/api/analyze/<path:path>', methods=['GET'])
-def upload_image(path):
+def analyze_image(path):
 	IPath = get_actual_path(path)
-	print (IPath)
 	if(os.path.isfile(IPath)):
 		value = predict_image("VGG16",IPath)
+		response = jsonify({'message': value})
+		response.status_code = 200
+	elif(IPath=="Invalid uuid"):
+		response = jsonify({'message': 'File not found'})
+		response.status_code = 404
 	else:
-		value = "File not found"
-	return jsonify({"predicted" : value})
+		response = jsonify({'message': 'File not found'})
+		response.status_code = 404
+	return response
 	
 if __name__ == '__main__':
     app.run(debug=True)

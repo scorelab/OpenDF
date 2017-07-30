@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, jsonify
+from flask import Flask, request, redirect, url_for, jsonify, render_template
 from werkzeug.utils import secure_filename
 from subprocess import PIPE
 from keras.preprocessing import image as image_utils
@@ -14,7 +14,6 @@ import cv2
 
 sys.path.append('../models')
 sys.path.append('exceptions')
-
 
 from vgg16 import VGG16
 from vgg19 import VGG19
@@ -60,7 +59,7 @@ def predict_image(modelType, imagePath):
 	elif(modelType == "VGG19"):
 		model = VGG19(weights="imagenet")
 	else:
-		print("Invalid Usage!- Model Name doesnot exist")
+		raise InvalidUsage()
 		exit()
 
 	print("[INFO] classifying image...")
@@ -75,10 +74,16 @@ def handle_fileNot_found(error):
     return response
 
 @app.errorhandler(InvalidUUID)
-def handle_fileNot_found(error):
+def handle_invalid_uuid(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+	
+@app.errorhandler(404)
+def handle_invalid_usage(error):
+    	response = jsonify({'message': 'Invalid Usage'})
+	response.status_code = 404
+	return response
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -100,6 +105,6 @@ def analyze_image(path):
 		raise InvalidUUID()
 
 
-	
+
 if __name__ == '__main__':
     app.run(debug=True)

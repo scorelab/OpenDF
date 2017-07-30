@@ -5,7 +5,7 @@ class InvalidUUID(Exception):
 
     def __init__(self, payload=None):
         Exception.__init__(self)
-        self.message = "Bad Request - UUID Not Valid"
+        self.message = "UUID Not Valid"
         self.status_code = 400
         self.payload = payload
 

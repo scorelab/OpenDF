@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, jsonify, render_template
+from flask import Flask, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from subprocess import PIPE
 from keras.preprocessing import image as image_utils
@@ -81,7 +81,7 @@ def handle_invalid_uuid(error):
 	
 @app.errorhandler(404)
 def handle_invalid_usage(error):
-    	response = jsonify({'message': 'Invalid Usage'})
+    	response = jsonify({'message': 'Invalid Usage', 'error_code': 404})
 	response.status_code = 404
 	return response
 

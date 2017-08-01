@@ -11,4 +11,5 @@ class FileNotFound(Exception):
     def to_dict(self):
         error = dict(self.payload or ())
         error['message'] = self.message
+	error['error_code'] = self.status_code
         return error

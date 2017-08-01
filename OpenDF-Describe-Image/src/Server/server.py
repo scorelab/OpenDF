@@ -81,7 +81,7 @@ def handle_invalid_uuid(error):
 	
 @app.errorhandler(404)
 def handle_invalid_usage(error):
-    	response = jsonify({'message': 'Invalid Usage', 'error_code': 404})
+    	response = jsonify({'message': 'Invalid Usage', 'code': 404})
 	response.status_code = 404
 	return response
 
@@ -96,7 +96,7 @@ def analyze_image(path):
 		IPath = get_actual_path(path)
 		if(os.path.isfile(IPath)):
 			value = predict_image("VGG16",IPath)
-			response = jsonify({'message': value})
+			response = jsonify({'message': value, 'code' : 200})
 			response.status_code = 200
 			return response
 		elif(IPath=="File Not Found"):

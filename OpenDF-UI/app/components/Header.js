@@ -30,8 +30,8 @@ export default class Header extends React.Component {
           />
           <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
             <List>
-              <ListItem primaryText="Profile" leftIcon={<ContentInbox />} />
-              <ListItem primaryText="Investigators" leftIcon={<ActionInfo />} />
+              <ListItem onlclick="/profile" primaryText="Profile" leftIcon={<ContentInbox />} />
+              <ListItem onlclick="/investigators" primaryText="Investigators" leftIcon={<ActionInfo />} />
             </List>
           </Drawer>
         </div>

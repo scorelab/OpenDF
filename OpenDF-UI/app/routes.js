@@ -33,14 +33,6 @@ export default function createRoutes(store) {
 
         importModules.catch(errorLoading);
       },
-    }, {
-      path: '*',
-      name: 'notfound',
-      getComponent(nextState, cb) {
-        import('containers/NotFoundPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
     },{
       path: '/profile',
       name: 'Profile',
@@ -54,6 +46,14 @@ export default function createRoutes(store) {
       name: 'Investigators',
       getComponent(nextState, cb) {
         import('containers/Investigators')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    },{
+      path: '*',
+      name: 'notfound',
+      getComponent(nextState, cb) {
+        import('containers/NotFoundPage')
           .then(loadModule(cb))
           .catch(errorLoading);
       },

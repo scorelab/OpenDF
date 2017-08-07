@@ -1,0 +1,26 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'generate',
+1 verbose cli   'container',
+1 verbose cli   'home' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.0
+4 verbose config Skipping project config: /home/pm/.npmrc. (matches userconfig)
+5 verbose stack Error: ENOENT: no such file or directory, open '/home/pm/package.json'
+5 verbose stack     at Error (native)
+6 verbose cwd /home/pm/myworks/OpenDF
+7 error Linux 4.4.0-79-generic
+8 error argv "/usr/bin/nodejs" "/usr/bin/npm" "run" "generate" "container" "home"
+9 error node v6.11.0
+10 error npm  v3.10.10
+11 error path /home/pm/package.json
+12 error code ENOENT
+13 error errno -2
+14 error syscall open
+15 error enoent ENOENT: no such file or directory, open '/home/pm/package.json'
+16 error enoent ENOENT: no such file or directory, open '/home/pm/package.json'
+16 error enoent This is most likely not a problem with npm itself
+16 error enoent and is related to npm not being able to find a file.
+17 verbose exit [ -2, true ]

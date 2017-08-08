@@ -1,40 +1,40 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import {List, ListItem} from 'material-ui/List';
+import { List } from 'material-ui/List';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
-
+import { Link } from 'react-router';
+import DrawerListItem from './DrawerListItem'
 
 
 export default class Header extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {open: false};
+    this.state = { drawer: false };
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  toggleDrawer = () => {
+    this.setState({ drawer: !this.state.drawer });
+  }
+
 
   render() {
     return (
-        <div>
-          <AppBar
-            title="OpenDF"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
-            onLeftIconButtonTouchTap={this.handleToggle}
-          />
-          <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
-            <List>
-              <ListItem onlclick="/profile" primaryText="Profile" leftIcon={<ContentInbox />} />
-              <ListItem onlclick="/investigators" primaryText="Investigators" leftIcon={<ActionInfo />} />
-            </List>
-          </Drawer>
-        </div>
+      <div>
+        <AppBar
+          title="OpenDF"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          onLeftIconButtonTouchTap={this.toggleDrawer}
+        />
+        <Drawer open={this.state.drawer} docked={false} onRequestChange={ (drawer) => this.setState({ drawer })}>
+          <List onTouchTap={this.toggleDrawer}>
+            <DrawerListItem to={'profile'} primaryText="Profile" leftIcon={<ActionInfo />} />
+            <DrawerListItem to={'investigators'} primaryText="Investigators" leftIcon={<ActionInfo />} />
+          </List>
+        </Drawer>
+      </div>
     );
   }
 }

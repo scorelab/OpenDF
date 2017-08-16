@@ -60,32 +60,39 @@ def predict_image(imagePath):
 	model_type = model_dict['model_type']
 	index=0
 	dictionary={}
+	keywords_list=[]
 	if(model_type == "ResNet50"):
 		image = image_preprocessing(imagePath)
 		model = ResNet50(weights="imagenet")
 		preds = model.predict(image)
 		(inID, label) = decode_predictions(preds)[0]
-		dictionary [index] = label
+		dictionary ['keywords'] = label
 		dictionary ['code'] = 200
 	elif(model_type == "VGG16"):
 		image = image_preprocessing(imagePath)
 		model = VGG16(weights="imagenet")
 		preds = model.predict(image)
 		(inID, label) = decode_predictions(preds)[0]
-		dictionary [index] = label
+		dictionary ['keywords'] = label
 		dictionary ['code'] = 200
 	elif(model_type == "VGG19"):
 		image = image_preprocessing(imagePath)
 		model = VGG19(weights="imagenet")
 		preds = model.predict(image)
 		(inID, label) = decode_predictions(preds)[0]
-		dictionary [index] = label
+		dictionary ['keywords'] = label
 		dictionary ['code'] = 200
 	elif(model_type == "GoogleCloudAPI"):
 		value = GoogleCloudAPI(imagePath)
 		for x in value:
-			dictionary[index]=str(x)
-			index += 1	
+			keywords= {}
+			y = str(x).split('\n')
+			print(y[1][13:])
+			keywords['keyword']=y[1][14:-1]
+			keywords['score']=y[2][7:]
+			keywords_list.append(keywords)
+			index += 1
+		dictionary ['keywords']	= keywords_list
 		dictionary ['code'] = 200
 	else:
 		raise InvalidUsage()
@@ -130,7 +137,6 @@ def analyze_image(path):
 			raise FileNotFound()
 	else:
 		raise InvalidUUID()
-
 
 if __name__ == '__main__':
 	app.run(debug=True)

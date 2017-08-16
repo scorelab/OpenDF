@@ -29,5 +29,5 @@ def GoogleCloudAPI(ImagePath):
 	predictions = []
 	for label in labels:
 		predictions.append(label)
-	print(predictions)
+	#print(predictions)
 	return predictions

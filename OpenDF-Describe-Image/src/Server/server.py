@@ -87,7 +87,6 @@ def predict_image(imagePath):
 		for x in value:
 			keywords= {}
 			y = str(x).split('\n')
-			print(y[1][13:])
 			keywords['keyword']=y[1][14:-1]
 			keywords['score']=y[2][7:]
 			keywords_list.append(keywords)
@@ -138,5 +137,9 @@ def analyze_image(path):
 	else:
 		raise InvalidUUID()
 
+def set_uuid():		
+	images['dca5af25-6396-4a27-a963-91eef574c7c6']='/home/nishan/Documents/OpenDF/OpenDF-Describe-Image/src/Server/uploads/AK.jpg'
+
 if __name__ == '__main__':
+	set_uuid()
 	app.run(debug=True)

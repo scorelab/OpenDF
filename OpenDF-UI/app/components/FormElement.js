@@ -1,20 +1,17 @@
 import React from 'react';
-import { ListItem } from 'material-ui/List';
-import navigateToRoute from '../utils/navigateToRoute';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+import Input from 'material-ui/Input/Input';
 
 
-export default class DrawerListItem extends ListItem {
+
+export default class FormElement {
 
   constructor(props) {
     super(props);
   }
   render() {
     return (
-      <ListItem
-        onTouchTap={ () => navigateToRoute(this.props.to) }
-        primaryText={this.props.primaryText}
-        leftIcon={this.props.leftIcon}
-      />
+
     );
   }
 }

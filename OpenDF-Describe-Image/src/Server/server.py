@@ -11,6 +11,8 @@ import sys
 import numpy as np
 import argparse
 import cv2
+import json
+import ConfigParser
 
 sys.path.append('../models')
 sys.path.append('exceptions')
@@ -18,6 +20,7 @@ sys.path.append('exceptions')
 from vgg16 import VGG16
 from vgg19 import VGG19
 from resnet50 import ResNet50
+from GoogleCloud import GoogleCloudAPI
 from FileNotFound import FileNotFound
 from InvalidUUID import InvalidUUID
 
@@ -43,29 +46,59 @@ def is_valid_uuid(uuid):
 	except ValueError:
 		return False
 
-def predict_image(modelType, imagePath):
-	print("[INFO] loading and preprocessing image...")
+def image_preprocessing(imagePath):
 	image = image_utils.load_img(imagePath, target_size=(224, 224))
 	image = image_utils.img_to_array(image)
-
 	image = np.expand_dims(image, axis=0)
-	image = preprocess_input(image)
+	return preprocess_input(image)
 
+def predict_image(imagePath):
 	print("[INFO] loading network...")
-	if(modelType == "ResNet50"):
+	config = ConfigParser.RawConfigParser()
+	config.read('../../properties.conf')
+	model_dict = dict(config.items('model'))
+	model_type = model_dict['model_type']
+	index=0
+	dictionary={}
+	keywords_list=[]
+	if(model_type == "ResNet50"):
+		image = image_preprocessing(imagePath)
 		model = ResNet50(weights="imagenet")
-	elif(modelType == "VGG16"):
+		preds = model.predict(image)
+		(inID, label) = decode_predictions(preds)[0]
+		dictionary ['keywords'] = label
+		dictionary ['code'] = 200
+	elif(model_type == "VGG16"):
+		image = image_preprocessing(imagePath)
 		model = VGG16(weights="imagenet")
-	elif(modelType == "VGG19"):
+		preds = model.predict(image)
+		(inID, label) = decode_predictions(preds)[0]
+		dictionary ['keywords'] = label
+		dictionary ['code'] = 200
+	elif(model_type == "VGG19"):
+		image = image_preprocessing(imagePath)
 		model = VGG19(weights="imagenet")
+		preds = model.predict(image)
+		(inID, label) = decode_predictions(preds)[0]
+		dictionary ['keywords'] = label
+		dictionary ['code'] = 200
+	elif(model_type == "GoogleCloudAPI"):
+		value = GoogleCloudAPI(imagePath)
+		for x in value:
+			keywords= {}
+			y = str(x).split('\n')
+			keywords['keyword']=y[1][14:-1]
+			keywords['score']=y[2][7:]
+			keywords_list.append(keywords)
+			index += 1
+		dictionary ['keywords']	= keywords_list
+		dictionary ['code'] = 200
 	else:
 		raise InvalidUsage()
 		exit()
 
 	print("[INFO] classifying image...")
-	preds = model.predict(image)
-	(inID, label) = decode_predictions(preds)[0]
-	return label
+	return dictionary
 
 @app.errorhandler(FileNotFound)
 def handle_fileNot_found(error):
@@ -95,8 +128,8 @@ def analyze_image(path):
 	if(is_valid_uuid(path)):
 		IPath = get_actual_path(path)
 		if(os.path.isfile(IPath)):
-			value = predict_image("VGG16",IPath)
-			response = jsonify({'message': value, 'code' : 200})
+			dictionary = predict_image(IPath)
+			response = jsonify(dictionary)
 			response.status_code = 200
 			return response
 		elif(IPath=="File Not Found"):
@@ -104,7 +137,9 @@ def analyze_image(path):
 	else:
 		raise InvalidUUID()
 
-
+def set_uuid():		
+	images['dca5af25-6396-4a27-a963-91eef574c7c6']='/home/nishan/Documents/OpenDF/OpenDF-Describe-Image/src/Server/uploads/AK.jpg'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+	set_uuid()
+	app.run(debug=True)

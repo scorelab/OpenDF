@@ -27,4 +27,66 @@ injectGlobal`
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
   }
+
+  #user-profile {
+    width: 100%;
+    max-width: 450px;
+    margin: 70px auto;
+    border-radius: 5px;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px #000;
+    border: 1px solid #000;
+    @include dotBg(darken($green, 5%), $green, 30px);
+
+    hr {
+        margin: 20px auto;
+        width: 50px;
+        border: 1px solid $magenta;
+        background-color: transparent;
+      }
+
+    h1, h2, h3, h4, h5, h6, p {
+        margin: 0;
+      }
+
+      h2 {
+        font-size: 30px;
+      }
+
+      h3 {
+        font-size: 18px;
+      }
+
+      h4 {
+        font-size: 16px;
+
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      .top, .bottom {
+        padding: 30px;
+
+      }
+
+      .bottom {
+
+        background-color: rgba(white, 0.3);
+        text-align: left;
+      }
+
+      .avatar {
+        border-radius: 50%;
+        overflow: hidden;
+        display: inline-flex;
+        margin-bottom: 15px;
+        border: 1px solid #000;
+        img {
+          width: 100%;
+        }
+      }
+  }
 `;

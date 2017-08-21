@@ -50,6 +50,15 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     },{
+      path: '/settings',
+      name: 'Settings',
+      getComponent(nextState, cb) {
+        import('containers/Settings')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }
+    ,{
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

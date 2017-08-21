@@ -32,6 +32,7 @@ export default class Header extends React.Component {
           <List onTouchTap={this.toggleDrawer}>
             <DrawerListItem to={'profile'} primaryText="Profile" leftIcon={<ActionInfo />} />
             <DrawerListItem to={'investigators'} primaryText="Investigators" leftIcon={<ActionInfo />} />
+            <DrawerListItem to={'Settings'} primaryText="Settings" leftIcon={<ActionInfo />} />
           </List>
         </Drawer>
       </div>

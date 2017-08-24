@@ -89,4 +89,39 @@ injectGlobal`
         }
       }
   }
+
+.app-card-list {
+     display:inline-block;
+     width:100%;
+     float:right;
+     margin:0;
+     min-height: 75vh;
+     white-space:normal;
+     overflow-x: scroll;
+     margin-top:-70px;
+
+     &::-webkit-scrollbar {
+       display: none;
+     }
+
+     @media(min-width:768px) {
+         margin-top: 0;
+     }
+
+     .card {
+       margin: 60px 30px;
+       display: inline-block;
+       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+       .card-body {
+           white-space: normal;
+           padding: 5%;
+       }
+     }
+   }
+
+   .designer-link {
+     display:inline-block;
+     padding-top:40px;
+   }
 `;

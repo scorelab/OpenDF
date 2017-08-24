@@ -13,8 +13,24 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import ButtonElement from '../../components/ButtonElement';
+import {Card} from '../../components/Card';
+import PostsData from '../../data.js';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+
+   constructor() {
+     super();
+
+     this.state = {
+       posts: {}
+     }
+   }
+   componentWillMount() {
+     this.setState({
+       posts: PostsData
+     });
+   }
+
   render() {
     return (
       <div>
@@ -24,6 +40,14 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
         <div>
           <ButtonElement label={"Add Project"} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} click={'profile'}/>
         </div>
+           <header className="app-header"></header>
+           <div className="app-card-list" id="app-card-list">
+             {
+               Object
+               .keys(this.state.posts)
+               .map(key => <Card key={key} index={key} details={this.state.posts[key]}/>)
+             }
+         </div>
       </div>
 
     );

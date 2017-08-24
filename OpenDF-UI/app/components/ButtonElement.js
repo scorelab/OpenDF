@@ -19,6 +19,7 @@ export default class ButtonElement extends RaisedButton {
         style={this.props.style}
         backgroundColor={this.props.backgroundColor}
         labelColor={this.props.labelColor}
+        onClick={() => navigateToRoute(this.props.click)}
       />
     );
   }

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 
 export class Settings extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -20,7 +21,13 @@ export class Settings extends React.Component { // eslint-disable-line react/pre
             { name: 'description', content: 'Description of Settings' },
           ]}
         />
-        <FormattedMessage {...messages.header} />
+        <Grid fluid>
+        <Row>
+          <Col xs={6} md={3}>
+            Hello, world!
+          </Col>
+        </Row>
+      </Grid>
       </div>
     );
   }

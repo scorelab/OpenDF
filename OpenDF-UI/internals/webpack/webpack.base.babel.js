@@ -26,7 +26,12 @@ module.exports = (options) => ({
       test: /\.css$/,
       include: /node_modules/,
       loaders: ['style-loader', 'css-loader'],
-    }, {
+      exclude: /flexboxgrid/,
+    },{
+      test: /\.css$/,
+      loader: 'style-loader!css-loader?modules',
+      include: /flexboxgrid/
+    },{
       test: /\.(eot|svg|ttf|woff|woff2)$/,
       loader: 'file-loader',
     }, {

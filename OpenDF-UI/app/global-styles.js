@@ -35,8 +35,6 @@ injectGlobal`
     border-radius: 5px;
     text-align: center;
     overflow: hidden;
-    box-shadow: 2px 2px 5px #000;
-    border: 1px solid #000;
     @include dotBg(darken($green, 5%), $green, 30px);
 
     hr {

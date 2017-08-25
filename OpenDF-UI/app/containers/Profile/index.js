@@ -10,6 +10,8 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import {MainPanel} from './panel';
+import Paper from 'material-ui/Paper';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 
 
 //Dummy data. These should be pulled from the API
@@ -34,9 +36,17 @@ export class Profile extends React.Component { // eslint-disable-line react/pref
             { name: 'description', content: 'Description of Profile' },
           ]}
         />
-        <div id="user-profile">
-          <MainPanel info={user.basicInfo} ></MainPanel>
-        </div>
+        <Grid>
+          <Row >
+            <Col xs={8}>
+            <Paper>
+              <div id="user-profile">
+                <MainPanel info={user.basicInfo} ></MainPanel>
+              </div>
+            </Paper>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }

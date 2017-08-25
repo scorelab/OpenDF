@@ -6,6 +6,7 @@
 // import { defineMessages } from 'react-intl';
 import React from 'react';
 import {Avatar} from './avatar';
+import ButtonElement from '../../components/ButtonElement';
 
 
 export class MainPanel extends React.Component {
@@ -27,6 +28,8 @@ export class MainPanel extends React.Component {
           <hr />
             <p>{info.gender} | {info.birthday}</p>
         </div>
+
+        <ButtonElement label={"Edit"} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} />
 
         <div className="bottom">
           <h4>Biography</h4>

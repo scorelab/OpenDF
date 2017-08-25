@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './Button';
+import ButtonElement from './ButtonElement';
 
 export default class CardBody extends React.Component {
 
@@ -11,7 +11,7 @@ export default class CardBody extends React.Component {
 
         <p className="body-content">{this.props.text}</p>
 
-        <Button />
+        <ButtonElement label={"More"} backgroundColor={'#4FC3F7'} labelColor={'#fff'} labelPosition={'after'} />
       </div>
     )
   }

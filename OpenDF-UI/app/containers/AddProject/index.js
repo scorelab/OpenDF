@@ -13,6 +13,8 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import ButtonElement from '../../components/ButtonElement';
+import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
 
 const styles = {
   Papers: {
@@ -25,6 +27,12 @@ const styles = {
   Button:{
     float: 'right'
   },
+  Divider:{
+      backgroundColor:'#000a12',
+    },
+    Subheader:{
+      color:'#007ac1',
+    }
 };
 
 export class AddProject extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -49,6 +57,8 @@ export class AddProject extends React.Component { // eslint-disable-line react/p
           <Row>
             <Paper style={styles.Papers}>
               <Col xs>
+              <Subheader style={styles.Subheader}>Add Project</Subheader>
+              <Divider style={styles.Divider}/>
                 <form>
                 <TextField
                      hintText="Project Name"

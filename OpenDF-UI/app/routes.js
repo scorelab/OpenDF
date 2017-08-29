@@ -42,6 +42,14 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     },{
+      path: '/addproject',
+      name: 'Project',
+      getComponent(nextState, cb) {
+        import('containers/AddProject')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    },{
       path: '/investigators',
       name: 'Investigators',
       getComponent(nextState, cb) {
@@ -50,6 +58,15 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     },{
+      path: '/settings',
+      name: 'Settings',
+      getComponent(nextState, cb) {
+        import('containers/Settings')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }
+    ,{
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

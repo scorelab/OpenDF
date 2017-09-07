@@ -45,13 +45,13 @@ export class FileBrowser extends React.Component { // eslint-disable-line react/
 		        <Grid fluid> 
 			        <Row>  
 				        	<Col xs>        
-					        <TreeView />				        
+					          <TreeView />				        
 					        </Col> 
 					        <Col xs >                                      
 				            <DetailView/> 				            
-				            </Col> 
-		            </Row>
-	            </Grid>  	 	        
+				          </Col> 
+		          </Row>
+	         </Grid>  	 	        
 	        </div> 
 	    );
     }   

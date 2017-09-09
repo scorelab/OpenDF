@@ -14,24 +14,6 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import {Card, CardHeader} from 'material-ui/Card';// eslint-disable-next-line
 import messages from './messages';
 
-const styles = {
-  Papers: {
-    margin:10,
-    padding:10,
-  },
-  TextFields:{
-    width: 500,
-  },
-  Button:{
-    float: 'right'
-  },
-  Divider:{
-    backgroundColor:'#000a12',
-  },
-  Subheader:{
-    color:'#007ac1',
-  }
-};
 
 export class FileBrowser extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -49,7 +31,7 @@ export class FileBrowser extends React.Component { // eslint-disable-line react/
                   </Col> 
                   <Col xs={9} md={9}>                                      
                       <DetailView/>                     
-                    </Col> 
+                  </Col> 
                 </Row>
               </Grid>             
           </div> 

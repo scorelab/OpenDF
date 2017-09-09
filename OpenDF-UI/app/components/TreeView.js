@@ -12,6 +12,12 @@ import listItems from '../fileData.js';
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import DetailView from './DetailView';
 
+const styles = {
+  Button:{
+    float: 'left',
+    marginTop:10
+  }
+};
 
 const files = listItems
   .map((listItem, i) => {
@@ -131,62 +137,55 @@ const files = listItems
       leftIconExpanded: <i style={{height: 16, width: 16, color: '#CCCCCC'}} className="fa fa-caret-down" />
     }
 
-    let treeListJSX
-
-      treeListJSX = (
-              <MuiTreeList 
-                listItems={listItems}
-                contentKey={'fileName'}
-                useFolderIcons={true}
-                haveSearchbar={true}
-                expandedListItems={expandedListItems}
-                activeListItem={activeListItem}
-                handleTouchTap={this.handleTouchTap}
-                handleTouchTapInSearchMode={this.handleTouchTapInSearchMode}
-                handleSearch={this.handleSearch}
-                searchTerm={searchTerm}
-                >
-              </MuiTreeList>      
-      )
-   
     return (
-      <MuiThemeProvider>
         <div>
            <div style={{marginTop: 20}}>
-              <div style={{width: 350}}>
+              <div>
                 <Card style={{marginTop: 20}}>
-                    <div style={{marginBottom: 5}}>
-                      <RaisedButton 
-                        label="Collapse All"
-                        primary={true}
-                        style={{marginTop:10,marginRight: 10, marginLeft: 5}}
-                        onClick={this.collapseAll} />
-                      <RaisedButton 
-                        label="Previous"
-                        secondary={true}
-                        style={{marginTop:10,marginRight: 10}}
-                        onClick={this.moveToPrev} />
-                      <RaisedButton 
-                        label="Next"
-                        secondary={true}
-                        style={{marginTop:10,marginRight: 10}}
-                        onClick={this.moveToNext} />
+                    <div style={styles.Button}>
+                            <RaisedButton 
+                              label="Previous"
+                              style={{marginLeft: 12, marginBottom: 2}}
+                              secondary={true}
+                              onClick={this.moveToPrev} />
+                            <RaisedButton 
+                              label="Next"
+                              style={{marginLeft: 5}}
+                              secondary={true}
+                              onClick={this.moveToNext} />
+                            <RaisedButton 
+                              label="Roll Up"
+                              style={{marginLeft: 5,marginBottom: 2}}
+                              primary={true}
+                              onClick={this.collapseAll} />  
                     </div> 
-                    {treeListJSX}
+                    <MuiTreeList 
+                      listItems={listItems}
+                      contentKey={'fileName'}
+                      useFolderIcons={true}
+                      haveSearchbar={true}
+                      expandedListItems={expandedListItems}
+                      activeListItem={activeListItem}
+                      handleTouchTap={this.handleTouchTap}
+                      handleTouchTapInSearchMode={this.handleTouchTapInSearchMode}
+                      handleSearch={this.handleSearch}
+                      searchTerm={searchTerm}
+                      >
+                    </MuiTreeList>  
                     <Card
-                    style={{marginTop: 20}}>
-                    <CardTitle title={listItems[activeListItem].fileName} />
+                      style={{marginTop: 20}}>
+                      <CardTitle title={listItems[activeListItem].fileName} />
                       <CardText>
                         {listItems[activeListItem].content}
-                      </CardText>
+                    </CardText>
                    </Card>
                 </Card>      
               </div>
             </div>       
         </div>
-      </MuiThemeProvider>
     );
   }
+  
 }
 
 function getAllParents(listItem, listItems, parents=[]) {

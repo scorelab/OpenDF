@@ -9,7 +9,6 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import TreeView from '../../components/TreeView';
 import DetailView from '../../components/DetailView';
-import Paper from 'material-ui/Paper';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import {Card, CardHeader} from 'material-ui/Card';// eslint-disable-next-line
 import messages from './messages';

@@ -13,7 +13,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import ButtonElement from '../../components/ButtonElement';
-import {Card} from '../../components/Card';
 import PostsData from '../../data.js';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 

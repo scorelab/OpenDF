@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';// eslint-disable-next-line
-import Dialog from 'material-ui/Dialog';// eslint-disable-next-line
+import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
 import {deepOrange500} from 'material-ui/styles/colors';
-import FlatButton from 'material-ui/FlatButton';// eslint-disable-next-line
+import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import MenuItem from 'material-ui/MenuItem';// eslint-disable-next-line
-import {Card, CardHeader} from 'material-ui/Card';// eslint-disable-next-line
-import IconButton from 'material-ui/IconButton';// eslint-disable-next-line
+import MenuItem from 'material-ui/MenuItem';
+import {Card, CardHeader} from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
 import DataTables from 'material-ui-datatables';
 
-
-
-const muiTheme = getMuiTheme({
-  palette: {
-    accent1Color: deepOrange500,
-  },
-});
-
+// @TODO These are dummy data. The actual data should be pulled from the API.
 
 const TABLE_COLUMNS_TOOLTIP = [
   {
@@ -40,6 +33,7 @@ const TABLE_COLUMNS_TOOLTIP = [
 ];
 
 
+// @TODO These are dummy data. The actual data should be pulled from the API.
 const TABLE_DATA = [
   {
     Name: 'Downloads',
@@ -94,6 +88,7 @@ const TABLE_DATA = [
   },
 ];
 
+// @TODO These are dummy data. The actual data should be pulled from the API.
 const TABLE_DATA_NEXT = [
   {
     Name: 'my video',
@@ -158,8 +153,7 @@ const TABLE_DATA_NEXT = [
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-              <Card style={{width:900, marginTop: 20, marginRight:10}}>
+              <Card style={{marginTop: 20, marginRight:10}}>
                 <DataTables
                   title={'Downloads'}
                   height={'auto'}
@@ -181,7 +175,6 @@ const TABLE_DATA_NEXT = [
                   count={12}                
                 />
               </Card>
-      </MuiThemeProvider>
     );
   }
 }

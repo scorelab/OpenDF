@@ -36,25 +36,25 @@ const styles = {
 export class FileBrowser extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
 	render() {
-	    return (
-	        <div>
-		        <Helmet
-		          title="FileBrowser"
-		          meta={[
-		            { name: 'description', content: 'Description of FileBrowser' },]}/>	 
-		        <Grid fluid> 
-			        <Row>  
-				        	<Col xs>        
-					          <TreeView />				        
-					        </Col> 
-					        <Col xs >                                      
-				            <DetailView/> 				            
-				          </Col> 
-		          </Row>
-	         </Grid>  	 	        
-	        </div> 
-	    );
-    }   
+      return (
+          <div>
+            <Helmet
+              title="FileBrowser"
+              meta={[
+                { name: 'description', content: 'Description of FileBrowser' },]}/>  
+              <Grid fluid> 
+                <Row>  
+                  <Col xs={3} md={3}>        
+                    <TreeView />                
+                  </Col> 
+                  <Col xs={9} md={9}>                                      
+                      <DetailView/>                     
+                    </Col> 
+                </Row>
+              </Grid>             
+          </div> 
+      );
+  }   
 
 }	
 

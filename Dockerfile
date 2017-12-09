@@ -12,11 +12,11 @@ RUN /home/OpenDF/scripts/setup.sh
 EXPOSE 8080
 EXPOSE 4848
 
-LABEL org.label-schema.name="SCoRe Lab Community"
-LABEL org.label-schema.description="Digital forensic tool to find evidences more easily"
-LABEL org.label-schema.url="http://www.scorelab.org/"
-LABEL org.label-schema.vcs-url="https://github.com/scorelab/OpenDF"
-LABEL org.label-schema.vcs-ref=""
-LABEL org.label-schema.vendor="SCoRe Lab"
-LABEL org.label-schema.version=""
-LABEL org.label-schema.schema-version="1.0"
+LABEL multi.org.label-schema.name = "OpenDF" \
+      multi.org.label-schema.description = "OpenDF is an Open-source digital forensic tool to find evidences more easily." \
+      multi.org.label-schema.url="https://github.com/scorelab/OpenDF/wiki" \
+      multi.org.label-schema.vcs-url = "https://github.com/scorelab/OpenDF" \
+      multi.org.label-schema.vcs-ref = "279FA63" \
+      multi.org.label-schema.vendor = "Sustainable Computing Research Group" \
+      multi.org.label-schema.version = "9-december-2017" \
+      multi.org.label-schema.schema-version = "1.0"

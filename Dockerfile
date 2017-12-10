@@ -3,7 +3,7 @@ MAINTAINER SCoRe Lab Community <commuity@scorelab.org>
 
 WORKDIR /home/OpenDF
 
-COPY /scripts/setup.sh /scripts/setup.sh
+COPY . .
 
 RUN apt-get update \ 
 && ./scripts/setup.sh

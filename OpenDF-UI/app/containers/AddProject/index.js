@@ -12,35 +12,50 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import ButtonElement from '../../components/ButtonElement';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
+import ButtonElement from '../../components/ButtonElement';
+import FormButtonElement from '../../components/FormButtonElement';
 
 const styles = {
   Papers: {
-    margin:10,
-    padding:10,
+    margin: 10,
+    padding: 10,
   },
-  TextFields:{
+  TextFields: {
     width: 500,
   },
-  Button:{
-    float: 'right'
+  Button: {
+    float: 'right',
   },
-  Divider:{
-      backgroundColor:'#000a12',
-    },
-    Subheader:{
-      color:'#007ac1',
-    }
+  Divider: {
+    backgroundColor: '#000a12',
+  },
+  Subheader: {
+    color: '#007ac1',
+  },
+  ButtonMargin: {
+    marginRight: '5px',
+  },
 };
 
-export class AddProject extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  state = {
-             value: 0,
-           };
+export class AddProject extends React.Component {
+  state = { investigator: '' };
 
- handleChange = (event, index, value) => this.setState({value});
+  handleChangeInvestigator = (event, index, value) => {
+    this.setState({ investigator: value });
+  }
+
+  handleChangeFormItems = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    this.setState({ [field]: value });
+  }
+
+  saveProject = (event) => {
+    event.preventDefault();
+    console.log(this.state);
+  }
 
 
   render() {
@@ -57,46 +72,54 @@ export class AddProject extends React.Component { // eslint-disable-line react/p
           <Row>
             <Paper style={styles.Papers}>
               <Col xs>
-              <Subheader style={styles.Subheader}>Add Project</Subheader>
-              <Divider style={styles.Divider}/>
-                <form>
-                <TextField
-                     hintText="Project Name"
-                     floatingLabelText="Project Name"
-                     fullWidth={true}
-                     style={styles.TextFields}
-                /> <br />
-                <TextField
-                     hintText="Company Name"
-                     floatingLabelText="Company Name"
-                     fullWidth={true}
-                     style={styles.TextFields}
-                /> <br />
-                <TextField
-                     hintText="Project Name"
-                     floatingLabelText="Project Name"
-                     fullWidth={true}
-                     style={styles.TextFields}
-                /> <br/>
-                <SelectField
-                  floatingLabelText="Investigator"
-                  value={this.state.value}
-                  onChange={this.handleChange}
-                >
-                  <MenuItem value={1} primaryText="Investigator01" />
-                  <MenuItem value={2} primaryText="Investigator02" />
-                  <MenuItem value={3} primaryText="Investigator03" />
-                  <MenuItem value={4} primaryText="Investigator04" />
-                  <MenuItem value={5} primaryText="Investigator05" />
-                </SelectField> <br/>
+                <Subheader style={styles.Subheader}>Add Project</Subheader>
+                <Divider style={styles.Divider} />
+                <form onSubmit={this.saveProject}>
+                  <TextField
+                    name="projectName"
+                    hintText="Project Name"
+                    floatingLabelText="Project Name"
+                    fullWidth={true}
+                    style={styles.TextFields}
+                    value={this.state.projectName}
+                    onChange={this.handleChangeFormItems}
+                  /> <br />
+                  <TextField
+                    name="companyName"
+                    hintText="Company Name"
+                    floatingLabelText="Company Name"
+                    fullWidth={true}
+                    style={styles.TextFields}
+                    value={this.state.companyName}
+                    onChange={this.handleChangeFormItems}
+                  /> <br />
+                  <TextField
+                    name="projectDesc"
+                    hintText="Project Description"
+                    floatingLabelText="Project Description"
+                    fullWidth={true}
+                    style={styles.TextFields}
+                    value={this.state.projectDesc}
+                    onChange={this.handleChangeFormItems}
+                  /> <br />
+                  <SelectField
+                    floatingLabelText="Investigator"
+                    value={this.state.investigator}
+                    onChange={this.handleChangeInvestigator}
+                  >
+                    <MenuItem value={'Investigator01'} primaryText="Investigator01" />
+                    <MenuItem value={'Investigator02'} primaryText="Investigator02" />
+                    <MenuItem value={'Investigator03'} primaryText="Investigator03" />
+                    <MenuItem value={'Investigator04'} primaryText="Investigator04" />
+                    <MenuItem value={'Investigator05'} primaryText="Investigator05" />
+                  </SelectField> <br />
 
-                <div style={styles.Button}>
-                  <ButtonElement label={"Save"} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} />
-                  <ButtonElement label={"Reset"} backgroundColor={'#FF5252'} labelColor={'#fff'} labelPosition={'after'}/>
-                </div>
-
-
-
+                  <div style={styles.Button}>
+                    <FormButtonElement label={'Save Project'} style={styles.ButtonMargin} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} click={this.saveProject} />
+                    {/* <ButtonElement type={'submit'} label={'Save'} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} /> */}
+                    <ButtonElement label={'Reset'} backgroundColor={'#FF5252'} labelColor={'#fff'} labelPosition={'after'} />
+                    {/* <button type="submit" value="Add Project">Save</button> */}
+                  </div>
                 </form>
               </Col>
             </Paper>

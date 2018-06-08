@@ -12,10 +12,10 @@ export default class ButtonElement extends RaisedButton {
   render() {
     return (
       <RaisedButton
-        onTouchTap={ () => navigateToRoute(this.props.to) }
+        onTouchTap={() => navigateToRoute(this.props.to)}
         label={this.props.label}
         labelPosition={this.props.labelPosition}
-        icon={  <FontIcon className="muidocs-icon-action-home" />}
+        icon={<FontIcon className="muidocs-icon-action-home" />}
         style={this.props.style}
         backgroundColor={this.props.backgroundColor}
         labelColor={this.props.labelColor}

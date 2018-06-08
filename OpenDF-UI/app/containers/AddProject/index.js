@@ -16,6 +16,7 @@ import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ButtonElement from '../../components/ButtonElement';
 import FormButtonElement from '../../components/FormButtonElement';
+import PostsData from '../../data';
 
 const styles = {
   Papers: {
@@ -54,7 +55,16 @@ export class AddProject extends React.Component {
 
   saveProject = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    const project = {
+      title: this.state.projectName,
+      text: this.state.projectDesc,
+      investigator: this.state.investigator,
+      company: this.state.companyName,
+    };
+    if(PostsData.push(project)) {
+      alert('Project Added Successfully');
+    }
+    console.log(PostsData);
   }
 
 

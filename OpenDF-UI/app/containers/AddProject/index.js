@@ -14,9 +14,10 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
+import 'whatwg-fetch';
 import ButtonElement from '../../components/ButtonElement';
 import FormButtonElement from '../../components/FormButtonElement';
-import PostsData from '../../data';
+import projectData from '../../data.json';
 
 const styles = {
   Papers: {
@@ -61,11 +62,19 @@ export class AddProject extends React.Component {
       investigator: this.state.investigator,
       company: this.state.companyName,
     };
-    if (PostsData.push(project)) {
-      alert('Project Added Successfully');
-    } else {
-      alert('Error while saving the project');
-    }
+    const postSave = fetch('http://localhost:8080/projects', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(project)
+    });
+    // if (projectData.projects.push(project)) {
+    //   alert('Project Added Successfully');
+    // } else {
+    //   alert('Error while saving the project');
+    // }
   }
 
 

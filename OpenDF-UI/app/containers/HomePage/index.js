@@ -11,11 +11,12 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 import messages from './messages';
 import ButtonElement from '../../components/ButtonElement';
 import { Card } from '../../components/Card';
-import PostsData from '../../data.js';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+// import PostsData from '../../data.js';
+import projectData from '../../data.json';
 
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -29,7 +30,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
    }
   componentWillMount() {
      this.setState({
-       posts: PostsData
+       posts: projectData.projects,
      });
    }
 

@@ -61,10 +61,11 @@ export class AddProject extends React.Component {
       investigator: this.state.investigator,
       company: this.state.companyName,
     };
-    if(PostsData.push(project)) {
+    if (PostsData.push(project)) {
       alert('Project Added Successfully');
+    } else {
+      alert('Error while saving the project');
     }
-    console.log(PostsData);
   }
 
 
@@ -128,7 +129,6 @@ export class AddProject extends React.Component {
                     <FormButtonElement label={'Save Project'} style={styles.ButtonMargin} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} click={this.saveProject} />
                     {/* <ButtonElement type={'submit'} label={'Save'} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} /> */}
                     <ButtonElement label={'Reset'} backgroundColor={'#FF5252'} labelColor={'#fff'} labelPosition={'after'} />
-                    {/* <button type="submit" value="Add Project">Save</button> */}
                   </div>
                 </form>
               </Col>

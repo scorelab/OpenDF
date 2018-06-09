@@ -1,7 +1,8 @@
+// A button to use in forms to call some functions or any other defined at (click) event
+
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
-import navigateToRoute from '../utils/navigateToRoute';
 
 export default class FormButtonElement extends RaisedButton {
 

@@ -42,6 +42,13 @@
       "investigator": "Investigator01",
       "company": "gegegg",
       "id": 7
+    },
+    {
+      "title": "Open Frost",
+      "text": " A pilot project for testing OpenDF React UI",
+      "investigator": "Investigator02",
+      "company": "UCSC",
+      "id": 8
     }
   ]
 }

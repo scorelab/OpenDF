@@ -54,6 +54,13 @@ export class AddProject extends React.Component {
     this.setState({ [field]: value });
   }
 
+  handleAPIErrors(response) {
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+    return response;
+  }
+
   saveProject = (event) => {
     event.preventDefault();
     const project = {
@@ -62,19 +69,17 @@ export class AddProject extends React.Component {
       investigator: this.state.investigator,
       company: this.state.companyName,
     };
-    const postSave = fetch('http://localhost:8080/projects', {
+    fetch('http://localhost:8080/projects', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(project)
-    });
-    // if (projectData.projects.push(project)) {
-    //   alert('Project Added Successfully');
-    // } else {
-    //   alert('Error while saving the project');
-    // }
+    })
+    .then(this.handleAPIErrors)
+    .then(response => alert('Project Added Successfully'))
+    .catch(error => alert('Error while saving the data'));
   }
 
 

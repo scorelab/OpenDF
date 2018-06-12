@@ -22,16 +22,16 @@ import projectData from '../../data.json';
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   constructor() {
-     super();
+    super();
 
-     this.state = {
-       posts: {}
-     }
+    this.state = {
+      posts: {}
+    }
    }
   componentWillMount() {
-     this.setState({
-       posts: projectData.projects,
-     });
+    this.setState({
+      posts: projectData.projects,
+    });
    }
 
   render() {

@@ -17,7 +17,7 @@ import Subheader from 'material-ui/Subheader';
 import 'whatwg-fetch';
 import ButtonElement from '../../components/ButtonElement';
 import FormButtonElement from '../../components/FormButtonElement';
-import projectData from '../../data.json';
+// import projectData from '../../data.json';
 
 const styles = {
   Papers: {
@@ -78,8 +78,15 @@ export class AddProject extends React.Component {
       body: JSON.stringify(project)
     })
     .then(this.handleAPIErrors)
-    .then(response => alert('Project Added Successfully'))
-    .catch(error => alert('Error while saving the data'));
+    .then((response) =>{
+      alert('Project Successfully Added');
+      console.log(response);
+    })
+    .catch((error) =>
+    {
+      alert('Error while saving the data');
+      console.log(error);
+    })
   }
 
 

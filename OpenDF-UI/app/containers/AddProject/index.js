@@ -78,15 +78,12 @@ export class AddProject extends React.Component {
       body: JSON.stringify(project)
     })
     .then(this.handleAPIErrors)
-    .then((response) =>{
-      alert('Project Successfully Added');
-      console.log(response);
-    })
-    .catch((error) =>
-    {
-      alert('Error while saving the data');
-      console.log(error);
-    })
+    .then(
+      alert('Project Successfully Added')
+    )
+    .catch(
+      alert('Error while saving the data')
+    );
   }
 
 

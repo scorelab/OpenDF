@@ -1,4 +1,4 @@
-const PostsData = [
+let PostsData = [
   {
     "title": "Pasan Ranathunga",
     "text": "CNN purchased Casey Neistat's Beme app for $25million.",

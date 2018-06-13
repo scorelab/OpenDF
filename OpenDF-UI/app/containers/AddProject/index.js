@@ -4,7 +4,7 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Grid, Row, Col } from 'react-flexbox-grid';
@@ -14,6 +14,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import 'whatwg-fetch';
 import ButtonElement from '../../components/ButtonElement';
 import FormButtonElement from '../../components/FormButtonElement';
@@ -80,17 +82,36 @@ export class AddProject extends React.Component {
     })
     .then((response) => {
       if (response.ok) {
-        alert('Project added successfully');
+        toast('Project added successfully !', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
       } else {
-        alert('Error while saving the project.');
+        toast.error('Error while saving the project !', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
       }
     })
     .catch((error) => {
       if (error.message === 'Failed to fetch') {
-        alert('Error while saving the project. Error: ' + error.message);
-      }
-      else {
-        alert('Error while saving the project');
+        toast.error('Error while saving the project !' + error.message, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
+      } else {
+        toast('Error while saving the project !', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
       }
     });
   }
@@ -108,6 +129,7 @@ export class AddProject extends React.Component {
 
         <Grid fluid>
           <Row>
+            <ToastContainer />
             <Paper style={styles.Papers}>
               <Col xs>
                 <Subheader style={styles.Subheader}>Add Project</Subheader>

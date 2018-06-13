@@ -57,8 +57,9 @@ export class AddProject extends React.Component {
   handleAPIErrors(response) {
     if (!response.ok) {
       throw Error(response.statusText);
+    } else {
+      return response;
     }
-    return response;
   }
 
   saveProject = (event) => {
@@ -75,15 +76,23 @@ export class AddProject extends React.Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(project)
+      body: JSON.stringify(project),
     })
-    .then(this.handleAPIErrors)
-    .then(
-      alert('Project Successfully Added')
-    )
-    .catch(
-      alert('Error while saving the data')
-    );
+    .then((response) => {
+      if (response.ok) {
+        alert('Project added successfully');
+      } else {
+        alert('Error while saving the project.');
+      }
+    })
+    .catch((error) => {
+      if (error.message === 'Failed to fetch') {
+        alert('Error while saving the project. Error: ' + error.message);
+      }
+      else {
+        alert('Error while saving the project');
+      }
+    });
   }
 
 

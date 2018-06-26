@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import 'whatwg-fetch';
 import ButtonElement from '../../components/ButtonElement';
 import FormButtonElement from '../../components/FormButtonElement';
+import UploadButton from '../../components/UploadButton';
 // import projectData from '../../data.json';
 
 const styles = {
@@ -40,11 +41,12 @@ const styles = {
   },
   ButtonMargin: {
     marginRight: '5px',
+    backgroundColor: 'red',
   },
 };
 
 export class AddProject extends React.Component {
-  state = { investigator: '' };
+  state = { investigator: '', selectedFile: null };
 
   handleChangeInvestigator = (event, index, value) => {
     this.setState({ investigator: value });
@@ -64,13 +66,20 @@ export class AddProject extends React.Component {
     }
   }
 
+  fileChangerHandler = (event) => {
+    this.setState({ selectedFile: event.target.files[0] });
+  }
+
   saveProject = (event) => {
     event.preventDefault();
+    // ToDo
+    // Add image upload POST request
     const project = {
       title: this.state.projectName,
       text: this.state.projectDesc,
       investigator: this.state.investigator,
       company: this.state.companyName,
+      image: this.state.selectedFile.name,
     };
     fetch('http://localhost:8080/projects', {
       method: 'POST',
@@ -89,7 +98,7 @@ export class AddProject extends React.Component {
           closeOnClick: true,
         });
       } else {
-        toast.error('Error while saving the project !', {
+        toast.error('Error while saving the project! ', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
           hideProgressBar: true,
@@ -99,14 +108,14 @@ export class AddProject extends React.Component {
     })
     .catch((error) => {
       if (error.message === 'Failed to fetch') {
-        toast.error('Error while saving the project !' + error.message, {
+        toast.error('Error while saving the project! ' + error.message, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
           hideProgressBar: true,
           closeOnClick: true,
         });
       } else {
-        toast('Error while saving the project !', {
+        toast('Error while saving the project! ', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
           hideProgressBar: true,
@@ -134,7 +143,7 @@ export class AddProject extends React.Component {
               <Col xs>
                 <Subheader style={styles.Subheader}>Add Project</Subheader>
                 <Divider style={styles.Divider} />
-                <form onSubmit={this.saveProject}>
+                <form>
                   <TextField
                     name="projectName"
                     hintText="Project Name"
@@ -173,6 +182,25 @@ export class AddProject extends React.Component {
                     <MenuItem value={'Investigator04'} primaryText="Investigator04" />
                     <MenuItem value={'Investigator05'} primaryText="Investigator05" />
                   </SelectField> <br />
+
+                  {/* Creating native file input element to call by Material-ui FormButtonElement */}
+                  <input
+                    type="file"
+                    onChange={this.fileChangerHandler}
+                    style={{ display: 'none' }}
+                    ref={(fileinput) => this.fileinput = fileinput}
+                  />
+
+                  {/* This FormButtonElement clicks the input file button which is defined above by ref */}
+                  <UploadButton
+                    label={'Upload Image'}
+                    style={styles.ButtonMargin}
+                    backgroundColor={'#FAFAFA'}
+                    labelColor={'#272727'}
+                    labelPosition={'after'}
+                    click={() => this.fileinput.click()}
+                  />
+                  <br />
 
                   <div style={styles.Button}>
                     <FormButtonElement label={'Save Project'} style={styles.ButtonMargin} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} click={this.saveProject} />

@@ -25,14 +25,14 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     super();
 
     this.state = {
-      posts: {}
-    }
-   }
+      posts: {},
+    };
+  }
   componentWillMount() {
     this.setState({
       posts: projectData.projects,
     });
-   }
+  }
 
   render() {
     return (
@@ -44,7 +44,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
                 <FormattedMessage {...messages.header} />
               </h1>
               <div>
-                <ButtonElement label={"Add Project"} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} click={'addproject'} />
+                <ButtonElement label={'Add Project'} backgroundColor={'#4CAF50'} labelColor={'#fff'} labelPosition={'after'} click={'addproject'} />
               </div>
             </Col>
           </Row>
@@ -55,9 +55,9 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
                 {
                   Object
                   .keys(this.state.posts)
-                  .map(key => <Card key={key} index={key} details={this.state.posts[key]}/>)
+                  .map((key) => <Card key={key} index={key} details={this.state.posts[key]} />)
                 }
-            </div>
+              </div>
             </Col>
           </Row>
         </Grid>

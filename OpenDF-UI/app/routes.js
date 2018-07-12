@@ -33,7 +33,8 @@ export default function createRoutes(store) {
 
         importModules.catch(errorLoading);
       },
-    },{
+    },
+    {
       path: '/profile',
       name: 'Profile',
       getComponent(nextState, cb) {
@@ -41,7 +42,8 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       },
-    },{
+    },
+    {
       path: '/addproject',
       name: 'Project',
       getComponent(nextState, cb) {
@@ -49,7 +51,8 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       },
-    },{
+    },
+    {
       path: '/investigators',
       name: 'Investigators',
       getComponent(nextState, cb) {
@@ -57,7 +60,8 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       },
-    },{
+    },
+    {
       path: '/filebrowser',
       name: 'FileBrowser',
       getComponent(nextState, cb) {
@@ -65,7 +69,8 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       },
-    },{
+    },
+    {
       path: '/settings',
       name: 'Settings',
       getComponent(nextState, cb) {
@@ -73,8 +78,17 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       },
-    }
-    ,{
+    },
+    {
+      path: '/project/:id',
+      name: 'ViewProject',
+      getComponent(nextState, cb) {
+        import('containers/ViewProject')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    },
+    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

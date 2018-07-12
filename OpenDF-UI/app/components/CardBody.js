@@ -1,18 +1,30 @@
 import React from 'react';
 import ButtonElement from './ButtonElement';
 
+const styles = {
+  media: {
+    width: '100%',
+    // paddingTop: '56.25%', // 16:9
+  },
+  card : {
+    width: '500px',
+  }
+};
+
 export default class CardBody extends React.Component {
 
   render() {
     return (
-      <div className="card-body">
+      <div className="card-body" style={styles.card} >
 
-        <h2>{this.props.title}</h2>
+        <img style={styles.media} alt="Project icon" src="https://images.pexels.com/photos/68147/waterfall-thac-dray-nur-buon-me-thuot-daklak-68147.jpeg?auto=compress&cs=tinysrgb&h=350" />
 
-        <p className="body-content">{this.props.text}</p>
+        <h2>{this.props.details.title}</h2>
 
-        <ButtonElement label={"More"} backgroundColor={'#4FC3F7'} labelColor={'#fff'} labelPosition={'after'} />
+        <p className="body-content">{this.props.details.text}</p>
+
+        <ButtonElement label={'More'} backgroundColor={'#4FC3F7'} labelColor={'#fff'} labelPosition={'after'} click={'/project/' + this.props.details.id } />
       </div>
-    )
+    );
   }
 }

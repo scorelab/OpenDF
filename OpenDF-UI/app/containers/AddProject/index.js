@@ -84,7 +84,7 @@ export class AddProject extends React.Component {
     fetch('http://localhost:8080/projects', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(project),
@@ -108,7 +108,7 @@ export class AddProject extends React.Component {
     })
     .catch((error) => {
       if (error.message === 'Failed to fetch') {
-        toast.error('Error while saving the project! ' + error.message, {
+        toast.error(`Error while saving the project! ${error.message}`, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
           hideProgressBar: true,

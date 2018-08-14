@@ -22,29 +22,29 @@ import {List, ListItem} from 'material-ui/List';
 
 const styles = {
   Papers: {
-    margin:10,
-    padding:10,
+    margin: 10,
+    padding: 10,
   },
   TextFields:{
     width: 500,
   },
-  Button:{
-    float: 'right'
+  Button: {
+    float: 'right',
   },
-  Divider:{
-    backgroundColor:'#000a12',
+  Divider: {
+    backgroundColor: '#000a12',
   },
-  Subheader:{
-    color:'#007ac1',
+  Subheader: {
+    color: '#007ac1',
   }
 };
 
 export class Investigators extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
-             value: 0,
-           };
+    value: 0,
+  };
 
- handleChange = (event, index, value) => this.setState({value});
+  handleChange = (event, index, value) => this.setState({ value });
 
 
   render() {
@@ -73,19 +73,19 @@ export class Investigators extends React.Component { // eslint-disable-line reac
                 />
                 <ListItem
                   primaryText="Eric Hoffman"
-                  leftAvatar={<Avatar src="images/kolage-128.jpg" />}
+                  leftAvatar={<Avatar>EH</Avatar>}
                 />
                 <ListItem
                   primaryText="Grace Ng"
-                  leftAvatar={<Avatar src="images/uxceo-128.jpg" />}
+                  leftAvatar={<Avatar>GN</Avatar>}
                 />
                 <ListItem
                   primaryText="Kerem Suer"
-                  leftAvatar={<Avatar src="images/kerem-128.jpg" />}
+                  leftAvatar={<Avatar>KS</Avatar>}
                 />
                 <ListItem
                   primaryText="Raquel Parrado"
-                  leftAvatar={<Avatar src="images/raquelromanp-128.jpg" />}
+                  leftAvatar={<Avatar>RP</Avatar>}
                 />
               </List>
 

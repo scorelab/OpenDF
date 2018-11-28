@@ -50,7 +50,7 @@
                                     <div class="controls">
                                         <div class="input-prepend">
                                             <span class="add-on"><i class="icon-user"></i></span>
-                                            <input type="text" id="fname" name="fname" class="form-control" placeholder="First Name">
+                                            <input type="text" id="fname" name="fname" class="form-control" placeholder="First Name" pattern="[A-Za-z]{1,15}" title="First Name should only contain letters. e.g. John">
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                     <div class="controls">
                                         <div class="input-prepend">
                                             <span class="add-on"><i class="icon-user"></i></span>
-                                            <input type="text" id="lname" class="form-control" name="lname" placeholder="Last Name">
+                                            <input type="text" id="lname" class="form-control" name="lname" placeholder="Last Name" pattern="[A-Za-z]{1,15}" title="Last Name should only contain letters. e.g. Doe">
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                     <div class="controls">
                                         <div class="input-prepend">
                                             <span class="add-on"><i class="icon-envelope"></i></span>
-                                            <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                                         </div>
                                     </div>
                                 </div>
